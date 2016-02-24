@@ -1,0 +1,21 @@
+[general]
+name=Boundless Central
+description=Access Boundless services and plugins
+about=Get latest news, tutorials and other cool stuff from Boundless
+category=Plugins
+version=0.0.1
+qgisMinimumVersion=2.8
+
+author=Alexander Bruy
+email=abruy@boundlessgeo.com
+
+icon=icons/boundless.png
+
+tags=plugins,boundless
+
+homepage=https://github.com/boundlessgeo/boundless-central-plugin
+tracker=https://github.com/boundlessgeo/boundless-central-plugin/issues
+repository=https://github.com/boundlessgeo/boundless-central-plugin
+
+experimental=True
+deprecated=False
