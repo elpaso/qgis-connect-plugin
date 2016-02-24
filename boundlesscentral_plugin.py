@@ -101,7 +101,7 @@ class BoundlessCentralPlugin:
         installer = QgsPluginInstaller()
 
         if firstRun:
-            repos = repositories.all().names()
+            repos = repositories.all().copy()
             for repo in repos:
                 if repos[repo]['url'] == boundlessRepo[1]:
                     continue
