@@ -36,7 +36,6 @@ from pyplugin_installer.installer_data import repositories
 pluginPath = os.path.dirname(__file__)
 
 reposGroup = '/Qgis/plugin-repos'
-qgisRepoUrl = 'http://plugins.qgis.org/plugins'
 boundlessRepo = (QCoreApplication.translate('Boundless Central',
                                             'Boundless Plugins Repository'),
                  'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
