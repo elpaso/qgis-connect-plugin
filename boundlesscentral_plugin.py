@@ -30,15 +30,11 @@ from PyQt4.QtCore import (QCoreApplication, QSettings, QLocale, QTranslator)
 from PyQt4.QtGui import QMessageBox
 
 from qgis.core import QGis
-from pyplugin_installer.installer import QgsPluginInstaller
-from pyplugin_installer.installer_data import repositories
+
+from boundlesscentral.gui.firstrunwizard import FirstRunWizard
+from boundlesscentral import utils
 
 pluginPath = os.path.dirname(__file__)
-
-reposGroup = '/Qgis/plugin-repos'
-boundlessRepo = (QCoreApplication.translate('Boundless Central',
-                                            'Boundless Plugins Repository'),
-                 'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
 
 
 class BoundlessCentralPlugin:
@@ -60,7 +56,7 @@ class BoundlessCentralPlugin:
             self.translator.load(qmPath)
             QCoreApplication.installTranslator(self.translator)
 
-        self.iface.initializationCompleted.connect(self.showPluginManager)
+        self.iface.initializationCompleted.connect(self.startFirstRunWizard)
 
     def initGui(self):
         if int(self.qgsVersion) < 20800:
@@ -76,41 +72,29 @@ class BoundlessCentralPlugin:
 
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
-        settings = QSettings()
-        settings.beginGroup(reposGroup)
-        hasBoundlessRepository = False
-        for repo in settings.childGroups():
-            url = settings.value(repo + '/url', '', unicode)
-            if url == boundlessRepo[1]:
-                hasBoundlessRepository = True
-        # Boundless repository not found, so we add it to the list
-        if not hasBoundlessRepository:
-            settings.setValue(boundlessRepo[0] + '/url', boundlessRepo[1])
-        settings.endGroup()
+        utils.addBoundlessRepository()
 
     def unload(self):
         pass
 
-    def showPluginManager(self):
-        # Show Plugin Manager with Boundless plugins on first run
+    def startFirstRunWizard(self):
         settings = QSettings('Boundless', 'BoundlessCentral')
         firstRun = settings.value('firstRun', True, bool)
         settings.setValue('firstRun', False)
 
-        installer = QgsPluginInstaller()
-
         if firstRun:
-            repos = repositories.all().copy()
-            for repo in repos:
-                if repos[repo]['url'] == boundlessRepo[1]:
-                    continue
-                else:
-                    repositories.remove(repo)
+            wzrd = FirstRunWizard()
+            if wzrd.exec_():
+                authId = wzrd.mPageCredentials.mAuthSelector.configId()
+                installAll = wzrd.mPagePlugins.rbAutoInstall.isChecked()
 
-            installer.showPluginManagerWhenReady(2)
-            repositories.load()
-            for key in repositories.all():
-                repositories.setRepositoryData(key, 'state', 3)
+                if authId != '':
+                    utils.setRepositoryAuth(authId)
+
+                if installAll:
+                    utils.installAllPlugins()
+                else:
+                    utils.showPluginManager()
 
     def tr(self, text):
         return QCoreApplication.translate('Boundless Central', text)

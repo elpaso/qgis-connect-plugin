@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Wizard</class>
+ <widget class="QWizard" name="Wizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Boundless First Run Wizard</string>
+  </property>
+  <property name="options">
+   <set>QWizard::NoBackButtonOnStartPage</set>
+  </property>
+  <widget class="WelcomePage" name="mPageWelcome"/>
+  <widget class="CredentialsPage" name="mPageCredentials"/>
+  <widget class="PluginsPage" name="mPagePlugins"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WelcomePage</class>
+   <extends>QWizardPage</extends>
+   <header location="global">boundlesscentral.gui.welcomepage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CredentialsPage</class>
+   <extends>QWizardPage</extends>
+   <header location="global">boundlesscentral.gui.credentialspage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PluginsPage</class>
+   <extends>QWizardPage</extends>
+   <header location="global">boundlesscentral.gui.pluginspage</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
