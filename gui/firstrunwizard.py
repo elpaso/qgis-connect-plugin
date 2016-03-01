@@ -27,8 +27,7 @@ __revision__ = '$Format:%H$'
 import os
 
 from PyQt4 import uic
-#~ from PyQt4.QtCore import (
-                         #~ )
+
 from PyQt4.QtGui import (QWizard,
                          QPixmap,
                          QDialog
@@ -50,12 +49,4 @@ class FirstRunWizard(BASE, WIDGET):
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
 
     def accept(self):
-        print 'AUTH', self.mPageCredentials.mAuthSelector.configId()
-
-        if self.mPagePlugins.rbManualInstall.isChecked():
-            print 'Start Plugin manager'
-        elif self.mPagePlugins.rbAutoInstall.isChecked():
-            print 'Install all plugins'
         QDialog.accept(self)
-
-

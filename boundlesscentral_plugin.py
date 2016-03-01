@@ -98,3 +98,4 @@ class BoundlessCentralPlugin:
 
     def tr(self, text):
         return QCoreApplication.translate('Boundless Central', text)
+

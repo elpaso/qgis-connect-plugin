@@ -27,11 +27,11 @@ __revision__ = '$Format:%H$'
 import os
 
 from PyQt4 import uic
-#~ from PyQt4.QtCore import (
-                         #~ )
+
 from PyQt4.QtGui import (QWizard,
                          QPixmap
                         )
+from boundlesscentral.utils import isRepositoryInDirectory
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -47,5 +47,11 @@ class WelcomePage(BASE, WIDGET):
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
         self.setPixmap(QWizard.WatermarkPixmap,
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
+
+    def nextId(self):
+        if isRepositoryInDirectory():
+            return 2
+        else:
+            return 1
 
 

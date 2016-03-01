@@ -24,13 +24,20 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 
 __revision__ = '$Format:%H$'
 
-from PyQt4.QtCore import (QCoreApplication, QSettings)
+import os
+import glob
 
-from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins
+
+from PyQt4.QtCore import (QCoreApplication, QSettings, QDir, QFile)
+
+from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, home_plugin_path
 
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
 from pyplugin_installer.installer_data import repositories, plugins
+from pyplugin_installer.unzip import unzip
+
+pluginPath = os.path.dirname(__file__)
 
 reposGroup = '/Qgis/plugin-repos'
 boundlessRepo = (QCoreApplication.translate('Boundless Central',
@@ -42,6 +49,9 @@ def addBoundlessRepository():
     """Add Boundless plugin repository to list of the available
        plugin repositories if it is not presented here
     """
+    if isRepositoryInDirectory():
+        return
+
     settings = QSettings()
     settings.beginGroup(reposGroup)
     hasBoundlessRepository = False
@@ -86,6 +96,15 @@ def showPluginManager():
 def installAllPlugins():
     """Install all available plugins from Boundless plugins repository
     """
+    if isRepositoryInDirectory():
+        installAllFromDirectory()
+    else:
+        installAllFromRepository()
+
+
+def installAllFromRepository():
+    """Install plugins from repository
+    """
     installer = QgsPluginInstaller()
 
     repos = repositories.all().copy()
@@ -117,3 +136,53 @@ def installAllPlugins():
 
     installer.exportPluginsToManager()
     return errors
+
+
+def installAllFromDirectory():
+    """Install plugins from directory
+    """
+    errors = []
+
+    installer = QgsPluginInstaller()
+
+    mask = os.path.join(pluginPath, boundlessRepo[1]) + '/*.zip'
+    for plugin in glob.glob(mask):
+        print plugin
+
+        pluginName = os.path.splitext(os.path.basename(plugin))[0]
+
+        pluginDir = home_plugin_path
+        if not QDir(pluginDir).exists():
+            QDir().mkpath(pluginDir)
+
+        # If the target directory already exists as a link,
+        # remove the link without resolving
+        QFile(pluginDir + unicode(QDir.separator()) + pluginName).remove()
+
+        try:
+            # Test extraction. If fails, then exception will be raised
+            # and no removing occurs
+            unzip(unicode(plugin), unicode(pluginDir))
+            # Removing old plugin files if exist
+            removeDir(QDir.cleanPath(pluginDir + '/' + pluginName))
+            # Extract new files
+            unzip(unicode(plugin), unicode(pluginDir))
+        except:
+            errors.append(plugin)
+
+        updateAvailablePlugins()
+        loadPlugin(pluginName)
+        plugins.getAllInstalled(testLoad=True)
+        plugins.rebuild()
+        if startPlugin(pluginName):
+            settings = QSettings()
+            settings.setValue("/PythonPlugins/" + pluginName, True)
+
+    installer.exportPluginsToManager()
+    return errors
+
+
+def isRepositoryInDirectory():
+    """Return True if plugin repository is a plain directory
+    """
+    return os.path.isdir(os.path.join(pluginPath, boundlessRepo[1]))
