@@ -27,7 +27,7 @@ __revision__ = '$Format:%H$'
 import os
 
 from PyQt4.QtCore import (QCoreApplication, QSettings, QLocale, QTranslator)
-from PyQt4.QtGui import QMessageBox
+from PyQt4.QtGui import (QMessageBox, QAction, QIcon)
 
 from qgis.core import QGis
 
@@ -70,12 +70,26 @@ class BoundlessCentralPlugin:
                         'Plugin will not be enabled.'.format(qgisVersion)))
             return None
 
+        self.actionRunWizard = QAction(
+            self.tr('Boundless Central'), self.iface.mainWindow())
+        self.actionRunWizard.setIcon(
+            QIcon(os.path.join(pluginPath, 'icons', 'boundless.png')))
+        self.actionRunWizard.setWhatsThis(
+            self.tr('Run wizard to perform post-installation setup'))
+        self.actionRunWizard.setObjectName('actionRunWizard')
+
+        self.iface.addPluginToMenu(
+            self.tr('Boundless Central'), self.actionRunWizard)
+
+        self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
+
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
         utils.addBoundlessRepository()
 
     def unload(self):
-        pass
+        self.iface.removePluginMenu(
+            self.tr('Boundless Central'), self.actionRunWizard)
 
     def startFirstRunWizard(self):
         settings = QSettings('Boundless', 'BoundlessCentral')
@@ -83,18 +97,21 @@ class BoundlessCentralPlugin:
         settings.setValue('firstRun', False)
 
         if firstRun:
-            wzrd = FirstRunWizard()
-            if wzrd.exec_():
-                authId = wzrd.mPageCredentials.mAuthSelector.configId()
-                installAll = wzrd.mPagePlugins.rbAutoInstall.isChecked()
+            self.runWizardAndProcessResults()
 
-                if authId != '':
-                    utils.setRepositoryAuth(authId)
+    def runWizardAndProcessResults(self):
+        wzrd = FirstRunWizard()
+        if wzrd.exec_():
+            authId = wzrd.mPageCredentials.mAuthSelector.configId()
+            installAll = wzrd.mPagePlugins.rbAutoInstall.isChecked()
 
-                if installAll:
-                    utils.installAllPlugins()
-                else:
-                    utils.showPluginManager()
+            if authId != '':
+                utils.setRepositoryAuth(authId)
+
+            if installAll:
+                utils.installAllPlugins()
+            else:
+                utils.showPluginManager()
 
     def tr(self, text):
         return QCoreApplication.translate('Boundless Central', text)
