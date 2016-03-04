@@ -33,12 +33,11 @@ from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, h
 
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
-from pyplugin_installer.installer_data import repositories, plugins
+from pyplugin_installer.installer_data import reposGroup, repositories, plugins
 from pyplugin_installer.unzip import unzip
 
 pluginPath = os.path.dirname(__file__)
 
-reposGroup = '/Qgis/plugin-repos'
 boundlessRepo = (QCoreApplication.translate('Boundless Central',
                                             'Boundless Plugins Repository'),
                  'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
