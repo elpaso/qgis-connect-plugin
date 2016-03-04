@@ -147,8 +147,6 @@ def installAllFromDirectory():
 
     mask = os.path.join(pluginPath, boundlessRepo[1]) + '/*.zip'
     for plugin in glob.glob(mask):
-        print plugin
-
         pluginName = os.path.splitext(os.path.basename(plugin))[0]
 
         pluginDir = home_plugin_path
