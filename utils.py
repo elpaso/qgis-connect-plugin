@@ -28,7 +28,7 @@ import os
 import glob
 import zipfile
 
-from PyQt4.QtCore import (QCoreApplication, QSettings, QDir, QFile)
+from PyQt4.QtCore import (QSettings, QDir, QFile)
 
 from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, home_plugin_path
 
@@ -37,11 +37,15 @@ from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInsta
 from pyplugin_installer.installer_data import reposGroup, repositories, plugins, removeDir
 from pyplugin_installer.unzip import unzip
 
+from boundlesscentral.installer import PluginInstaller
+from boundlesscentral.plugins import boundlessRepo
+
 pluginPath = os.path.dirname(__file__)
 
-boundlessRepo = (QCoreApplication.translate('Boundless Central',
-                                            'Boundless Plugins Repository'),
-                 'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
+#~ boundlessRepo = (QCoreApplication.translate('Boundless Central',
+                                            #~ 'Boundless Plugins Repository'),
+                 #~ #'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
+                 #~ 'plugin_repo')
 
 
 def addBoundlessRepository():
@@ -77,20 +81,24 @@ def setRepositoryAuth(authConfigId):
 def showPluginManager():
     """Show Plugin Manager with only Boundless plugins repository
     """
-    installer = QgsPluginInstaller()
+    if isRepositoryInDirectory:
+        installer = PluginInstaller()
+        installer.showPluginManagerWhenReady(2)
+    else:
+        installer = QgsPluginInstaller()
 
-    repos = repositories.all().copy()
-    for repo in repos:
-        if repos[repo]['url'] == boundlessRepo[1]:
-            continue
-        else:
-            repositories.remove(repo)
+        repos = repositories.all().copy()
+        for repo in repos:
+            if repos[repo]['url'] == boundlessRepo[1]:
+                continue
+            else:
+                repositories.remove(repo)
 
-    plugins.clearRepoCache()
-    installer.showPluginManagerWhenReady(2)
-    repositories.load()
-    for key in repositories.all():
-        repositories.setRepositoryData(key, 'state', 3)
+        plugins.clearRepoCache()
+        installer.showPluginManagerWhenReady(2)
+        repositories.load()
+        for key in repositories.all():
+            repositories.setRepositoryData(key, 'state', 3)
 
 
 def installAllPlugins():
