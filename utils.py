@@ -27,7 +27,6 @@ __revision__ = '$Format:%H$'
 import os
 import glob
 
-
 from PyQt4.QtCore import (QCoreApplication, QSettings, QDir, QFile)
 
 from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, home_plugin_path
@@ -87,6 +86,7 @@ def showPluginManager():
         else:
             repositories.remove(repo)
 
+    plugins.clearRepoCache()
     installer.showPluginManagerWhenReady(2)
     repositories.load()
     for key in repositories.all():
