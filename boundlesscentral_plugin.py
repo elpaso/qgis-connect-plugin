@@ -26,10 +26,11 @@ __revision__ = '$Format:%H$'
 
 import os
 
-from PyQt4.QtCore import (QCoreApplication, QSettings, QLocale, QTranslator)
-from PyQt4.QtGui import (QMessageBox, QAction, QIcon)
+from PyQt4.QtCore import (QCoreApplication, QSettings, QLocale, QTranslator, QFileInfo)
+from PyQt4.QtGui import (QMessageBox, QAction, QIcon, QFileDialog)
 
 from qgis.core import QGis
+from qgis.gui import QgsMessageBar
 
 from boundlesscentral.gui.firstrunwizard import FirstRunWizard
 from boundlesscentral import utils
@@ -78,10 +79,21 @@ class BoundlessCentralPlugin:
             self.tr('Run wizard to perform post-installation setup'))
         self.actionRunWizard.setObjectName('actionRunWizard')
 
+        self.actionPluginFromZip = QAction(
+            self.tr('Install plugin from ZIP'), self.iface.mainWindow())
+        self.actionPluginFromZip.setIcon(
+            QIcon(os.path.join(pluginPath, 'icons', 'plugin.png')))
+        self.actionPluginFromZip.setWhatsThis(
+            self.tr('Install plugin from ZIP file stored on disk'))
+        self.actionPluginFromZip.setObjectName('actionPluginFromZip')
+
         self.iface.addPluginToMenu(
             self.tr('Boundless Central'), self.actionRunWizard)
+        self.iface.addPluginToMenu(
+            self.tr('Boundless Central'), self.actionPluginFromZip)
 
         self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
+        self.actionPluginFromZip.triggered.connect(self.installPlugin)
 
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
@@ -90,6 +102,8 @@ class BoundlessCentralPlugin:
     def unload(self):
         self.iface.removePluginMenu(
             self.tr('Boundless Central'), self.actionRunWizard)
+        self.iface.removePluginMenu(
+            self.tr('Boundless Central'), self.actionPluginFromZip)
 
     def startFirstRunWizard(self):
         settings = QSettings('Boundless', 'BoundlessCentral')
@@ -98,6 +112,28 @@ class BoundlessCentralPlugin:
 
         if firstRun:
             self.runWizardAndProcessResults()
+
+    def installPlugin(self):
+        settings = QSettings('Boundless', 'BoundlessCentral')
+        lastDirectory = settings.value('lastPluginDirectory', '.')
+
+        fileName = QFileDialog.getOpenFileName(self.iface.mainWindow(),
+                                               self.tr('Open file'),
+                                               lastDirectory,
+                                               self.tr('Plugin packages (*.zip *.ZIP)'))
+
+        if fileName == '':
+            return
+
+        result = utils.installFromZipFile(fileName)
+        if result is None:
+            self._showMessage(self.tr('Plugin installed successfully'),
+                              QgsMessageBar.SUCCESS)
+        else:
+            self._showMessage(result, QgsMessageBar.WARNING)
+
+        settings.setValue('lastPluginDirectory',
+            QFileInfo(fileName).absoluteDir().absolutePath())
 
     def runWizardAndProcessResults(self):
         wzrd = FirstRunWizard()
@@ -112,6 +148,10 @@ class BoundlessCentralPlugin:
                 utils.installAllPlugins()
             else:
                 utils.showPluginManager()
+
+    def _showMessage(self, message, level=QgsMessageBar.INFO):
+        self.iface.messageBar().pushMessage(
+            message, level, self.iface.messageTimeout())
 
     def tr(self, text):
         return QCoreApplication.translate('Boundless Central', text)

@@ -26,6 +26,7 @@ __revision__ = '$Format:%H$'
 
 import os
 import glob
+import zipfile
 
 from PyQt4.QtCore import (QCoreApplication, QSettings, QDir, QFile)
 
@@ -33,7 +34,7 @@ from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, h
 
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
-from pyplugin_installer.installer_data import reposGroup, repositories, plugins
+from pyplugin_installer.installer_data import reposGroup, repositories, plugins, removeDir
 from pyplugin_installer.unzip import unzip
 
 pluginPath = os.path.dirname(__file__)
@@ -146,27 +147,45 @@ def installAllFromDirectory():
 
     mask = os.path.join(pluginPath, boundlessRepo[1]) + '/*.zip'
     for plugin in glob.glob(mask):
-        pluginName = os.path.splitext(os.path.basename(plugin))[0]
+        result = installFromZipFile(plugin)
+        if result is not None:
+            errors.append(result)
 
-        pluginDir = home_plugin_path
-        if not QDir(pluginDir).exists():
-            QDir().mkpath(pluginDir)
+    installer.exportPluginsToManager()
+    return errors
 
-        # If the target directory already exists as a link,
-        # remove the link without resolving
-        QFile(pluginDir + unicode(QDir.separator()) + pluginName).remove()
 
-        try:
-            # Test extraction. If fails, then exception will be raised
-            # and no removing occurs
-            unzip(unicode(plugin), unicode(pluginDir))
-            # Removing old plugin files if exist
-            removeDir(QDir.cleanPath(pluginDir + '/' + pluginName))
-            # Extract new files
-            unzip(unicode(plugin), unicode(pluginDir))
-        except:
-            errors.append(plugin)
+def installFromZipFile(pluginPath):
+    """Install and activate plugin from the specified package
+    """
+    result = None
 
+    with zipfile.ZipFile(pluginPath, 'r') as zf:
+        pluginName = os.path.split(zf.namelist()[0])[0]
+
+    pluginFileName = os.path.splitext(os.path.basename(pluginPath))[0]
+
+    pluginsDirectory = home_plugin_path
+    if not QDir(pluginsDirectory).exists():
+        QDir().mkpath(pluginsDirectory)
+
+    # If the target directory already exists as a link,
+    # remove the link without resolving
+    QFile(pluginsDirectory + unicode(QDir.separator()) + pluginFileName).remove()
+
+    try:
+        # Test extraction. If fails, then exception will be raised
+        # and no removing occurs
+        unzip(unicode(pluginPath), unicode(pluginsDirectory))
+        # Removing old plugin files if exist
+        removeDir(QDir.cleanPath(pluginsDirectory + unicode(QDir.separator()) + pluginFileName))
+        # Extract new files
+        unzip(unicode(pluginPath), unicode(pluginsDirectory))
+    except:
+        result = QCoreApplication.translate('BoundlessCentral',
+            'Failed to unzip the plugin package\n{}.\nProbably it is broken'.format(pluginPath))
+
+    if result is None:
         updateAvailablePlugins()
         loadPlugin(pluginName)
         plugins.getAllInstalled(testLoad=True)
@@ -175,8 +194,7 @@ def installAllFromDirectory():
             settings = QSettings()
             settings.setValue("/PythonPlugins/" + pluginName, True)
 
-    installer.exportPluginsToManager()
-    return errors
+    return result
 
 
 def isRepositoryInDirectory():
