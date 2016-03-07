@@ -31,7 +31,7 @@ from PyQt4.QtCore import QFile, QIODevice, QObject
 from PyQt4.QtGui import QApplication, QCursor
 from PyQt4.QtXml import QDomDocument
 
-from qgis.utils import iface, home_plugin_path
+from qgis.utils import iface, home_plugin_path, startPlugin, unloadPlugin, loadPlugin, reloadPlugin
 from pyplugin_installer.installer_data import reposGroup, seenPluginGroup, translatableAttributes, removeDir
 
 from boundlesscentral.plugins import plugins
@@ -121,7 +121,10 @@ class PluginInstaller(QObject):
         if plugin['status'] == 'newer' and not plugin['error']:
             if QMessageBox.warning(iface.mainWindow(),
                                    self.tr('QGIS Python Plugin Installer'),
-                                   self.tr('Are you sure you want to downgrade the plugin to the latest available version? The installed one is newer!'),
+                                   self.tr('Are you sure you want to '
+                                           'downgrade the plugin to the '
+                                           'latest available version? The '
+                                           'installed one is newer!'),
                                    QMessageBox.Yes,
                                    QMessageBox.No) == QMessageBox.No:
                 return
