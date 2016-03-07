@@ -37,8 +37,8 @@ from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInsta
 from pyplugin_installer.installer_data import reposGroup, repositories, plugins, removeDir
 from pyplugin_installer.unzip import unzip
 
-from boundlesscentral.installer import PluginInstaller
-from boundlesscentral.plugins import boundlessRepo
+#from boundlesscentral.installer import PluginInstaller
+from boundlesscentral.plugins import boundlessRepo, localPlugins
 
 pluginPath = os.path.dirname(__file__)
 
@@ -82,8 +82,7 @@ def showPluginManager():
     """Show Plugin Manager with only Boundless plugins repository
     """
     if isRepositoryInDirectory:
-        installer = PluginInstaller()
-        installer.showPluginManagerWhenReady(2)
+        pluginManageLocalRepo()
     else:
         installer = QgsPluginInstaller()
 
@@ -96,9 +95,29 @@ def showPluginManager():
 
         plugins.clearRepoCache()
         installer.showPluginManagerWhenReady(2)
-        repositories.load()
-        for key in repositories.all():
-            repositories.setRepositoryData(key, 'state', 3)
+
+    repositories.load()
+    for key in repositories.all():
+        repositories.setRepositoryData(key, 'state', 3)
+
+
+def pluginManageLocalRepo():
+    installer = QgsPluginInstaller()
+
+    repositoryData = {'url': boundlessRepo[1],
+                      'authcfg': ''
+                     }
+    repositories.mRepositories = {boundlessRepo[0]: repositoryData}
+
+    localPlugins.getAllInstalled()
+    localPlugins.load()
+    localPlugins.rebuild()
+
+    plugins.clearRepoCache()
+    plugins.mPlugins = localPlugins.all()
+
+    installer.exportPluginsToManager()
+    iface.pluginManagerInterface().showPluginManager(2)
 
 
 def installAllPlugins():

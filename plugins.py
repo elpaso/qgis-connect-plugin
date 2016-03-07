@@ -45,7 +45,7 @@ boundlessRepo = (QCoreApplication.translate('Boundless Central',
                  'plugin_repo')
 
 
-class Plugins(QObject):
+class LocalPlugins(QObject):
     def __init__(self):
         QObject.__init__(self)
 
@@ -113,7 +113,8 @@ class Plugins(QObject):
                     'about': pluginNodes.item(i).firstChildElement('about').text().strip(),
                     'author_name': pluginNodes.item(i).firstChildElement('author_name').text().strip(),
                     'homepage': pluginNodes.item(i).firstChildElement('homepage').text().strip(),
-                    'download_url': pluginNodes.item(i).firstChildElement('download_url').text().strip(),
+                    #'download_url': pluginNodes.item(i).firstChildElement('download_url').text().strip(),
+                    'download_url': 'file:///{}'.format(os.path.join(repoPath, fileName)),
                     'category': pluginNodes.item(i).firstChildElement('category').text().strip(),
                     'tags': pluginNodes.item(i).firstChildElement('tags').text().strip(),
                     'changelog': pluginNodes.item(i).firstChildElement('changelog').text().strip(),
@@ -133,7 +134,7 @@ class Plugins(QObject):
                     'error': '',
                     'error_details': '',
                     'version_installed': '',
-                    "zip_repository": boundlessRepo[1],
+                    "zip_repository": boundlessRepo[0],
                     'library': '',
                     'readonly': False
                 }
@@ -294,4 +295,4 @@ class Plugins(QObject):
         return False
 
 
-plugins = Plugins()
+localPlugins = LocalPlugins()
