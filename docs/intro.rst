@@ -23,7 +23,7 @@ work with standard Boundless plugin repository or install plugins from local
 folder (useful for customers with special requirements, when connection to
 external resources is not possible).
 
-Repository location configured in the plugin code, in the utils.py file. The
+Repository location configured in the plugin code, in the plugins.py file. The
 ``boundlessRepo`` constant is a tuple containing repository name (will be shown
 in QGIS *Plugin Manager*) and repository location.
 
