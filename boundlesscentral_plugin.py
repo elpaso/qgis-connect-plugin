@@ -95,6 +95,23 @@ class BoundlessCentralPlugin:
         self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
         self.actionPluginFromZip.triggered.connect(self.installPlugin)
 
+        # If Boundless repository is a directory, add menu entry
+        # to start modified Plugin Manager which works with local repositorys
+        if utils.isRepositoryInDirectory():
+            self.actionPluginManager = QAction(
+                self.tr('Manage plugins (local folder)'), self.iface.mainWindow())
+            self.actionPluginManager.setIcon(
+                QIcon(os.path.join(pluginPath, 'icons', 'plugin.png')))
+            self.actionPluginManager.setWhatsThis(
+                self.tr('Manage and install plugins from local repository'))
+            self.actionPluginManager.setObjectName('actionPluginManager')
+
+            self.iface.addPluginToMenu(
+                self.tr('Boundless Central'), self.actionPluginManager)
+
+            self.actionPluginManager.triggered.connect(self.pluginManagerLocal)
+
+
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
         utils.addBoundlessRepository()
@@ -104,6 +121,10 @@ class BoundlessCentralPlugin:
             self.tr('Boundless Central'), self.actionRunWizard)
         self.iface.removePluginMenu(
             self.tr('Boundless Central'), self.actionPluginFromZip)
+
+        if utils.isRepositoryInDirectory():
+            self.iface.removePluginMenu(
+                self.tr('Boundless Central'), self.actionPluginManager)
 
     def startFirstRunWizard(self):
         settings = QSettings('Boundless', 'BoundlessCentral')
@@ -135,6 +156,9 @@ class BoundlessCentralPlugin:
         settings.setValue('lastPluginDirectory',
             QFileInfo(fileName).absoluteDir().absolutePath())
 
+    def pluginManagerLocal(self):
+        utils.showPluginManager()
+
     def runWizardAndProcessResults(self):
         wzrd = FirstRunWizard()
         if wzrd.exec_():
@@ -155,4 +179,3 @@ class BoundlessCentralPlugin:
 
     def tr(self, text):
         return QCoreApplication.translate('Boundless Central', text)
-

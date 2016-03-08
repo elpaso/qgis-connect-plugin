@@ -28,14 +28,21 @@ import os
 import sys
 import codecs
 
-from PyQt4.QtCore import QCoreApplication, QFileInfo, QObject, QSettings
+from PyQt4.QtCore import (QCoreApplication,
+                          QFileInfo,
+                          QObject,
+                          QSettings)
 from PyQt4.QtXml import QDomDocument
 
 from qgis.core import QGis
 import qgis.utils
 
-from pyplugin_installer.installer_data import settingsGroup,seenPluginGroup, translatableAttributes
-from pyplugin_installer.version_compare import compareVersions, normalizeVersion, isCompatible
+from pyplugin_installer.installer_data import (settingsGroup,
+                                               seenPluginGroup,
+                                               translatableAttributes)
+from pyplugin_installer.version_compare import (compareVersions,
+                                                normalizeVersion,
+                                                isCompatible)
 
 pluginPath = os.path.dirname(__file__)
 
@@ -46,6 +53,10 @@ boundlessRepo = (QCoreApplication.translate('Boundless Central',
 
 
 class LocalPlugins(QObject):
+    """Dict-like class for managing plugins from local repository
+       Heavily based on corresponding class from QGIS Plugin Manager
+    """
+
     def __init__(self):
         QObject.__init__(self)
 
@@ -113,7 +124,6 @@ class LocalPlugins(QObject):
                     'about': pluginNodes.item(i).firstChildElement('about').text().strip(),
                     'author_name': pluginNodes.item(i).firstChildElement('author_name').text().strip(),
                     'homepage': pluginNodes.item(i).firstChildElement('homepage').text().strip(),
-                    #'download_url': pluginNodes.item(i).firstChildElement('download_url').text().strip(),
                     'download_url': 'file:///{}'.format(os.path.join(repoPath, fileName)),
                     'category': pluginNodes.item(i).firstChildElement('category').text().strip(),
                     'tags': pluginNodes.item(i).firstChildElement('tags').text().strip(),

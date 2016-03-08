@@ -28,24 +28,28 @@ import os
 import glob
 import zipfile
 
-from PyQt4.QtCore import (QSettings, QDir, QFile)
+from PyQt4.QtCore import (QSettings,
+                          QDir,
+                          QFile)
 
-from qgis.utils import iface, loadPlugin, startPlugin, updateAvailablePlugins, home_plugin_path
+from qgis.utils import (iface,
+                        loadPlugin,
+                        startPlugin,
+                        updateAvailablePlugins,
+                        home_plugin_path)
 
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
-from pyplugin_installer.installer_data import reposGroup, repositories, plugins, removeDir
+from pyplugin_installer.installer_data import (reposGroup,
+                                               repositories,
+                                               plugins,
+                                               removeDir)
 from pyplugin_installer.unzip import unzip
 
 #from boundlesscentral.installer import PluginInstaller
 from boundlesscentral.plugins import boundlessRepo, localPlugins
 
 pluginPath = os.path.dirname(__file__)
-
-#~ boundlessRepo = (QCoreApplication.translate('Boundless Central',
-                                            #~ 'Boundless Plugins Repository'),
-                 #~ #'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
-                 #~ 'plugin_repo')
 
 
 def addBoundlessRepository():
@@ -69,6 +73,8 @@ def addBoundlessRepository():
 
 
 def setRepositoryAuth(authConfigId):
+    """Add auth to the repository
+    """
     settings = QSettings()
     settings.beginGroup(reposGroup)
     for repo in settings.childGroups():
@@ -102,6 +108,8 @@ def showPluginManager():
 
 
 def pluginManageLocalRepo():
+    """Open Plugin Manager and list only plugins from local repo
+    """
     installer = QgsPluginInstaller()
 
     repositoryData = {'url': boundlessRepo[1],
@@ -130,7 +138,7 @@ def installAllPlugins():
 
 
 def installAllFromRepository():
-    """Install plugins from repository
+    """Install plugins from remote repository
     """
     installer = QgsPluginInstaller()
 
@@ -166,7 +174,7 @@ def installAllFromRepository():
 
 
 def installAllFromDirectory():
-    """Install plugins from directory
+    """Install plugins from directory-based repository
     """
     errors = []
 
