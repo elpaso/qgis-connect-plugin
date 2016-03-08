@@ -106,7 +106,7 @@ Note: as QGIS *Plugin Manager* does not support directory-based repositories
 yet, when users uminstalls plugin, previously installed from Boundless local
 (directory-based) repository, a warning will be shown
 
-.. figure:: img/plugin-unintstall.png
+.. figure:: img/plugin-uninstall.png
   :align: center
 
 This warning can be safely ignored, as users can install uninstalled plugin
