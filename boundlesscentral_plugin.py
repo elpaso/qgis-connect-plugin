@@ -72,7 +72,7 @@ class BoundlessCentralPlugin:
             return None
 
         self.actionRunWizard = QAction(
-            self.tr('Boundless Central'), self.iface.mainWindow())
+            self.tr('First Run wizard'), self.iface.mainWindow())
         self.actionRunWizard.setIcon(
             QIcon(os.path.join(pluginPath, 'icons', 'boundless.png')))
         self.actionRunWizard.setWhatsThis(
