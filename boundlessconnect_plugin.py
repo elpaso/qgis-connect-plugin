@@ -2,7 +2,7 @@
 
 """
 ***************************************************************************
-    boundlesscentral_plugin.py
+    boundlessconnect_plugin.py
     ---------------------
     Date                 : February 2016
     Copyright            : (C) 2016 Boundless, http://boundlessgeo.com
@@ -38,7 +38,7 @@ from boundlesscentral import utils
 pluginPath = os.path.dirname(__file__)
 
 
-class BoundlessCentralPlugin:
+class BoundlessConnectPlugin:
     def __init__(self, iface):
         self.iface = iface
 
@@ -50,7 +50,7 @@ class BoundlessCentralPlugin:
         else:
             locale = QSettings().value('locale/userLocale', '')
 
-        qmPath = '{}/i18n/boundlesscentral_{}.qm'.format(pluginPath, locale)
+        qmPath = '{}/i18n/boundlessconnect_{}.qm'.format(pluginPath, locale)
 
         if os.path.exists(qmPath):
             self.translator = QTranslator()
@@ -65,9 +65,9 @@ class BoundlessCentralPlugin:
                 self.qgsVersion[0], self.qgsVersion[2], self.qgsVersion[3])
             QMessageBox.warning(
                 self.iface.mainWindow(),
-                self.tr('Boundless Central'),
+                self.tr('Boundless Connect'),
                 self.tr('QGIS {} detected.\nThis version of  Boundless '
-                        'Central plugin requires at least QGIS 2.8.0. '
+                        'Connect plugin requires at least QGIS 2.8.0. '
                         'Plugin will not be enabled.'.format(qgisVersion)))
             return None
 
@@ -88,9 +88,9 @@ class BoundlessCentralPlugin:
         self.actionPluginFromZip.setObjectName('actionPluginFromZip')
 
         self.iface.addPluginToMenu(
-            self.tr('Boundless Central'), self.actionRunWizard)
+            self.tr('Boundless Connect'), self.actionRunWizard)
         self.iface.addPluginToMenu(
-            self.tr('Boundless Central'), self.actionPluginFromZip)
+            self.tr('Boundless Connect'), self.actionPluginFromZip)
 
         self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
         self.actionPluginFromZip.triggered.connect(self.installPlugin)
@@ -107,7 +107,7 @@ class BoundlessCentralPlugin:
             self.actionPluginManager.setObjectName('actionPluginManager')
 
             self.iface.addPluginToMenu(
-                self.tr('Boundless Central'), self.actionPluginManager)
+                self.tr('Boundless Connect'), self.actionPluginManager)
 
             self.actionPluginManager.triggered.connect(self.pluginManagerLocal)
 
@@ -118,16 +118,16 @@ class BoundlessCentralPlugin:
 
     def unload(self):
         self.iface.removePluginMenu(
-            self.tr('Boundless Central'), self.actionRunWizard)
+            self.tr('Boundless Connect'), self.actionRunWizard)
         self.iface.removePluginMenu(
-            self.tr('Boundless Central'), self.actionPluginFromZip)
+            self.tr('Boundless Connect'), self.actionPluginFromZip)
 
         if utils.isRepositoryInDirectory():
             self.iface.removePluginMenu(
-                self.tr('Boundless Central'), self.actionPluginManager)
+                self.tr('Boundless Connect'), self.actionPluginManager)
 
     def startFirstRunWizard(self):
-        settings = QSettings('Boundless', 'BoundlessCentral')
+        settings = QSettings('Boundless', 'BoundlessConnect')
         firstRun = settings.value('firstRun', True, bool)
         settings.setValue('firstRun', False)
 
@@ -135,7 +135,7 @@ class BoundlessCentralPlugin:
             self.runWizardAndProcessResults()
 
     def installPlugin(self):
-        settings = QSettings('Boundless', 'BoundlessCentral')
+        settings = QSettings('Boundless', 'BoundlessConnect')
         lastDirectory = settings.value('lastPluginDirectory', '.')
 
         fileName = QFileDialog.getOpenFileName(self.iface.mainWindow(),
@@ -178,4 +178,4 @@ class BoundlessCentralPlugin:
             message, level, self.iface.messageTimeout())
 
     def tr(self, text):
-        return QCoreApplication.translate('Boundless Central', text)
+        return QCoreApplication.translate('Boundless Connect', text)

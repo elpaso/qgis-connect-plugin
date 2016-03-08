@@ -30,8 +30,8 @@ clean:
 	rm -f *.zip
 
 package: clean ts all
-	cd .. && rm -f *.zip && zip -r boundless_central.zip boundless_central -x \*.pyc \*.ts \*.pro \*~ \*.git\* \*Makefile*
-	mv ../boundless_central.zip .
+	cd .. && rm -f *.zip && zip -r boundlessconnect.zip boundlessconnect -x \*.pyc \*.ts \*.pro \*~ \*.git\* \*Makefile*
+	mv ../boundlessconnect.zip .
 
 upload: package
-	plugin_uploader.py boundless_central.zip
+	plugin_uploader.py boundlessconnect.zip

@@ -217,7 +217,7 @@ def installFromZipFile(pluginPath):
         # Extract new files
         unzip(unicode(pluginPath), unicode(pluginsDirectory))
     except:
-        result = QCoreApplication.translate('BoundlessCentral',
+        result = QCoreApplication.translate('BoundlessConnect',
             'Failed to unzip the plugin package\n{}.\nProbably it is broken'.format(pluginPath))
 
     if result is None:

@@ -1,5 +1,5 @@
 [general]
-name=Boundless Central
+name=Boundless Connect
 description=Access Boundless services and plugins
 about=Get latest news, tutorials and other cool stuff from Boundless
 category=Plugins
@@ -13,9 +13,9 @@ icon=icons/boundless.png
 
 tags=plugins,boundless
 
-homepage=https://github.com/boundlessgeo/boundless-central-plugin
-tracker=https://github.com/boundlessgeo/boundless-central-plugin/issues
-repository=https://github.com/boundlessgeo/boundless-central-plugin
+homepage=https://github.com/boundlessgeo/qgis-installer-plugin
+tracker=https://github.com/boundlessgeo/qgis-installer-plugin/issues
+repository=https://github.com/boundlessgeo/qgis-installer-plugin
 
 experimental=True
 deprecated=False
