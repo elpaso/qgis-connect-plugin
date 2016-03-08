@@ -28,6 +28,7 @@ Repository location configured in the plugin code, in the utils.py file. The
 in QGIS *Plugin Manager*) and repository location.
 
 Repository location can be:
+
 * repository URL. Plugin will add this URL to the list of available plugins
   repositories, so QGIS *Plugin Manager* can be used to access it. This is
   default.
