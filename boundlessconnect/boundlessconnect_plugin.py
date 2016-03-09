@@ -179,6 +179,8 @@ class BoundlessConnectPlugin:
             else:
                 utils.showPluginManager()
 
+            utils.installFromStandardPath()
+
     def _showMessage(self, message, level=QgsMessageBar.INFO):
         self.iface.messageBar().pushMessage(
             message, level, self.iface.messageTimeout())

@@ -32,6 +32,7 @@ from PyQt4.QtCore import (QSettings,
                           QDir,
                           QFile)
 
+from qgis.core import QgsApplication
 from qgis.utils import (iface,
                         loadPlugin,
                         startPlugin,
@@ -47,6 +48,7 @@ from pyplugin_installer.installer_data import (reposGroup,
 from pyplugin_installer.unzip import unzip
 
 from boundlessconnect.plugins import (boundlessRepo,
+                                      firstRunPluginsPath,
                                       localPlugins)
 
 pluginPath = os.path.dirname(__file__)
@@ -87,39 +89,47 @@ def setRepositoryAuth(authConfigId):
 def showPluginManager():
     """Show Plugin Manager with only Boundless plugins repository
     """
-    if isRepositoryInDirectory():
-        pluginManageLocalRepo()
-    else:
-        installer = QgsPluginInstaller()
-        installer.showPluginManagerWhenReady(2)
-
-
-def pluginManageLocalRepo():
-    """Open Plugin Manager and list only plugins from local repo
-    """
     installer = QgsPluginInstaller()
 
-    repositoryData = {'url': boundlessRepo[1],
-                      'authcfg': ''
-                     }
-    repositories.mRepositories = {boundlessRepo[0]: repositoryData}
+    initPluginManager(installer)
 
-    localPlugins.getAllInstalled()
-    localPlugins.load()
-    localPlugins.rebuild()
-
-    plugins.clearRepoCache()
-    plugins.mPlugins = localPlugins.all()
-
-    installer.exportPluginsToManager()
     iface.pluginManagerInterface().showPluginManager(2)
+    # Restore repositories, as we don't want to keep local repo in cache
+    repositories.load()
+
+
+def initPluginManager(installer):
+    """Open Plugin Manager and list only plugins from local repo
+    """
+    # Load plugins from remote repositories and export repositories
+    # to Plugin Manager
+    installer.fetchAvailablePlugins(reloadMode=False)
+    installer.exportRepositoriesToManager()
+
+    # If Boundless repository is a local directory, add plugins
+    # from it to Plugin Manager
+    if isRepositoryInDirectory():
+        repositoryData = {'url': boundlessRepo[1],
+                          'authcfg': ''
+                         }
+        repositories.mRepositories.update({boundlessRepo[0]: repositoryData})
+
+        localPlugins.getAllInstalled()
+        localPlugins.load()
+        localPlugins.rebuild()
+
+        plugins.mPlugins.update(localPlugins.all())
+
+    # Export all plugins to Plugin Manager
+    installer.exportPluginsToManager()
 
 
 def installAllPlugins():
     """Install all available plugins from Boundless plugins repository
     """
     if isRepositoryInDirectory():
-        installAllFromDirectory()
+        pluginsDirectory = os.path.join(pluginPath, boundlessRepo[1])
+        installAllFromDirectory(pluginsDirectory)
     else:
         installAllFromRepository()
 
@@ -152,14 +162,15 @@ def installAllFromRepository():
     return errors
 
 
-def installAllFromDirectory():
+def installAllFromDirectory(pluginsPath):
     """Install plugins from directory-based repository
     """
     errors = []
 
     installer = QgsPluginInstaller()
 
-    mask = os.path.join(pluginPath, boundlessRepo[1]) + '/*.zip'
+    mask = pluginsPath + '/*.zip'
+
     for plugin in glob.glob(mask):
         result = installFromZipFile(plugin)
         if result is not None:
@@ -167,6 +178,14 @@ def installAllFromDirectory():
 
     installer.exportPluginsToManager()
     return errors
+
+
+def installFromStandardPath():
+    """Also install all plugins from "standard" location
+    """
+    dirName = os.path.join(QgsApplication.qgisSettingsDirPath(), firstRunPluginsPath)
+    if os.path.isdir(dirName):
+        installAllFromDirectory(dirName)
 
 
 def installFromZipFile(pluginPath):

@@ -15,6 +15,7 @@ can be done with the following NSIS code
 
   WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\Plugins" "boundlessconnect" "true"
 
+
 Configuration
 -------------
 
@@ -33,9 +34,9 @@ Repository location can be:
   repositories, so QGIS *Plugin Manager* can be used to access it. This is
   default.
 * path relative to the plugin directory. In such case this directory should
-  contain plugins packages as well as repository description file plugins.xml.
-  Also nothing added to the QGIS settings, as QGIS *Plugin Manager* can not
-  handle directories yet.
+  contain plugins packages as well as repository description file `plugins.xml`.
+  In this case nothing added to the QGIS settings, as QGIS *Plugin Manager* can
+  not handle directories yet.
 
 Usage
 =====
@@ -72,11 +73,13 @@ only required plugins manually.
 .. figure:: img/plugins-page.png
   :align: center
 
-In the latter case in *Plugin Manager* only plugins from Boundless repository
-will be shown.
-
 If plugins repository specified with as a path *Boundless Connect* does not ask
 user for creadentials. All other steps are the same.
+
+At the end *First Run* wizard checks if directory `~/.qgis2/first-run-plugins`
+exists and installs all plugins from it automatically. This might be useful for
+sysadmins when they want to roll out the plugins as ZIPs, but does not want
+to set up a remote plugins repo.
 
 Installing plugin from package
 ------------------------------
@@ -103,7 +106,7 @@ repository either *Plugin Manager* or *Manage plugins (local folder)* can be
 used.
 
 Note: as QGIS *Plugin Manager* does not support directory-based repositories
-yet, when users uminstalls plugin, previously installed from Boundless local
+yet, when users uninstalls plugin, previously installed from Boundless local
 (directory-based) repository, a warning will be shown
 
 .. figure:: img/plugin-uninstall.png
@@ -111,3 +114,15 @@ yet, when users uminstalls plugin, previously installed from Boundless local
 
 This warning can be safely ignored, as users can install uninstalled plugin
 again using *Plugins → Boundless Connect → Manage plugins (local folder)* menu.
+
+Installing plugins from "standard" location
+===========================================
+
+If sysadmin wants to install some additional plugins at the post-installation
+step, it is necessary to create directory `~/.qgis2/first-run-plugins` and put
+plugins ZIP packages in it.
+
+*First Run* wizard from Boundless Connect will check if this directory exists
+and install all packages from it.
+
+NOTE: oin current implementation this happens on every run of the wizard.
