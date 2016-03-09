@@ -25,6 +25,7 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
+import sys
 
 from PyQt4 import uic
 
@@ -43,10 +44,14 @@ class FirstRunWizard(BASE, WIDGET):
         super(FirstRunWizard, self).__init__(parent)
         self.setupUi(self)
 
-        self.setPixmap(QWizard.LogoPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
-        self.setPixmap(QWizard.WatermarkPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
+        if sys.platform == 'darwin':
+            self.setPixmap(QWizard.BackgroundPixmap,
+                QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
+        else:
+            self.setPixmap(QWizard.LogoPixmap,
+                QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
+            self.setPixmap(QWizard.WatermarkPixmap,
+                QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
 
     def accept(self):
         QDialog.accept(self)

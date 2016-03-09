@@ -27,8 +27,7 @@ __revision__ = '$Format:%H$'
 import os
 
 from PyQt4 import uic
-#~ from PyQt4.QtCore import (
-                         #~ )
+
 from PyQt4.QtGui import (QWizard,
                          QPixmap
                         )
@@ -42,8 +41,3 @@ class CredentialsPage(BASE, WIDGET):
     def __init__(self, parent=None):
         super(CredentialsPage, self).__init__(parent)
         self.setupUi(self)
-
-        self.setPixmap(QWizard.LogoPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
-        self.setPixmap(QWizard.WatermarkPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))

@@ -41,8 +41,3 @@ class PluginsPage(BASE, WIDGET):
     def __init__(self, parent=None):
         super(PluginsPage, self).__init__(parent)
         self.setupUi(self)
-
-        self.setPixmap(QWizard.LogoPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
-        self.setPixmap(QWizard.WatermarkPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
