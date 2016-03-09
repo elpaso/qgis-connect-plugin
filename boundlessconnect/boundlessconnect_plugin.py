@@ -26,8 +26,15 @@ __revision__ = '$Format:%H$'
 
 import os
 
-from PyQt4.QtCore import (QCoreApplication, QSettings, QLocale, QTranslator, QFileInfo)
-from PyQt4.QtGui import (QMessageBox, QAction, QIcon, QFileDialog)
+from PyQt4.QtCore import (QCoreApplication,
+                          QSettings,
+                          QLocale,
+                          QTranslator,
+                          QFileInfo)
+from PyQt4.QtGui import (QMessageBox,
+                         QAction,
+                         QIcon,
+                         QFileDialog)
 
 from qgis.core import QGis
 from qgis.gui import QgsMessageBar
@@ -110,7 +117,6 @@ class BoundlessConnectPlugin:
                 self.tr('Boundless Connect'), self.actionPluginManager)
 
             self.actionPluginManager.triggered.connect(self.pluginManagerLocal)
-
 
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here

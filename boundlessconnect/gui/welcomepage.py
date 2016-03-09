@@ -48,5 +48,3 @@ class WelcomePage(BASE, WIDGET):
             return 2
         else:
             return 1
-
-

@@ -46,7 +46,8 @@ from pyplugin_installer.installer_data import (reposGroup,
                                                removeDir)
 from pyplugin_installer.unzip import unzip
 
-from boundlessconnect.plugins import boundlessRepo, localPlugins
+from boundlessconnect.plugins import (boundlessRepo,
+                                      localPlugins)
 
 pluginPath = os.path.dirname(__file__)
 
@@ -136,7 +137,7 @@ def installAllFromRepository():
             dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
             dlg.exec_()
             if dlg.result():
-               errors.append(dlg.result())
+                errors.append(dlg.result())
             else:
                 updateAvailablePlugins()
                 loadPlugin(plugins.all()[plugin]['id'])
@@ -184,14 +185,14 @@ def installFromZipFile(pluginPath):
 
     # If the target directory already exists as a link,
     # remove the link without resolving
-    QFile(pluginsDirectory + unicode(QDir.separator()) + pluginFileName).remove()
+    QFile(os.path.join(pluginsDirectory, pluginFileName)).remove()
 
     try:
         # Test extraction. If fails, then exception will be raised
         # and no removing occurs
         unzip(unicode(pluginPath), unicode(pluginsDirectory))
         # Removing old plugin files if exist
-        removeDir(QDir.cleanPath(pluginsDirectory + unicode(QDir.separator()) + pluginFileName))
+        removeDir(QDir.cleanPath(os.path.join(pluginsDirectory, pluginFileName)))
         # Extract new files
         unzip(unicode(pluginPath), unicode(pluginsDirectory))
     except:

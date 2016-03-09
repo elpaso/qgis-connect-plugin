@@ -106,8 +106,6 @@ class LocalPlugins(QObject):
                     deprecated = True
 
                 icon = pluginNodes.item(i).firstChildElement('icon').text().strip()
-                #if icon and not icon.startswith('http'):
-                #    icon = 'http://%s/%s' % (QUrl(self.mRepositories[reposName]['url']).host(), icon)
 
                 if pluginNodes.item(i).toElement().hasAttribute('plugin_id'):
                     plugin_id = pluginNodes.item(i).toElement().attribute('plugin_id')
@@ -201,7 +199,6 @@ class LocalPlugins(QObject):
             if isTheSystemDir:
                 # Remove the temporarily added path
                 sys.path.remove(pluginsPath)
-
 
     def rebuild(self):
         self.plugins = dict()
