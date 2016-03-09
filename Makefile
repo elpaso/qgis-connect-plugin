@@ -26,7 +26,7 @@ pep8:
 
 clean:
 	rm -f $(ALL_FILES)
-	find -name "*.pyc" -exec rm -f {} \;
+	find . -name "*.pyc" -exec rm -f {} \;
 	rm -f *.zip
 
 package: clean ts all

@@ -34,7 +34,7 @@ from PyQt4.QtXml import QDomDocument
 from qgis.utils import iface, home_plugin_path, startPlugin, unloadPlugin, loadPlugin, reloadPlugin
 from pyplugin_installer.installer_data import reposGroup, seenPluginGroup, translatableAttributes, removeDir
 
-from boundlesscentral.plugins import plugins
+from boundlessconnect.plugins import plugins
 
 
 class PluginInstaller(QObject):

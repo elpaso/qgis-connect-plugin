@@ -46,8 +46,8 @@ from pyplugin_installer.installer_data import (reposGroup,
                                                removeDir)
 from pyplugin_installer.unzip import unzip
 
-#from boundlesscentral.installer import PluginInstaller
-from boundlesscentral.plugins import boundlessRepo, localPlugins
+#from boundlessconnect.installer import PluginInstaller
+from boundlessconnect.plugins import boundlessRepo, localPlugins
 
 pluginPath = os.path.dirname(__file__)
 

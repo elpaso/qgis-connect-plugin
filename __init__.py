@@ -26,5 +26,5 @@ __revision__ = '$Format:%H$'
 
 
 def classFactory(iface):
-    from boundlesscentral.boundlessconnect_plugin import BoundlessConnectPlugin
+    from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
     return BoundlessConnectPlugin(iface)

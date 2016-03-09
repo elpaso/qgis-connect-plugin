@@ -32,7 +32,7 @@ from PyQt4.QtGui import (QWizard,
                          QPixmap
                         )
 
-#~ from boundlesscentral.utils import isRepositoryInDirectory
+#~ from boundlessconnect.utils import isRepositoryInDirectory
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(

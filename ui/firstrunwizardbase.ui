@@ -24,19 +24,19 @@
   <customwidget>
    <class>WelcomePage</class>
    <extends>QWizardPage</extends>
-   <header location="global">boundlesscentral.gui.welcomepage</header>
+   <header location="global">boundlessconnect.gui.welcomepage</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>CredentialsPage</class>
    <extends>QWizardPage</extends>
-   <header location="global">boundlesscentral.gui.credentialspage</header>
+   <header location="global">boundlessconnect.gui.credentialspage</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>PluginsPage</class>
    <extends>QWizardPage</extends>
-   <header location="global">boundlesscentral.gui.pluginspage</header>
+   <header location="global">boundlessconnect.gui.pluginspage</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

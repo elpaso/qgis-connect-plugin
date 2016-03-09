@@ -32,8 +32,8 @@ from PyQt4.QtGui import (QMessageBox, QAction, QIcon, QFileDialog)
 from qgis.core import QGis
 from qgis.gui import QgsMessageBar
 
-from boundlesscentral.gui.firstrunwizard import FirstRunWizard
-from boundlesscentral import utils
+from boundlessconnect.gui.firstrunwizard import FirstRunWizard
+from boundlessconnect import utils
 
 pluginPath = os.path.dirname(__file__)
 
