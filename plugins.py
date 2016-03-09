@@ -48,8 +48,7 @@ pluginPath = os.path.dirname(__file__)
 
 boundlessRepo = (QCoreApplication.translate('Boundless Connect',
                                             'Boundless Plugins Repository'),
-                 #'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
-                 'plugin_repo')
+                 'https://qgis-ee.boundlessgeo.com/plugins/plugins.xml')
 
 
 class LocalPlugins(QObject):

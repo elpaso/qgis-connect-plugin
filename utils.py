@@ -46,7 +46,6 @@ from pyplugin_installer.installer_data import (reposGroup,
                                                removeDir)
 from pyplugin_installer.unzip import unzip
 
-#from boundlessconnect.installer import PluginInstaller
 from boundlessconnect.plugins import boundlessRepo, localPlugins
 
 pluginPath = os.path.dirname(__file__)
@@ -87,24 +86,11 @@ def setRepositoryAuth(authConfigId):
 def showPluginManager():
     """Show Plugin Manager with only Boundless plugins repository
     """
-    if isRepositoryInDirectory:
+    if isRepositoryInDirectory():
         pluginManageLocalRepo()
     else:
         installer = QgsPluginInstaller()
-
-        repos = repositories.all().copy()
-        for repo in repos:
-            if repos[repo]['url'] == boundlessRepo[1]:
-                continue
-            else:
-                repositories.remove(repo)
-
-        plugins.clearRepoCache()
         installer.showPluginManagerWhenReady(2)
-
-    repositories.load()
-    for key in repositories.all():
-        repositories.setRepositoryData(key, 'state', 3)
 
 
 def pluginManageLocalRepo():
@@ -141,14 +127,6 @@ def installAllFromRepository():
     """Install plugins from remote repository
     """
     installer = QgsPluginInstaller()
-
-    repos = repositories.all().copy()
-    for repo in repos:
-        if repos[repo]['url'] == boundlessRepo[1]:
-            continue
-        else:
-            repositories.remove(repo)
-
     installer.fetchAvailablePlugins(False)
 
     errors = []

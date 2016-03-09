@@ -32,8 +32,6 @@ from PyQt4.QtGui import (QWizard,
                          QPixmap
                         )
 
-#~ from boundlessconnect.utils import isRepositoryInDirectory
-
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
     os.path.join(pluginPath, 'ui', 'pluginspagebase.ui'))
@@ -48,7 +46,3 @@ class PluginsPage(BASE, WIDGET):
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
         self.setPixmap(QWizard.WatermarkPixmap,
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
-
-        #~ if isRepositoryInDirectory():
-            #~ self.rbManualInstall.hide()
-            #~ self.rbAutoInstall.setChecked(True)
