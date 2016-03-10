@@ -198,7 +198,7 @@ def _make_zip(zipFile, options):
             return []
         # to prevent descending into dirs, modify the list in place
         for item in list(items):  # copy list or iteration values change
-            itempath = path(os.path.relpath(root, 'src')) / item
+            itempath = path(os.path.relpath(root)) / item
             if exclude(item) and item not in skips:
                 debug('Excluding %s' % itempath)
                 items.remove(item)
@@ -206,6 +206,6 @@ def _make_zip(zipFile, options):
 
     for root, dirs, files in os.walk(src_dir):
         for f in filter_excludes(root, files):
-            relpath = os.path.relpath(root, 'src')
+            relpath = os.path.relpath(root)
             zipFile.write(path(root) / f, path(relpath) / f)
         filter_excludes(root, dirs)
