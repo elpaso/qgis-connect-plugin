@@ -47,7 +47,7 @@ from pyplugin_installer.version_compare import (compareVersions,
 pluginPath = os.path.dirname(__file__)
 
 boundlessRepo = (QCoreApplication.translate('Boundless Connect',
-                                            'Boundless Official Plugin Repository'),
+                                            'Boundless Plugin Repository'),
                  'http://qgis.boundlessgeo.com/plugins.xml')
                  #'plugin_repo')
 
