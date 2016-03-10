@@ -18,8 +18,10 @@ options(
         package_dir = path('.'),
         excludes = [
             '*.pyc',
-            ".git"
-        ]
+            '.git'
+        ],
+        # skip certain files inadvertently found by exclude pattern globbing
+        skip_exclude = []
     ),
 
     plugin_server = Bunch(
