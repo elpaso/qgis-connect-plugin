@@ -18,7 +18,8 @@ options(
         package_dir = path('.'),
         excludes = [
             '*.pyc',
-            '.git'
+            '.git',
+            '*.pro'
         ],
         # skip certain files inadvertently found by exclude pattern globbing
         skip_exclude = []
