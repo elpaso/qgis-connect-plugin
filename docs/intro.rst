@@ -55,7 +55,7 @@ Also is this is first run of the QGIS with activated plugin, it will show user
 the *First Run* wizard.
 
 .. figure:: img/welcome-page.png
-  :align: center
+   :align: center
 
 On next QGIS runs wizard is not shown, but user can open it at any time from
 menu *Plugins → Boundless Connect → First Run wizard*.
@@ -67,14 +67,14 @@ If plugins repository specified with an URL *Boundless Connect* will ask user
 for credentials used to used to access Boundless plugin repository
 
 .. figure:: img/credentials-page.png
-  :align: center
+   :align: center
 
 And then user can install all available to him plugins from Boundless
 repository automatically or start QGIS *Plugin Manager* and select and install
 only required plugins manually.
 
 .. figure:: img/plugins-page.png
-  :align: center
+   :align: center
 
 If plugins repository specified with as a path *Boundless Connect* does not ask
 user for creadentials. All other steps are the same.
@@ -113,7 +113,7 @@ yet, when users uninstalls plugin, previously installed from Boundless local
 (directory-based) repository, a warning will be shown
 
 .. figure:: img/plugin-uninstall.png
-  :align: center
+   :align: center
 
 This warning can be safely ignored, as users can install uninstalled plugin
 again using *Plugins → Boundless Connect → Manage plugins (local folder)* menu.
