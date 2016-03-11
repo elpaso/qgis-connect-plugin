@@ -49,6 +49,14 @@ class BoundlessConnectPlugin:
     def __init__(self, iface):
         self.iface = iface
 
+        try:
+            from tests import testerplugin
+            from qgistester.tests import addTestModule
+            addTestModule(testerplugin, 'BoundlessConnect')
+        except:
+            pass
+
+
         self.qgsVersion = unicode(QGis.QGIS_VERSION_INT)
 
         overrideLocale = QSettings().value('locale/overrideFlag', False, bool)
