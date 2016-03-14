@@ -66,6 +66,13 @@ class LocalPlugins(QObject):
         self.localCache = dict()
         self.repoCache = dict()
 
+        try:
+            from qgistester.tests import addTestModule
+            from boundlessconnect.test import testplugin
+            addTestModule(testplugin, "Boundless Connect")
+        except Exception as ex:
+            pass
+
     def all(self):
         return self.plugins
 
