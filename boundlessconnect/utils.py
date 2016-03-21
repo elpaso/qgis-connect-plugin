@@ -87,7 +87,9 @@ def setRepositoryAuth(authConfigId):
 
 
 def showPluginManager():
-    """Show Plugin Manager with only Boundless plugins repository
+    """Show Plugin Manager with all plugins. This includes plugins from
+    Official QGIS plugins repository and plguins from Boundless plugins
+    repository (local or remote)
     """
     installer = QgsPluginInstaller()
 
@@ -143,7 +145,7 @@ def installAllFromRepository():
     errors = []
     pluginsList = plugins.all().copy()
     for plugin in pluginsList:
-        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0]:
+        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or '@boundlessgeo.com' in pluginsList[plugin]['author_email']:
             dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
             dlg.exec_()
             if dlg.result():
