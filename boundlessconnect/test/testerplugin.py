@@ -27,6 +27,8 @@ __revision__ = '$Format:%H$'
 import os
 import unittest
 
+from PyQt4.QtCore import QSettings
+
 from pyplugin_installer.installer_data import reposGroup
 
 from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
@@ -68,7 +70,7 @@ class BoundlessConnectTests(unittest.TestCase):
     def testInstallFromZip(self):
         '''Test plugin installation from ZIP package'''
         pluginPath = os.path.join(testPath, 'data', 'helloworld.zip')
-        result = utils.installFromZipFile(fileName)
+        result = utils.installFromZipFile(pluginPath)
         self.assertIsNone(result)
 
 
