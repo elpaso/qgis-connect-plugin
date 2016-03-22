@@ -28,11 +28,12 @@ import os
 
 from PyQt4 import uic
 
-from PyQt4.QtGui import (QWizard,
-                         QPixmap
-                        )
+from PyQt4.QtCore import QSettings
+
+from pyplugin_installer.installer_data import reposGroup
 
 from boundlessconnect import utils
+from boundlessconnect.plugins import boundlessRepo
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -43,6 +44,13 @@ class CredentialsPage(BASE, WIDGET):
     def __init__(self, parent=None):
         super(CredentialsPage, self).__init__(parent)
         self.setupUi(self)
+
+        settings = QSettings()
+        settings.beginGroup(reposGroup)
+        authCfg = settings.value(boundlessRepo[0] + '/authcfg', '')
+        settings.endGroup()
+
+        self.mAuthSelector.setConfigId(authCfg)
 
         self.mAuthSelector.selectedConfigIdChanged.connect(self.updateAuthCfg)
 

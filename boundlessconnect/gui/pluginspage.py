@@ -28,10 +28,6 @@ import os
 
 from PyQt4 import uic
 
-from PyQt4.QtGui import (QWizard,
-                         QPixmap
-                        )
-
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
     os.path.join(pluginPath, 'ui', 'pluginspagebase.ui'))

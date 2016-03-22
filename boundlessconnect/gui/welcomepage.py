@@ -28,9 +28,6 @@ import os
 
 from PyQt4 import uic
 
-from PyQt4.QtGui import (QWizard,
-                         QPixmap
-                        )
 from boundlessconnect.utils import isRepositoryInDirectory
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
