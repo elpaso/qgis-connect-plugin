@@ -52,10 +52,9 @@ class BoundlessConnectPlugin:
         try:
             from tests import testerplugin
             from qgistester.tests import addTestModule
-            addTestModule(testerplugin, 'BoundlessConnect')
+            addTestModule(testerplugin, 'Boundless Connect')
         except:
             pass
-
 
         self.qgsVersion = unicode(QGis.QGIS_VERSION_INT)
 
@@ -176,11 +175,7 @@ class BoundlessConnectPlugin:
     def runWizardAndProcessResults(self):
         wzrd = FirstRunWizard()
         if wzrd.exec_():
-            authId = wzrd.mPageCredentials.mAuthSelector.configId()
             installAll = wzrd.mPagePlugins.rbAutoInstall.isChecked()
-
-            if authId != '':
-                utils.setRepositoryAuth(authId)
 
             if installAll:
                 utils.installAllPlugins()

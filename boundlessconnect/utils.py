@@ -71,6 +71,7 @@ def addBoundlessRepository():
     # Boundless repository not found, so we add it to the list
     if not hasBoundlessRepository:
         settings.setValue(boundlessRepo[0] + '/url', boundlessRepo[1])
+        settings.setValue(boundlessRepo[0] + '/authcfg', '')
     settings.endGroup()
 
 
@@ -137,7 +138,7 @@ def installAllPlugins():
 
 
 def installAllFromRepository():
-    """Install plugins from remote repository
+    """Install Boundless plugins from remote repository
     """
     installer = QgsPluginInstaller()
     installer.fetchAvailablePlugins(False)
@@ -145,7 +146,7 @@ def installAllFromRepository():
     errors = []
     pluginsList = plugins.all().copy()
     for plugin in pluginsList:
-        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or '@boundlessgeo.com' in pluginsList[plugin]['author_email']:
+        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or '@boundlessgeo.com' in pluginsList[plugin]['author_email'] and not pluginsList[plugin]['installed']:
             dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
             dlg.exec_()
             if dlg.result():

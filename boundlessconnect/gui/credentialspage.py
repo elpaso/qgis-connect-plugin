@@ -32,6 +32,8 @@ from PyQt4.QtGui import (QWizard,
                          QPixmap
                         )
 
+from boundlessconnect import utils
+
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
     os.path.join(pluginPath, 'ui', 'credentialspagebase.ui'))
@@ -41,3 +43,8 @@ class CredentialsPage(BASE, WIDGET):
     def __init__(self, parent=None):
         super(CredentialsPage, self).__init__(parent)
         self.setupUi(self)
+
+        self.mAuthSelector.selectedConfigIdChanged.connect(self.updateAuthCfg)
+
+    def updateAuthCfg(self, authCfgId):
+        utils.setRepositoryAuth(authCfgId)
