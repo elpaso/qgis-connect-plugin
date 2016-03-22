@@ -146,7 +146,7 @@ def installAllFromRepository():
     errors = []
     pluginsList = plugins.all().copy()
     for plugin in pluginsList:
-        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or '@boundlessgeo.com' in pluginsList[plugin]['author_email'] and not pluginsList[plugin]['installed']:
+        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or 'boundless' in pluginsList[plugin]['code_repository'] and not pluginsList[plugin]['installed']:
             dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
             dlg.exec_()
             if dlg.result():
