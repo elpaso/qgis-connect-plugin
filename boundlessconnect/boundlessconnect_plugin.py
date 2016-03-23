@@ -184,6 +184,10 @@ class BoundlessConnectPlugin:
 
             utils.installFromStandardPath()
 
+            self._showMessage(
+                self.tr('Boundless Connect is done configuring your QGIS.'),
+                QgsMessageBar.SUCCESS)
+
     def _showMessage(self, message, level=QgsMessageBar.INFO):
         self.iface.messageBar().pushMessage(
             message, level, self.iface.messageTimeout())
