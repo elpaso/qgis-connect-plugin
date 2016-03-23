@@ -47,7 +47,7 @@ class CredentialsPage(BASE, WIDGET):
 
         settings = QSettings()
         settings.beginGroup(reposGroup)
-        authCfg = settings.value(boundlessRepo[0] + '/authcfg', '')
+        authCfg = settings.value(boundlessRepo[0] + '/authcfg', '', unicode)
         settings.endGroup()
 
         self.mAuthSelector.setConfigId(authCfg)
