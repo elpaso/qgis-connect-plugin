@@ -36,6 +36,7 @@ from qgis.core import QgsApplication
 from qgis.utils import (iface,
                         loadPlugin,
                         startPlugin,
+                        reloadPlugin,
                         updateAvailablePlugins,
                         home_plugin_path)
 
@@ -226,9 +227,14 @@ def installFromZipFile(pluginPath):
         loadPlugin(pluginName)
         plugins.getAllInstalled(testLoad=True)
         plugins.rebuild()
-        if startPlugin(pluginName):
-            settings = QSettings()
-            settings.setValue("/PythonPlugins/" + pluginName, True)
+
+        settings = QSettings()
+        # Reload plugin if it was already activated, start otherwise
+        if settings.value('/PythonPlugins/' + pluginName, False, bool):
+            reloadPlugin(pluginName)
+        else:
+            if startPlugin(pluginName):
+                settings.setValue('/PythonPlugins/' + pluginName, True)
 
     return result
 
