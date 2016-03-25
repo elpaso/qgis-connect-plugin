@@ -48,16 +48,17 @@ def functionalTests():
         return []
 
 
-    boundlessRepoTest = Test('Verify that Boundless Connect can start Plugin Manager')
+    boundlessRepoTest = Test('Verify that Boundless Connect can start Plugin Manager')    
     boundlessRepoTest.addStep('Check that OpenGeo Explorer listed in Plugin Manager as well as plugins from QGIS repository',
                                 prestep=_openPluginManager, isVerifyStep=True)
+    boundlessRepoTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")    
 
     installAllTest = Test('Verify that Boundless Connect installs all Boundless plugins')
     installAllTest.addStep('Install all Boundless plugins', _installAllPlugins)
     installAllTest.addStep('Check that all Boundless plugins installed', _checkBoundlessPlugins)
+    installAllTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-324")
 
-
-    return [boundlessRepoTest]
+    return [boundlessRepoTest, installAllTest]
 
 
 class BoundlessConnectTests(unittest.TestCase):
