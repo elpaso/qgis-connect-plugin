@@ -39,6 +39,7 @@ from boundlessconnect import utils
 
 testPath = os.path.dirname(__file__)
 
+installedPlugins = []
 
 def functionalTests():
     try:
@@ -48,20 +49,25 @@ def functionalTests():
         return []
 
 
-    boundlessRepoTest = Test('Verify that Boundless Connect can start Plugin Manager')    
+    boundlessRepoTest = Test('Verify that Boundless Connect can start Plugin Manager')
     boundlessRepoTest.addStep('Check that OpenGeo Explorer listed in Plugin Manager as well as plugins from QGIS repository',
                                 prestep=_openPluginManager, isVerifyStep=True)
-    boundlessRepoTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")    
+    boundlessRepoTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
 
-    installAllTest = Test('Verify that Boundless Connect installs all Boundless plugins')
-    installAllTest.addStep('Install all Boundless plugins', _installAllPlugins)
-    installAllTest.addStep('Check that all Boundless plugins installed', _checkBoundlessPlugins)
-    installAllTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-324")
-
-    return [boundlessRepoTest, installAllTest]
+    return [boundlessRepoTest]
 
 
 class BoundlessConnectTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        global installedPlugins
+        installedPlugins[:] = []
+        for key in plugins.all():
+            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
+                    'boundlessgeo' in plugins.all()[key]['code_repository'] and\
+                    plugins.all()[key]['installed']:
+                installedPlugins.append(key)
 
     def testBoundlessRepoAdded(self):
         """Test that Boundless repository added to QGIS"""
@@ -77,17 +83,40 @@ class BoundlessConnectTests(unittest.TestCase):
 
     def testInstallFromZip(self):
         """Test plugin installation from ZIP package"""
-        pluginPath = os.path.join(testPath, 'data', 'helloworld.zip')
+        pluginPath = os.path.join(testPath, 'data', 'connecttest.zip')
         result = utils.installFromZipFile(pluginPath)
-        self.assertIsNone(result)
-        self.assertTrue('helloworld' in active_plugins)
+        self.assertIsNone(result), 'Error installing plugin: {}'.format(result)
+        self.assertTrue('connecttest' in active_plugins), 'Plugin not activated'
+
+    def testInstallAll(self):
+        """Test that Connect installs all Boundless plugins"""
+        utils.installAllPlugins()
+
+        total = 0
+        installed = 0
+        for key in plugins.all():
+            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
+                    'boundlessgeo' in plugins.all()[key]['code_repository']:
+                total += 1
+                if plugins.all()[key]['installed']:
+                    installed += 1
+
+        assert (total == installed), 'Number of installed Boundless plugins does not match number of available Boundless plugins'
 
     @classmethod
     def tearDownClass(cls):
         """Remove installed HelloWorld plugin"""
-        if 'helloworld' in active_plugins:
-            installer = QgsPluginInstaller()
-            installer.uninstallPlugin('helloworld', quiet=True)
+        installer = QgsPluginInstaller()
+        if 'connecttest' in active_plugins:
+            installer.uninstallPlugin('connecttest', quiet=True)
+
+        global installedPlugins
+        for key in plugins.all():
+            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
+                    'boundlessgeo' in plugins.all()[key]['code_repository'] and \
+                    key not in installedPlugins:
+                installer.uninstallPlugin(key, quiet=True)
+
 
 def unitTests():
     connectSuite = unittest.makeSuite(BoundlessConnectTests, 'test')
@@ -103,19 +132,3 @@ def _openPluginManager():
 
 def _installAllPlugins():
     utils.installAllPlugins()
-
-
-def _checkBoundlessPlugins():
-    total = 0
-    installed = 0
-    for key in plugins.all():
-        if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or 'boundlessgeo' in plugins.all()[key]['code_repository']:
-            total += 1
-            print '*** FOUND BOUNDLESS', key
-            if plugins.all()[key]['installed']:
-                print '**** INSTALLED'
-                installed += 1
-
-    print "************ TOTAL/INSTALLED", total, installed
-
-    assert (total == installed), 'Number of installed Boundless plugins does not match number of available BOundless plugins'
