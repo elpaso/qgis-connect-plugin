@@ -50,6 +50,7 @@ from pyplugin_installer.unzip import unzip
 
 from boundlessconnect.plugins import (boundlessRepo,
                                       firstRunPluginsPath,
+                                      deprecatedPlugins,
                                       localPlugins)
 
 pluginPath = os.path.dirname(__file__)
@@ -147,20 +148,23 @@ def installAllFromRepository():
     errors = []
     pluginsList = plugins.all().copy()
     for plugin in pluginsList:
-        if pluginsList[plugin]['zip_repository'] == boundlessRepo[0] or 'boundless' in pluginsList[plugin]['code_repository'] and not pluginsList[plugin]['installed']:
-            dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
-            dlg.exec_()
-            if dlg.result():
-                errors.append(dlg.result())
-            else:
-                updateAvailablePlugins()
-                loadPlugin(plugins.all()[plugin]['id'])
-                plugins.getAllInstalled(testLoad=True)
-                plugins.rebuild()
-                if not plugins.all()[plugin]["error"]:
-                    if startPlugin(plugins.all()[plugin]['id']):
-                        settings = QSettings()
-                        settings.setValue('/PythonPlugins/' + plugins.all()[plugin]['id'], True)
+        if isBoundlessPlugin(pluginsList[plugin]):
+            if (pluginsList[plugin]['installed'] and pluginsList[plugin]['deprecated']) or \
+                    not pluginsList[plugin]['deprecated'] and \
+                    pluginsList[plugin]["zip_repository"] != '':
+                dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
+                dlg.exec_()
+                if dlg.result():
+                    errors.append(dlg.result())
+                else:
+                    updateAvailablePlugins()
+                    loadPlugin(plugins.all()[plugin]['id'])
+                    plugins.getAllInstalled(testLoad=True)
+                    plugins.rebuild()
+                    if not plugins.all()[plugin]["error"]:
+                        if startPlugin(plugins.all()[plugin]['id']):
+                            settings = QSettings()
+                            settings.setValue('/PythonPlugins/' + plugins.all()[plugin]['id'], True)
 
     installer.exportPluginsToManager()
     return errors
@@ -243,3 +247,30 @@ def isRepositoryInDirectory():
     """Return True if plugin repository is a plain directory
     """
     return os.path.isdir(os.path.join(pluginPath, boundlessRepo[1]))
+
+
+def isBoundlessPlugin(plugin):
+    """Return true if plugin is Boundless plugin
+    """
+    if plugin['zip_repository'] == boundlessRepo[0] or \
+            'boundless' in plugin['code_repository']:
+        return True
+    else:
+        return False
+
+
+def obsoletePlugins():
+    """Return list of installed deprecated Boundless plugins
+    """
+    installer = QgsPluginInstaller()
+    installer.fetchAvailablePlugins(False)
+
+    deprecated = []
+    for plugin in plugins.all():
+        if isBoundlessPlugin(plugins.all()[plugin]):
+            if plugins.all()[plugin]['installed'] and \
+                    (plugins.all()[plugin]['deprecated'] or
+                    plugin in deprecatedPlugins):
+                deprecated.append(plugins.all()[plugin])
+
+    return deprecated

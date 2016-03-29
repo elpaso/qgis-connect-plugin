@@ -16,6 +16,11 @@
   <property name="subTitle">
    <string>This wizard will help you to perform some post-installation setup of your Boundless QGIS</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTextEdit" name="infoBox"/>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

@@ -53,6 +53,8 @@ boundlessRepo = (QCoreApplication.translate('Boundless Connect',
 
 firstRunPluginsPath = 'first-run-plugins'
 
+deprecatedPlugins = ['opengeo']
+
 
 class LocalPlugins(QObject):
     """Dict-like class for managing plugins from local repository
