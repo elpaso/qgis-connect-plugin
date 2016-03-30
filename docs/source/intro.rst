@@ -2,8 +2,8 @@ General information
 ===================
 
 The main goal of Boundless Connect plugin --- help users with setting up
-Boundless Plugin Repository and make it easier to them plugins and their
-components.
+Boundless Plugin Repository and make it easier to them install plugins and
+their components.
 
 Boundless Connect plugin is the only the one "core" plugin shipped with our
 QGIS builds. It acts as "gateway" for all Boundless stuff like plugins,

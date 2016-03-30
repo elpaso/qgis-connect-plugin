@@ -128,7 +128,6 @@ def initPluginManager(installer, boundlessOnly=False):
 
         plugins.mPlugins.update(localPlugins.all())
 
-
     if boundlessOnly:
         for pluginName, pluginDesc in plugins.mPlugins.items():
             if not isBoundlessPlugin(pluginDesc):
