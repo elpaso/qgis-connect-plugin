@@ -64,6 +64,7 @@ def install_devtools():
 
 
 @task
+@needs(['createhelp'])
 @cmdopts([
     ('tests', 't', 'Package tests with plugin'),
 ])
@@ -80,13 +81,13 @@ def package(options):
 
 @task
 def createhelp(options):
-    """Install plugin to QGIS plugin directory
+    """Generate plugin documentation and add it to plugin
     """
     plugin_name = options.plugin.name
-    docsPath = "./docs"
+    docsPath = './docs'
     cwd = os.getcwd()
     os.chdir(docsPath)
-    sh("make html")
+    sh('make html')
     os.chdir(cwd)
     src = path(__file__).dirname() / 'docs' / 'build' / 'html'
     dst = path(__file__).dirname() / plugin_name / 'help'
