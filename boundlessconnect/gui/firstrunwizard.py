@@ -25,6 +25,9 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
+import httplib
+import webbrowser
+from urlparse import urlparse
 
 from PyQt4 import uic
 
@@ -37,6 +40,7 @@ pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
     os.path.join(pluginPath, 'ui', 'firstrunwizardbase.ui'))
 
+HELP_URL = "http://github.com/boundlessgeo/qgis-connect-plugin/blob/master/docs/source/usage.rst"
 
 class FirstRunWizard(BASE, WIDGET):
     def __init__(self, parent=None):
@@ -49,6 +53,18 @@ class FirstRunWizard(BASE, WIDGET):
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
         self.setPixmap(QWizard.WatermarkPixmap,
             QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
+        self.helpRequested.connect(self.showHelp)
 
+    def showHelp(self):
+        p = urlparse(HELP_URL)
+        conn = httplib.HTTPConnection(p.netloc)
+        conn.request('HEAD', p.path)
+        resp = conn.getresponse()
+        if resp.status < 400:
+            url = HELP_URL
+        else:
+            url  = "file:///" + os.path.join(os.path.dirname(__file__), "help", "index.html").replace("\\","/")
+        webbrowser.open_new(url)
+    
     def accept(self):
         QDialog.accept(self)
