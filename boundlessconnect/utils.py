@@ -27,6 +27,7 @@ __revision__ = '$Format:%H$'
 import os
 import glob
 import zipfile
+import ConfigParser
 
 from PyQt4.QtCore import (QSettings,
                           QDir,
@@ -274,3 +275,11 @@ def obsoletePlugins():
                 deprecated.append(plugins.all()[plugin])
 
     return deprecated
+
+
+def connectVersion():
+    cfg = ConfigParser.SafeConfigParser()
+    cfg.read(os.path.join(pluginPath, 'metadata.txt'))
+    version = cfg.get('general', 'version').split('.')
+    version = ''.join(version)
+    return version

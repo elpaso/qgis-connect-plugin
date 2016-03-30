@@ -3,7 +3,7 @@ name=Boundless Connect
 description=Access Boundless services and plugins
 about=Get latest news, tutorials and other cool stuff from Boundless
 category=Plugins
-version=0.0.1
+version=0.1.0
 qgisMinimumVersion=2.8
 
 author=Alexander Bruy
@@ -13,9 +13,9 @@ icon=icons/boundless.png
 
 tags=plugins,boundless
 
-homepage=https://github.com/boundlessgeo/qgis-installer-plugin
-tracker=https://github.com/boundlessgeo/qgis-installer-plugin/issues
-repository=https://github.com/boundlessgeo/qgis-installer-plugin
+homepage=https://github.com/boundlessgeo/qgis-connect-plugin
+tracker=https://github.com/boundlessgeo/qgis-connect-plugin/issues
+repository=https://github.com/boundlessgeo/qgis-connect-plugin
 
 experimental=True
 deprecated=False
