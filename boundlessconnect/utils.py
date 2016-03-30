@@ -106,7 +106,7 @@ def showPluginManager(boundlessOnly):
     repositories.load()
 
 
-def initPluginManager(installer, boundlessOnly):
+def initPluginManager(installer, boundlessOnly=False):
     """Prepare plugin manager content
     """
     # Load plugins from remote repositories and export repositories
