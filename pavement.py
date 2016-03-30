@@ -79,6 +79,23 @@ def package(options):
 
 
 @task
+def createhelp(options):
+    """Install plugin to QGIS plugin directory
+    """
+    plugin_name = options.plugin.name
+    docsPath = "./docs"
+    cwd = os.getcwd()
+    os.chdir(docsPath)
+    sh("make html")
+    os.chdir(cwd)
+    src = path(__file__).dirname() / 'docs' / 'build' / 'html'
+    dst = path(__file__).dirname() / plugin_name / 'help'
+    src = src.abspath()
+    dst = dst.abspath()
+    dst.rmtree()
+    src.copytree(dst)
+
+@task
 @cmdopts([
     ('user=', 'u', 'upload user'),
     ('passwd=', 'p', 'upload password'),
