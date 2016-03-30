@@ -171,7 +171,7 @@ class BoundlessConnectPlugin:
             QFileInfo(fileName).absoluteDir().absolutePath())
 
     def pluginManagerLocal(self):
-        utils.showPluginManager()
+        utils.showPluginManager(False)
 
     def runWizardAndProcessResults(self):
         wzrd = FirstRunWizard()
@@ -181,7 +181,8 @@ class BoundlessConnectPlugin:
             if installAll:
                 utils.installAllPlugins()
             else:
-                utils.showPluginManager()
+                boundlessOnly = wzrd.mPagePlugins.rbManualInstallBoundless.isChecked()            
+                utils.showPluginManager(boundlessOnly)
 
             utils.installFromStandardPath()
 

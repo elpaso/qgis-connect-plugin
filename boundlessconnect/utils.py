@@ -90,22 +90,23 @@ def setRepositoryAuth(authConfigId):
     settings.endGroup()
 
 
-def showPluginManager():
+def showPluginManager(boundlessOnly):
     """Show Plugin Manager with all plugins. This includes plugins from
-    Official QGIS plugins repository and plguins from Boundless plugins
-    repository (local or remote)
+    Official QGIS plugins repository and plugins from Boundless plugins
+    repository (local or remote). 
+    If boundlessOnly=True, it will only show Boundless plugins
     """
     installer = QgsPluginInstaller()
 
-    initPluginManager(installer)
+    initPluginManager(installer, boundlessOnly)
 
     iface.pluginManagerInterface().showPluginManager(2)
     # Restore repositories, as we don't want to keep local repo in cache
     repositories.load()
 
 
-def initPluginManager(installer):
-    """Open Plugin Manager and list only plugins from local repo
+def initPluginManager(installer, boundlessOnly):
+    """Prepare plugin manager content
     """
     # Load plugins from remote repositories and export repositories
     # to Plugin Manager
@@ -125,6 +126,12 @@ def initPluginManager(installer):
         localPlugins.rebuild()
 
         plugins.mPlugins.update(localPlugins.all())
+
+    
+    if boundlessOnly:
+        for pluginName, pluginDesc in plugins.mPlugins.items():
+            if not isBoundlessPlugin(pluginDesc):
+                del plugins.mPlugins[pluginName]
 
     # Export all plugins to Plugin Manager
     installer.exportPluginsToManager()

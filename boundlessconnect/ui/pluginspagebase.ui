@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>390</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,9 +21,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QRadioButton" name="rbManualInstall">
+    <widget class="QRadioButton" name="rbAutoInstall">
      <property name="text">
-      <string>Open Plugin Manager and select plugins manually</string>
+      <string>Install all available plugins automatically</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -31,11 +31,111 @@
     </widget>
    </item>
    <item>
-    <widget class="QRadioButton" name="rbAutoInstall">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="leftMargin">
+      <number>30</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(126, 126, 126);</string>
+       </property>
+       <property name="text">
+        <string>Unassisted installation of all Boundless plugins. It will silently update existing Boundless plugins if already installed</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="rbManualInstallAll">
      <property name="text">
-      <string>Install all available plugins automatically</string>
+      <string>Open Plugin Manager (all plugins)</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="leftMargin">
+      <number>30</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(126, 126, 126);</string>
+       </property>
+       <property name="text">
+        <string>Manual selection of plugins to install, from the official QGIS plugin server and the Boundless plugin server</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="rbManualInstallBoundless">
+     <property name="text">
+      <string>Open Plugin Manager (Boundless plugins only)</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="leftMargin">
+      <number>30</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(126, 126, 126);</string>
+       </property>
+       <property name="text">
+        <string>Manual selection of plugins to install, from the collection of Boundless plugins</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
