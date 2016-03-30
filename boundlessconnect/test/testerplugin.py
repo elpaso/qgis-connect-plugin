@@ -33,7 +33,6 @@ from qgis.utils import active_plugins
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.installer_data import reposGroup, plugins
 
-from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
 from boundlessconnect.plugins import boundlessRepo
 from boundlessconnect import utils
 
