@@ -53,7 +53,7 @@ boundlessRepo = (QCoreApplication.translate('Boundless Connect',
 
 firstRunPluginsPath = 'first-run-plugins'
 
-deprecatedPlugins = ['opengeo']
+oldPlugins = ['opengeo']
 
 
 class LocalPlugins(QObject):

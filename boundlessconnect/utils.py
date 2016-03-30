@@ -47,11 +47,12 @@ from pyplugin_installer.installer_data import (reposGroup,
                                                repositories,
                                                plugins,
                                                removeDir)
+from pyplugin_installer.version_compare import compareVersions
 from pyplugin_installer.unzip import unzip
 
 from boundlessconnect.plugins import (boundlessRepo,
                                       firstRunPluginsPath,
-                                      deprecatedPlugins,
+                                      oldPlugins,
                                       localPlugins)
 
 pluginPath = os.path.dirname(__file__)
@@ -110,7 +111,7 @@ def initPluginManager(installer, boundlessOnly):
     """
     # Load plugins from remote repositories and export repositories
     # to Plugin Manager
-    installer.fetchAvailablePlugins(reloadMode=False)
+    installer.fetchAvailablePlugins(False)
     installer.exportRepositoriesToManager()
 
     # If Boundless repository is a local directory, add plugins
@@ -151,7 +152,7 @@ def installAllFromRepository():
     """Install Boundless plugins from remote repository
     """
     installer = QgsPluginInstaller()
-    installer.fetchAvailablePlugins(False)
+    initPluginManager(installer)
 
     errors = []
     pluginsList = plugins.all().copy()
@@ -179,7 +180,7 @@ def installAllFromRepository():
 
 
 def installAllFromDirectory(pluginsPath):
-    """Install plugins from directory-based repository
+    """Install plugins from specified directory
     """
     errors = []
 
@@ -267,21 +268,49 @@ def isBoundlessPlugin(plugin):
         return False
 
 
-def obsoletePlugins():
+def deprecatedPlugins():
     """Return list of installed deprecated Boundless plugins
     """
     installer = QgsPluginInstaller()
-    installer.fetchAvailablePlugins(False)
+    initPluginManager(installer)
 
     deprecated = []
     for plugin in plugins.all():
         if isBoundlessPlugin(plugins.all()[plugin]):
             if plugins.all()[plugin]['installed'] and \
                     (plugins.all()[plugin]['deprecated'] or
-                    plugin in deprecatedPlugins):
+                    plugin in oldPlugins):
                 deprecated.append(plugins.all()[plugin])
 
     return deprecated
+
+
+def checkPluginsStatus():
+    """
+    """
+    installer = QgsPluginInstaller()
+    initPluginManager(installer)
+
+    availablePlugins = []
+    installedPlugins = []
+    updateNeeded = False
+    for plugin in plugins.all():
+        if isBoundlessPlugin(plugins.all()[plugin]):
+            if plugins.all()[plugin]['installed']:
+                if compareVersions(plugins.all()[plugin]["version_available"],
+                                   plugins.all()[plugin]["version_installed"]) == 1:
+                    updateNeeded = True
+                installedPlugins.append(plugin)
+            else:
+                if not plugins.all()[plugin]['deprecated'] and not plugin in oldPlugins:
+                    availablePlugins.append(plugin)
+
+    allInstalled = len(availablePlugins) == 0
+
+    print '**** AVAILABLE', availablePlugins
+    print '**** INSTALLED', installedPlugins
+
+    return (updateNeeded, allInstalled)
 
 
 def connectVersion():

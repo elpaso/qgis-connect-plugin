@@ -28,7 +28,7 @@ import os
 
 from PyQt4 import uic
 
-from boundlessconnect.utils import obsoletePlugins, isRepositoryInDirectory
+from boundlessconnect.utils import deprecatedPlugins, isRepositoryInDirectory
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -41,7 +41,7 @@ class WelcomePage(BASE, WIDGET):
         self.setupUi(self)
 
         # check for deprecated plugins and warn user
-        plugins = obsoletePlugins()
+        plugins = deprecatedPlugins()
         if len(plugins) > 0:
             msg = self.tr('<h2>Deprecated plugins found!</h2>')
             msg += self.tr('<p>We suggest to remove following plugins as they '

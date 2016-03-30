@@ -140,12 +140,30 @@ class BoundlessConnectPlugin:
                 self.tr('Boundless Connect'), self.actionPluginManager)
 
     def startFirstRunWizard(self):
+        # check if plugins up-to-date
         settings = QSettings('Boundless', 'BoundlessConnect')
         version = utils.connectVersion()
         firstRun = settings.value('firstRun' + version, True, bool)
         settings.setValue('firstRun' + version, False)
 
-        if firstRun:
+        if not firstRun:
+            return
+
+        updateNeeded, allInstalled = utils.checkPluginsStatus()
+
+        if allInstalled and not updateNeeded:
+            self._showMessage(self.tr('You are up to date with Boundless plugins'))
+        elif allInstalled and updateNeeded:
+            reply = QMessageBox.question(self.iface.mainWindow(),
+                                         self.tr('Update plugins?'),
+                                         self.tr('Some of your plugins need '
+                                                 'to be updated. Update them '
+                                                 'automatically now?'),
+                                        QMessageBox.Yes | QMessageBox.No,
+                                        QMessageBox.Yes)
+            if reply == QMessageBox.Yes:
+                utils.installAllPlugins()
+        else:
             self.runWizardAndProcessResults()
 
     def installPlugin(self):
