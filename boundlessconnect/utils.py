@@ -94,7 +94,7 @@ def setRepositoryAuth(authConfigId):
 def showPluginManager(boundlessOnly):
     """Show Plugin Manager with all plugins. This includes plugins from
     Official QGIS plugins repository and plugins from Boundless plugins
-    repository (local or remote). 
+    repository (local or remote).
     If boundlessOnly=True, it will only show Boundless plugins
     """
     installer = QgsPluginInstaller()
@@ -128,7 +128,7 @@ def initPluginManager(installer, boundlessOnly):
 
         plugins.mPlugins.update(localPlugins.all())
 
-    
+
     if boundlessOnly:
         for pluginName, pluginDesc in plugins.mPlugins.items():
             if not isBoundlessPlugin(pluginDesc):
@@ -306,9 +306,6 @@ def checkPluginsStatus():
                     availablePlugins.append(plugin)
 
     allInstalled = len(availablePlugins) == 0
-
-    print '**** AVAILABLE', availablePlugins
-    print '**** INSTALLED', installedPlugins
 
     return (updateNeeded, allInstalled)
 
