@@ -26,6 +26,7 @@ __revision__ = '$Format:%H$'
 
 import os
 import unittest
+import json
 
 from PyQt4.QtCore import QSettings
 
@@ -33,7 +34,8 @@ from qgis.utils import active_plugins
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.installer_data import reposGroup, plugins
 
-from boundlessconnect.plugins import boundlessRepoName
+from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
+from boundlessconnect.plugins import boundlessRepo
 from boundlessconnect import utils
 
 testPath = os.path.dirname(__file__)
@@ -43,17 +45,21 @@ installedPlugins = []
 def functionalTests():
     try:
         from qgistester.test import Test
-        from qgistester.utils import *
     except:
         return []
 
 
-    boundlessRepoTest = Test('Verify that Boundless Connect can start Plugin Manager')
-    boundlessRepoTest.addStep('Check that OpenGeo Explorer listed in Plugin Manager as well as plugins from QGIS repository',
-                                prestep=_openPluginManager, isVerifyStep=True)
-    boundlessRepoTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
+    openPluginManagerTest = Test('Verify that Boundless Connect can start Plugin Manager')
+    openPluginManagerTest.addStep('Check that OpenGeo Explorer listed in Plugin Manager as well as plugins from QGIS repository',
+                                prestep=lambda: _openPluginManager(False), isVerifyStep=True)
+    openPluginManagerTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
 
-    return [boundlessRepoTest]
+    openPluginManagerBoundlessOnlyTest = Test('Verify that Boundless Connect can start Plugin Manager only with Boundless plugins')
+    openPluginManagerBoundlessOnlyTest.addStep('Check that Plugin manager is open and contains only Boundless plugins',
+                                prestep=lambda: _openPluginManager(True), isVerifyStep=True)
+    openPluginManagerBoundlessOnlyTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
+
+    return [openPluginManagerTest, openPluginManagerBoundlessOnlyTest]
 
 
 class BoundlessConnectTests(unittest.TestCase):
@@ -63,24 +69,21 @@ class BoundlessConnectTests(unittest.TestCase):
         global installedPlugins
         installedPlugins[:] = []
         for key in plugins.all():
-            if plugins.all()[key]['zip_repository'] == boundlessRepoName or \
+            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
                     'boundlessgeo' in plugins.all()[key]['code_repository'] and\
                     plugins.all()[key]['installed']:
                 installedPlugins.append(key)
 
     def testBoundlessRepoAdded(self):
         """Test that Boundless repository added to QGIS"""
-        settings = QSettings('Boundless', 'BoundlessConnect')
-        repoUrl = settings.value('repoUrl', '', unicode)
-
         settings = QSettings()
         settings.beginGroup(reposGroup)
-        self.assertTrue(boundlessRepoName in settings.childGroups())
+        self.assertTrue(boundlessRepo[0] in settings.childGroups())
         settings.endGroup()
 
-        settings.beginGroup(reposGroup + '/' + boundlessRepoName)
+        settings.beginGroup(reposGroup + '/' + boundlessRepo[0])
         url = settings.value('url', '', unicode)
-        self.assertEqual(url, repoUrl)
+        self.assertEqual(url, boundlessRepo[1])
         settings.endGroup()
 
     def testInstallFromZip(self):
@@ -90,6 +93,12 @@ class BoundlessConnectTests(unittest.TestCase):
         self.assertIsNone(result), 'Error installing plugin: {}'.format(result)
         self.assertTrue('connecttest' in active_plugins), 'Plugin not activated'
 
+    def testIsBoundlessCheck(self):
+        with open(os.path.join(testPath, 'data', "samplepluginsdict.json")) as f:    
+            pluginsDict = json.load(f)
+        count = len([key for key in pluginsDict if utils.isBoundlessPlugin(pluginsDict[key])])
+        self.assertEqual(8, count)
+
     def testInstallAll(self):
         """Test that Connect installs all Boundless plugins"""
         utils.installAllPlugins()
@@ -97,13 +106,14 @@ class BoundlessConnectTests(unittest.TestCase):
         total = 0
         installed = 0
         for key in plugins.all():
-            if plugins.all()[key]['zip_repository'] == boundlessRepoName or \
-                    'boundlessgeo' in plugins.all()[key]['code_repository']:
+            if utils.isBoundlessPlugin(plugins.all()[key]):
                 total += 1
                 if plugins.all()[key]['installed']:
                     installed += 1
 
         assert (total == installed), 'Number of installed Boundless plugins does not match number of available Boundless plugins'
+
+
 
     @classmethod
     def tearDownClass(cls):
@@ -114,7 +124,7 @@ class BoundlessConnectTests(unittest.TestCase):
 
         global installedPlugins
         for key in plugins.all():
-            if plugins.all()[key]['zip_repository'] == boundlessRepoName or \
+            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
                     'boundlessgeo' in plugins.all()[key]['code_repository'] and \
                     key not in installedPlugins:
                 installer.uninstallPlugin(key, quiet=True)
@@ -128,8 +138,8 @@ def unitTests():
     return _tests
 
 
-def _openPluginManager():
-    utils.showPluginManager()
+def _openPluginManager(boundlessOnly):
+    utils.showPluginManager(boundlessOnly)
 
 
 def _installAllPlugins():
