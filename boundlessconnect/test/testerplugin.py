@@ -97,23 +97,27 @@ class BoundlessConnectTests(unittest.TestCase):
         self.assertTrue('connecttest' in active_plugins), 'Plugin not activated'
 
     def testIsBoundlessCheck(self):
-        with open(os.path.join(testPath, 'data', "samplepluginsdict.json")) as f:
+        """Test that Connect detects Boundless plugins"""
+        with open(os.path.join(testPath, 'data', 'samplepluginsdict.json')) as f:
             pluginsDict = json.load(f)
         count = len([key for key in pluginsDict if utils.isBoundlessPlugin(pluginsDict[key])])
         self.assertEqual(8, count)
 
     def testCustomRepoUrl(self):
+        """Test that Connect read custom repository URL and apply it"""
         settings = QSettings('Boundless', 'BoundlessConnect')
         oldRepoUrl = settings.value('repoUrl', '', unicode)
-        settings.setValue("repoUrl", "test")
-        self.assertEqual("test", settings.value("repoUrl"))
-        fName = os.path.join(QgsApplication.qgisSettingsDirPath(), repoUrlFile)
-        with open(fName, "w") as f:
-            f.write("[general]\nrepoUrl=http://dummyurl.com")
-        utils.setRepositoryUrl()
-        self.assertTrue("http://dummyurl.com", settings.value('repoUrl', '', unicode))
-        settings.setValue("repoUrl", oldRepoUrl)
 
+        settings.setValue('repoUrl', 'test')
+        self.assertEqual('test', settings.value('repoUrl'))
+
+        fName = os.path.join(QgsApplication.qgisSettingsDirPath(), repoUrlFile)
+        with open(fName, 'w') as f:
+            f.write('[general]\nrepoUrl=http://dummyurl.com')
+        utils.setRepositoryUrl()
+
+        self.assertTrue('http://dummyurl.com', settings.value('repoUrl', '', unicode))
+        settings.setValue('repoUrl', oldRepoUrl)
 
     def testInstallAll(self):
         """Test that Connect installs all Boundless plugins"""
@@ -129,15 +133,14 @@ class BoundlessConnectTests(unittest.TestCase):
 
         assert (total == installed), 'Number of installed Boundless plugins does not match number of available Boundless plugins'
 
-
-
     @classmethod
     def tearDownClass(cls):
-        """Remove installed HelloWorld plugin"""
+        # Remove installed HelloWorld plugin
         installer = QgsPluginInstaller()
         if 'connecttest' in active_plugins:
             installer.uninstallPlugin('connecttest', quiet=True)
 
+        # Also remove other installed plugins
         global installedPlugins
         for key in plugins.all():
             if utils.isBoundlessPlugin(plugins.all()[key]) and key not in installedPlugins:
