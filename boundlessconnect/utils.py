@@ -64,7 +64,11 @@ def addBoundlessRepository():
     """Add Boundless plugin repository to list of the available
        plugin repositories if it is not presented here
     """
-    setRepositoryUrl()
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
+
+    if repoUrl == '':
+        setRepositoryUrl()
 
     if isRepositoryInDirectory():
         return
@@ -80,9 +84,9 @@ def addBoundlessRepository():
         if url == repoUrl:
             hasBoundlessRepository = True
     # Boundless repository not found, so we add it to the list
-    #if not hasBoundlessRepository:
-    settings.setValue(boundlessRepoName + '/url', repoUrl)
-    settings.setValue(boundlessRepoName + '/authcfg', '')
+    if not hasBoundlessRepository:
+        settings.setValue(boundlessRepoName + '/url', repoUrl)
+        settings.setValue(boundlessRepoName + '/authcfg', '')
     settings.endGroup()
 
 
