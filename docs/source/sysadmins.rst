@@ -27,9 +27,9 @@ On first run *Boundless Connect* looks for ``$HOME/.qgis2/repoUrl.txt`` file.
 If this file exists, plugin will read repository URL from it and use this URL
 as location of plugins repository. Otherwise standard Boundless Plugins
 Repository will be used. After reading repository URL file will be deleted.
-Creating new file after first launch of *Boundless Connect* will make no
-effect, it will ignore new file and continue to use already saved repository
-address.
+
+Creating new file after first launch of *Boundless Connect* will change current
+repository URL.
 
 The ``$HOME/.qgis2/repoUrl.txt`` file is an INI-like text file with single
 ``general`` section and only one key-value pair, for example
