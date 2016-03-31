@@ -80,9 +80,9 @@ def addBoundlessRepository():
         if url == repoUrl:
             hasBoundlessRepository = True
     # Boundless repository not found, so we add it to the list
-    if not hasBoundlessRepository:
-        settings.setValue(boundlessRepoName + '/url', repoUrl)
-        settings.setValue(boundlessRepoName + '/authcfg', '')
+    #if not hasBoundlessRepository:
+    settings.setValue(boundlessRepoName + '/url', repoUrl)
+    settings.setValue(boundlessRepoName + '/authcfg', '')
     settings.endGroup()
 
 
