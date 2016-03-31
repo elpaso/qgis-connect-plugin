@@ -30,12 +30,14 @@ import json
 
 from PyQt4.QtCore import QSettings
 
+from qgis.core import *
+
 from qgis.utils import active_plugins
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.installer_data import reposGroup, plugins
 
 from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
-from boundlessconnect.plugins import boundlessRepo
+from boundlessconnect.plugins import boundlessRepoName, repoUrlFile
 from boundlessconnect import utils
 
 testPath = os.path.dirname(__file__)
@@ -69,21 +71,22 @@ class BoundlessConnectTests(unittest.TestCase):
         global installedPlugins
         installedPlugins[:] = []
         for key in plugins.all():
-            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
-                    'boundlessgeo' in plugins.all()[key]['code_repository'] and\
-                    plugins.all()[key]['installed']:
+            if utils.isBoundlessPlugin(plugins.all()[key]) and plugins.all()[key]['installed']:
                 installedPlugins.append(key)
 
     def testBoundlessRepoAdded(self):
         """Test that Boundless repository added to QGIS"""
+        settings = QSettings('Boundless', 'BoundlessConnect')
+        repoUrl = settings.value('repoUrl', '', unicode)
+
         settings = QSettings()
         settings.beginGroup(reposGroup)
-        self.assertTrue(boundlessRepo[0] in settings.childGroups())
+        self.assertTrue(boundlessRepoName in settings.childGroups())
         settings.endGroup()
 
-        settings.beginGroup(reposGroup + '/' + boundlessRepo[0])
+        settings.beginGroup(reposGroup + '/' + boundlessRepoName)
         url = settings.value('url', '', unicode)
-        self.assertEqual(url, boundlessRepo[1])
+        self.assertEqual(url, repoUrl)
         settings.endGroup()
 
     def testInstallFromZip(self):
@@ -94,10 +97,23 @@ class BoundlessConnectTests(unittest.TestCase):
         self.assertTrue('connecttest' in active_plugins), 'Plugin not activated'
 
     def testIsBoundlessCheck(self):
-        with open(os.path.join(testPath, 'data', "samplepluginsdict.json")) as f:    
+        with open(os.path.join(testPath, 'data', "samplepluginsdict.json")) as f:
             pluginsDict = json.load(f)
         count = len([key for key in pluginsDict if utils.isBoundlessPlugin(pluginsDict[key])])
         self.assertEqual(8, count)
+
+    def testCustomRepoUrl(self):
+        settings = QSettings('Boundless', 'BoundlessConnect')
+        oldRepoUrl = settings.value('repoUrl', '', unicode)
+        settings.setValue("repoUrl", "test")
+        self.assertEqual("test", settings.value("repoUrl"))
+        fName = os.path.join(QgsApplication.qgisSettingsDirPath(), repoUrlFile)
+        with open(fName, "w") as f:
+            f.write("[general]\nrepoUrl=http://dummyurl.com")
+        utils.setRepositoryUrl()
+        self.assertTrue("http://dummyurl.com", settings.value('repoUrl', '', unicode))
+        settings.setValue("repoUrl", oldRepoUrl)
+
 
     def testInstallAll(self):
         """Test that Connect installs all Boundless plugins"""
@@ -124,9 +140,7 @@ class BoundlessConnectTests(unittest.TestCase):
 
         global installedPlugins
         for key in plugins.all():
-            if plugins.all()[key]['zip_repository'] == boundlessRepo[0] or \
-                    'boundlessgeo' in plugins.all()[key]['code_repository'] and \
-                    key not in installedPlugins:
+            if utils.isBoundlessPlugin(plugins.all()[key]) and key not in installedPlugins:
                 installer.uninstallPlugin(key, quiet=True)
 
 
