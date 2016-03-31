@@ -17,5 +17,5 @@ homepage=https://github.com/boundlessgeo/qgis-connect-plugin
 tracker=https://github.com/boundlessgeo/qgis-connect-plugin/issues
 repository=https://github.com/boundlessgeo/qgis-connect-plugin
 
-experimental=True
+experimental=False
 deprecated=False
