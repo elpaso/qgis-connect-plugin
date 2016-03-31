@@ -97,7 +97,7 @@ class LocalPlugins(QObject):
         settings = QSettings('Boundless', 'BoundlessConnect')
         repoUrl = settings.value('repoUrl', '', unicode)
 
-        repoPath = os.path.join(pluginPath, repoUrl)
+        repoPath = os.path.abspath(repoUrl)
         repoFile = os.path.join(repoPath, 'plugins.xml')
 
         repoXML = QDomDocument()
