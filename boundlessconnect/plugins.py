@@ -46,12 +46,13 @@ from pyplugin_installer.version_compare import (compareVersions,
 
 pluginPath = os.path.dirname(__file__)
 
-boundlessRepo = (QCoreApplication.translate('Boundless Connect',
-                                            'Boundless Plugin Repository'),
-                 'http://qgis.boundlessgeo.com/plugins.xml')
-                 #'plugin_repo')
+boundlessRepoName = QCoreApplication.translate('Boundless Connect',
+                                               'Boundless Plugin Repository')
+defaultRepoUrl = 'http://qgis.boundlessgeo.com/plugins.xml'
 
+repoUrlFile = 'repoUrl.txt'
 firstRunPluginsPath = 'first-run-plugins'
+
 
 oldPlugins = ['opengeo']
 
@@ -93,7 +94,10 @@ class LocalPlugins(QObject):
             del self.localCache[key]
 
     def load(self):
-        repoPath = os.path.join(pluginPath, boundlessRepo[1])
+        settings = QSettings('Boundless', 'BoundlessConnect')
+        repoUrl = settings.value('repoUrl', '', unicode)
+
+        repoPath = os.path.join(pluginPath, repoUrl)
         repoFile = os.path.join(repoPath, 'plugins.xml')
 
         repoXML = QDomDocument()
@@ -153,7 +157,7 @@ class LocalPlugins(QObject):
                     'error': '',
                     'error_details': '',
                     'version_installed': '',
-                    "zip_repository": boundlessRepo[0],
+                    "zip_repository": boundlessRepoName,
                     'library': '',
                     'readonly': False
                 }
@@ -168,7 +172,7 @@ class LocalPlugins(QObject):
                 if not pluginNodes.item(i).firstChildElement('disabled').text().strip().upper() in ['TRUE', 'YES']:
                     if isCompatible(QGis.QGIS_VERSION, qgisMinimumVersion, qgisMaximumVersion):
                         # Add the plugin to the cache
-                        repo = boundlessRepo[0]
+                        repo = boundlessRepoName
                         try:
                             self.repoCache[repo] += [plugin]
                         except:

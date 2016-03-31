@@ -18,23 +18,36 @@ Configuration
 -------------
 
 There is only one thing to configure now --- repository location. Plugin can
-work with standard Boundless Plugins Repository or install plugins from local
-folder (useful for customers with special requirements, when connection to
-external resources is not possible).
+work with standard Boundless Plugins Repository, use internal repository (e.g.
+in Docker container) or install plugins from local folder (useful for customers
+with special requirements, when connection to external resources is not
+possible).
 
-Repository location configured in the plugin code, in the ``plugins.py`` file.
-The ``boundlessRepo`` constant is a tuple containing repository name (will be
-shown in QGIS *Plugin Manager*) and repository location.
+On first run *Boundless Connect* looks for ``$HOME/.qgis2/repoUrl.txt`` file.
+If this file exists, plugin will read repository URL from it and use this URL
+as location of plugins repository. Otherwise standard Boundless Plugins
+Repository will be used. After reading repository URL file will be deleted.
+Creating new file after first launch of *Boundless Connect* will make no
+effect, it will ignore new file and continue to use already saved repository
+address.
 
-Repository location can be:
+The ``$HOME/.qgis2/repoUrl.txt`` file is an INI-like text file with single
+``general`` section and only one key-value pair, for example
+::
+
+  [general]
+  repoUrl=http://qgis.boundlessgeo.com/plugins/plugins.xml
+
+
+Repository location (value of the ``repoUrl`` key) can be:
 
 * repository URL. Plugin will add this URL to the list of available plugins
   repositories, so QGIS *Plugin Manager* can be used to access it. This is
   default.
-* path relative to the plugin directory. In such case this directory should
-  contain plugins packages as well as repository description file `plugins.xml`.
-  In this case nothing added to the QGIS settings, as QGIS *Plugin Manager* can
-  not handle directories yet.
+* absolute path to the plugins directory. In such case this directory should
+  contain plugins packages as well as repository description file
+  ``plugins.xml``. In this case nothing added to the QGIS settings, as QGIS
+  *Plugin Manager* can not handle directories yet.
 
 When QGIS starts and Boundless repository location is an URL, Connect plugin
 will add Boundless Plugins Repository to the *Plugin Manager*'s list of

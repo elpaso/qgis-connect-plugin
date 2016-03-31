@@ -50,7 +50,9 @@ from pyplugin_installer.installer_data import (reposGroup,
 from pyplugin_installer.version_compare import compareVersions
 from pyplugin_installer.unzip import unzip
 
-from boundlessconnect.plugins import (boundlessRepo,
+from boundlessconnect.plugins import (boundlessRepoName,
+                                      defaultRepoUrl,
+                                      repoUrlFile,
                                       firstRunPluginsPath,
                                       oldPlugins,
                                       localPlugins)
@@ -62,31 +64,39 @@ def addBoundlessRepository():
     """Add Boundless plugin repository to list of the available
        plugin repositories if it is not presented here
     """
+    setRepositoryUrl()
+
     if isRepositoryInDirectory():
         return
+
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
 
     settings = QSettings()
     settings.beginGroup(reposGroup)
     hasBoundlessRepository = False
     for repo in settings.childGroups():
         url = settings.value(repo + '/url', '', unicode)
-        if url == boundlessRepo[1]:
+        if url == repoUrl:
             hasBoundlessRepository = True
     # Boundless repository not found, so we add it to the list
     if not hasBoundlessRepository:
-        settings.setValue(boundlessRepo[0] + '/url', boundlessRepo[1])
-        settings.setValue(boundlessRepo[0] + '/authcfg', '')
+        settings.setValue(boundlessRepoName + '/url', repoUrl)
+        settings.setValue(boundlessRepoName + '/authcfg', '')
     settings.endGroup()
 
 
 def setRepositoryAuth(authConfigId):
     """Add auth to the repository
     """
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
+
     settings = QSettings()
     settings.beginGroup(reposGroup)
     for repo in settings.childGroups():
         url = settings.value(repo + '/url', '', unicode)
-        if url == boundlessRepo[1]:
+        if url == repoUrl:
             settings.setValue(repo + '/authcfg', authConfigId)
     settings.endGroup()
 
@@ -109,6 +119,9 @@ def showPluginManager(boundlessOnly):
 def initPluginManager(installer, boundlessOnly=False):
     """Prepare plugin manager content
     """
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
+
     # Load plugins from remote repositories and export repositories
     # to Plugin Manager
     installer.fetchAvailablePlugins(False)
@@ -117,10 +130,10 @@ def initPluginManager(installer, boundlessOnly=False):
     # If Boundless repository is a local directory, add plugins
     # from it to Plugin Manager
     if isRepositoryInDirectory():
-        repositoryData = {'url': boundlessRepo[1],
+        repositoryData = {'url': repoUrl,
                           'authcfg': ''
                          }
-        repositories.mRepositories.update({boundlessRepo[0]: repositoryData})
+        repositories.mRepositories.update({boundlessRepoName: repositoryData})
 
         localPlugins.getAllInstalled()
         localPlugins.load()
@@ -140,8 +153,11 @@ def initPluginManager(installer, boundlessOnly=False):
 def installAllPlugins():
     """Install all available plugins from Boundless plugins repository
     """
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
+
     if isRepositoryInDirectory():
-        pluginsDirectory = os.path.join(pluginPath, boundlessRepo[1])
+        pluginsDirectory = os.path.abspath(repoUrl)
         installAllFromDirectory(pluginsDirectory)
     else:
         installAllFromRepository()
@@ -254,13 +270,16 @@ def installFromZipFile(pluginPath):
 def isRepositoryInDirectory():
     """Return True if plugin repository is a plain directory
     """
-    return os.path.isdir(os.path.join(pluginPath, boundlessRepo[1]))
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    repoUrl = settings.value('repoUrl', '', unicode)
+
+    return os.path.isdir(os.path.abspath(repoUrl))
 
 
 def isBoundlessPlugin(plugin):
     """Return true if plugin is Boundless plugin
     """
-    if plugin['zip_repository'] == boundlessRepo[0] or \
+    if plugin['zip_repository'] == boundlessRepoName or \
             'boundless' in plugin['code_repository']:
         return True
     else:
@@ -315,3 +334,17 @@ def connectVersion():
     version = cfg.get('general', 'version').split('.')
     version = ''.join(version)
     return version
+
+
+def setRepositoryUrl():
+    fName = os.path.join(QgsApplication.qgisSettingsDirPath(), repoUrlFile)
+    if os.path.exists(fName):
+        cfg = ConfigParser.SafeConfigParser()
+        cfg.read(fName)
+        url = cfg.get('general', 'repoUrl')
+        os.remove(fName)
+    else:
+        url = defaultRepoUrl
+
+    settings = QSettings('Boundless', 'BoundlessConnect')
+    settings.setValue('repoUrl', url)

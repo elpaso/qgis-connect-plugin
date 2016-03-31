@@ -33,7 +33,7 @@ from PyQt4.QtCore import QSettings
 from pyplugin_installer.installer_data import reposGroup
 
 from boundlessconnect import utils
-from boundlessconnect.plugins import boundlessRepo
+from boundlessconnect.plugins import boundlessRepoName
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -47,7 +47,7 @@ class CredentialsPage(BASE, WIDGET):
 
         settings = QSettings()
         settings.beginGroup(reposGroup)
-        authCfg = settings.value(boundlessRepo[0] + '/authcfg', '', unicode)
+        authCfg = settings.value(boundlessRepoName + '/authcfg', '', unicode)
         settings.endGroup()
 
         self.mAuthSelector.setConfigId(authCfg)
