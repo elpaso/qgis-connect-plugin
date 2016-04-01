@@ -50,7 +50,7 @@ class BoundlessConnectPlugin:
         self.iface = iface
 
         try:
-            from boundlessconnect.test import testerplugin
+            from boundlessconnect.tests import testerplugin
             from qgistester.tests import addTestModule
             addTestModule(testerplugin, 'Boundless Connect')
         except:
