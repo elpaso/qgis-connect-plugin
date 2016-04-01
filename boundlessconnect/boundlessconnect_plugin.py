@@ -50,7 +50,7 @@ class BoundlessConnectPlugin:
         self.iface = iface
 
         try:
-            from test import testerplugin
+            from boundlessconnect.test import testerplugin
             from qgistester.tests import addTestModule
             addTestModule(testerplugin, 'Boundless Connect')
         except:
@@ -199,7 +199,7 @@ class BoundlessConnectPlugin:
             if installAll:
                 utils.installAllPlugins()
             else:
-                boundlessOnly = wzrd.mPagePlugins.rbManualInstallBoundless.isChecked()            
+                boundlessOnly = wzrd.mPagePlugins.rbManualInstallBoundless.isChecked()
                 utils.showPluginManager(boundlessOnly)
 
             utils.installFromStandardPath()
