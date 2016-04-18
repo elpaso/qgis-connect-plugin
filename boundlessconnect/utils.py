@@ -126,6 +126,9 @@ def initPluginManager(installer, boundlessOnly=False):
     settings = QSettings('Boundless', 'BoundlessConnect')
     repoUrl = settings.value('repoUrl', '', unicode)
 
+    if installer.statusLabel:
+        iface.mainWindow().statusBar().removeWidget(installer.statusLabel)
+
     # Load plugins from remote repositories and export repositories
     # to Plugin Manager
     installer.fetchAvailablePlugins(False)
@@ -152,6 +155,8 @@ def initPluginManager(installer, boundlessOnly=False):
 
     # Export all plugins to Plugin Manager
     installer.exportPluginsToManager()
+    if installer.statusLabel:
+        iface.mainWindow().statusBar().removeWidget(installer.statusLabel)
 
 
 def installAllPlugins():
