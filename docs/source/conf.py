@@ -178,6 +178,12 @@ html_theme_path = ['../themes']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'BoundlessConnectdoc'
 
+# Substitutions
+rst_epilog = """
+.. |BLQGIS| replace:: *QGIS for OpenGeo Suite*
+.. |current_plugin| replace:: *Boundless Connect QGIS Plugin*
+"""
+
 
 # -- Options for LaTeX output ---------------------------------------------
 
