@@ -282,7 +282,7 @@ def isRepositoryInDirectory():
     settings = QSettings('Boundless', 'BoundlessConnect')
     repoUrl = settings.value('repoUrl', '', unicode)
 
-    return os.path.isdir(os.path.abspath(repoUrl))
+    return repoUrl != '' and os.path.isdir(os.path.abspath(repoUrl))
 
 
 def isBoundlessPlugin(plugin):
