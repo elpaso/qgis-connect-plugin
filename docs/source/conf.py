@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Boundless Connect'
+project = u'Boundless Connect QGIS Plugin'
 copyright = u'2016, Boundless Spatial Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -180,8 +180,8 @@ htmlhelp_basename = 'BoundlessConnectdoc'
 
 # Substitutions
 rst_epilog = """
-.. |BLQGIS| replace:: *QGIS for OpenGeo Suite*
-.. |current_plugin| replace:: *Boundless Connect QGIS Plugin*
+.. |BLQGIS| replace:: *Boundless Desktop*
+.. |connect_plugin| replace:: *Boundless Connect QGIS Plugin*
 """
 
 

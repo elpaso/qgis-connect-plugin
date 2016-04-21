@@ -13,6 +13,7 @@ can be done with the following NSIS code
 
   WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\Plugins" "boundlessconnect" "true"
 
+.. _configuration:
 
 Configuration
 -------------
