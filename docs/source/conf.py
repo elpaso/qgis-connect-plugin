@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Boundless Connect'
+project = u'Boundless Connect QGIS Plugin'
 copyright = u'2016, Boundless Spatial Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -177,6 +177,12 @@ html_theme_path = ['../themes']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'BoundlessConnectdoc'
+
+# Substitutions
+rst_epilog = """
+.. |BLQGIS| replace:: *Boundless Desktop*
+.. |connect_plugin| replace:: *Boundless Connect QGIS Plugin*
+"""
 
 
 # -- Options for LaTeX output ---------------------------------------------

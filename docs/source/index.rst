@@ -3,18 +3,26 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Boundless Connect's documentation!
-=============================================
+Boundless Connect QGIS Plugin Documentation
+===========================================
 
-Contents:
+The main goal of |connect_plugin| is to help users setting up Boundless Plugin Repository and make it easier for them install plugins and their components. The current version provides:
+
+* First Run wizard for post-installation QGIS setup
+* Support for local directory-based plugins repository
+* Automated way of installing additional non-Boundless plugins
+* Ability to install QGIS plugins from local ZIP packages
+
+|connect_plugin| is the only "core" plugin shipped with |BLQGIS|, and will act as a single entry point to Boundless technology and content for QGIS (e.g. plugins, tutorials, profiles, styles, etc.).
+
+Documentation contents:
 
 .. toctree::
    :maxdepth: 2
 
-   intro
+   installation
    usage
    sysadmins
-
 
 
 Indices and tables
@@ -23,4 +31,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
