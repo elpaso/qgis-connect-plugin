@@ -36,7 +36,6 @@ from qgis.utils import active_plugins
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.installer_data import reposGroup, plugins
 
-from boundlessconnect.boundlessconnect_plugin import BoundlessConnectPlugin
 from boundlessconnect.plugins import boundlessRepoName, repoUrlFile
 from boundlessconnect import utils
 
@@ -49,7 +48,6 @@ def functionalTests():
         from qgistester.test import Test
     except:
         return []
-
 
     openPluginManagerTest = Test('Verify that Boundless Connect can start Plugin Manager')
     openPluginManagerTest.addStep('Check that OpenGeo Explorer listed in Plugin Manager as well as plugins from QGIS repository',

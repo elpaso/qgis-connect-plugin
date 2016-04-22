@@ -26,6 +26,7 @@ __revision__ = '$Format:%H$'
 
 import os
 import glob
+import shutils
 import zipfile
 import ConfigParser
 
@@ -227,6 +228,8 @@ def installFromStandardPath():
     dirName = os.path.join(QgsApplication.qgisSettingsDirPath(), firstRunPluginsPath)
     if os.path.isdir(dirName):
         installAllFromDirectory(dirName)
+
+    shutil.rmtree(dirName)
 
 
 def installFromZipFile(pluginPath):
