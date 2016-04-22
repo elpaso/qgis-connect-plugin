@@ -13,7 +13,7 @@ The main goal of |connect_plugin| is to help users setting up Boundless Plugin R
 * Automated way of installing additional non-Boundless plugins
 * Ability to install QGIS plugins from local ZIP packages
 
-|connect_plugin| is the only "core" plugin shipped with |BLQGIS|, and will acts as a single entry point to Boundless technology and content for QGIS (e.g. plugins, tutorials, profiles, styles, etc.).
+|connect_plugin| is the only "core" plugin shipped with |BLQGIS|, and will act as a single entry point to Boundless technology and content for QGIS (e.g. plugins, tutorials, profiles, styles, etc.).
 
 Documentation contents:
 
