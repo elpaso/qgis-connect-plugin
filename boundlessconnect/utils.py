@@ -26,7 +26,7 @@ __revision__ = '$Format:%H$'
 
 import os
 import glob
-import shutils
+import shutil
 import zipfile
 import ConfigParser
 
