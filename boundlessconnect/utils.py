@@ -237,8 +237,7 @@ def installFromStandardPath():
     dirName = os.path.join(QgsApplication.qgisSettingsDirPath(), firstRunPluginsPath)
     if os.path.isdir(dirName):
         installAllFromDirectory(dirName)
-
-    shutil.rmtree(dirName)
+        shutil.rmtree(dirName)
 
 
 def installFromZipFile(pluginPath):
