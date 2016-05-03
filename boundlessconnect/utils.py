@@ -276,13 +276,30 @@ def installFromZipFile(pluginPath):
         plugins.getAllInstalled(testLoad=True)
         plugins.rebuild()
 
+        plugin = plugins.all()[pluginName]
+        previousStatus = plugin['status']
+
         settings = QSettings()
-        # Reload plugin if it was already activated, start otherwise
-        if settings.value('/PythonPlugins/' + pluginName, False, bool):
-            reloadPlugin(pluginName)
-        else:
+
+        if previousStatus in ["not installed", "new"]:
             if startPlugin(pluginName):
                 settings.setValue('/PythonPlugins/' + pluginName, True)
+        else:
+            # Reload plugin if it was already activated, start otherwise
+            if settings.value('/PythonPlugins/' + pluginName, False, bool):
+                reloadPlugin(pluginName)
+            else:
+                unloadPlugin(pluginName)
+                loadPlugin(pluginName)
+
+
+        #~ settings = QSettings()
+        #~ # Reload plugin if it was already activated, start otherwise
+        #~ if settings.value('/PythonPlugins/' + pluginName, False, bool):
+            #~ reloadPlugin(pluginName)
+        #~ else:
+            #~ if startPlugin(pluginName):
+                #~ settings.setValue('/PythonPlugins/' + pluginName, True)
 
     return result
 
