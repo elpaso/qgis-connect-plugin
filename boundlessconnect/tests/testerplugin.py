@@ -25,12 +25,13 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
-import unittest
 import json
+import unittest
+import ConfigParser
 
 from PyQt4.QtCore import QSettings
 
-from qgis.core import *
+from qgis.core import QgsApplication
 
 from qgis.utils import active_plugins
 from pyplugin_installer.installer import QgsPluginInstaller
@@ -59,7 +60,15 @@ def functionalTests():
                                 prestep=lambda: _openPluginManager(True), isVerifyStep=True)
     openPluginManagerBoundlessOnlyTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
 
-    return [openPluginManagerTest, openPluginManagerBoundlessOnlyTest]
+    coreConnectUpdateTest = Test('Test updating core Connect plugin via Plugin Manager')
+    coreConnectUpdateTest.addStep('Downgrade installed Connect plugin', _downgradePlugin('boundlessconnect'))
+    coreConnectUpdateTest.addStep('Check that Connect plugin is upgradable',
+                                  prestep=lambda: _openPluginManager(True), isVerifyStep=True)
+    coreConnectUpdateTest.addStep('Upgrade Connect plugin')
+    coreConnectUpdateTest.addStep('Check that Connect plugin updated, loaded from user folder and has latest version', isVerifyStep=True)
+    coreConnectUpdateTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-602")
+
+    return [openPluginManagerTest, openPluginManagerBoundlessOnlyTest, coreConnectUpdateTest]
 
 
 class BoundlessConnectTests(unittest.TestCase):
@@ -159,3 +168,16 @@ def _openPluginManager(boundlessOnly):
 
 def _installAllPlugins():
     utils.installAllPlugins()
+
+
+def _downgradePlugin(pluginName, corePlugin=True):
+    if corePlugin:
+        metadataPath = os.path.join(QgsApplication.pkgDataPath(), 'python', 'plugins', pluginName, 'metadata.txt')
+    else:
+        metadataPath = os.path.join(QgsApplication.qgisSettingsDirPath()(), 'python', 'plugins', pluginName, 'metadata.txt')
+
+    cfg = ConfigParser.SafeConfigParser()
+    cfg.read(metadataPath)
+    cfg.set('general', 'version', '0.0.1')
+    with open(metadataPath, 'wb') as f:
+        cfg.write(f)
