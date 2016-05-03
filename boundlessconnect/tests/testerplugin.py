@@ -42,6 +42,7 @@ from boundlessconnect import utils
 
 testPath = os.path.dirname(__file__)
 
+originalVersion = None
 installedPlugins = []
 
 def functionalTests():
@@ -61,12 +62,13 @@ def functionalTests():
     openPluginManagerBoundlessOnlyTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-325")
 
     coreConnectUpdateTest = Test('Test updating core Connect plugin via Plugin Manager')
-    coreConnectUpdateTest.addStep('Downgrade installed Connect plugin', _downgradePlugin('boundlessconnect'))
+    coreConnectUpdateTest.addStep('Downgrade installed Connect plugin', lambda: _downgradePlugin('boundlessconnect'))
     coreConnectUpdateTest.addStep('Check that Connect plugin is upgradable',
                                   prestep=lambda: _openPluginManager(True), isVerifyStep=True)
     coreConnectUpdateTest.addStep('Upgrade Connect plugin')
     coreConnectUpdateTest.addStep('Check that Connect plugin updated, loaded from user folder and has latest version', isVerifyStep=True)
     coreConnectUpdateTest.setIssueUrl("https://issues.boundlessgeo.com:8443/browse/QGIS-602")
+    coreConnectUpdateTest.setCleanup(lambda: _restoreVersion('boundlessconnect'))
 
     return [openPluginManagerTest, openPluginManagerBoundlessOnlyTest, coreConnectUpdateTest]
 
@@ -178,6 +180,24 @@ def _downgradePlugin(pluginName, corePlugin=True):
 
     cfg = ConfigParser.SafeConfigParser()
     cfg.read(metadataPath)
+    global originalVersion
+    originalVersion = cfg.get('general', 'version')
     cfg.set('general', 'version', '0.0.1')
     with open(metadataPath, 'wb') as f:
         cfg.write(f)
+
+
+def _restoreVersion(pluginName, corePlugin=True):
+    if corePlugin:
+        metadataPath = os.path.join(QgsApplication.pkgDataPath(), 'python', 'plugins', pluginName, 'metadata.txt')
+    else:
+        metadataPath = os.path.join(QgsApplication.qgisSettingsDirPath()(), 'python', 'plugins', pluginName, 'metadata.txt')
+
+    cfg = ConfigParser.SafeConfigParser()
+    cfg.read(metadataPath)
+    global originalVersion
+    cfg.set('general', 'version', originalVersion)
+    with open(metadataPath, 'wb') as f:
+        cfg.write(f)
+
+    originalVersion = None
