@@ -34,10 +34,14 @@ from PyQt4.QtCore import (QCoreApplication,
 from PyQt4.QtGui import (QMessageBox,
                          QAction,
                          QIcon,
-                         QFileDialog)
+                         QFileDialog,
+                         QPushButton)
 
 from qgis.core import QGis
-from qgis.gui import QgsMessageBar
+from qgis.gui import QgsMessageBar, QgsMessageBarItem
+
+from pyplugin_installer.installer_data import (repositories,
+                                               plugins)
 
 from boundlessconnect.gui.firstrunwizard import FirstRunWizard
 from boundlessconnect import utils
@@ -140,31 +144,20 @@ class BoundlessConnectPlugin:
                 self.tr('Boundless Connect'), self.actionPluginManager)
 
     def startFirstRunWizard(self):
-        # check if plugins up-to-date
         settings = QSettings('Boundless', 'BoundlessConnect')
         version = utils.connectVersion()
         firstRun = settings.value('firstRun' + version, True, bool)
         settings.setValue('firstRun' + version, False)
 
         if not firstRun:
+            # check repositories in background
+            repositories.load()
+            repositories.checkingDone.connect(self.checkingDone)
+            for key in repositories.allEnabled():
+                repositories.requestFetching(key)
             return
 
-        updateNeeded, allInstalled = utils.checkPluginsStatus()
-
-        if allInstalled and not updateNeeded:
-            self._showMessage(self.tr('You are up to date with Boundless plugins'))
-        elif allInstalled and updateNeeded:
-            reply = QMessageBox.question(self.iface.mainWindow(),
-                                         self.tr('Update plugins?'),
-                                         self.tr('Some of your plugins need '
-                                                 'to be updated. Update them '
-                                                 'automatically now?'),
-                                        QMessageBox.Yes | QMessageBox.No,
-                                        QMessageBox.Yes)
-            if reply == QMessageBox.Yes:
-                utils.installAllPlugins()
-        else:
-            self.runWizardAndProcessResults()
+        self.runWizardAndProcessResults()
 
     def installPlugin(self):
         settings = QSettings('Boundless', 'BoundlessConnect')
@@ -207,6 +200,29 @@ class BoundlessConnectPlugin:
             self._showMessage(
                 self.tr('Boundless Connect is done configuring your QGIS.'),
                 QgsMessageBar.SUCCESS)
+
+    def checkingDone(self):
+        updateNeeded, allInstalled = utils.checkPluginsStatus()
+
+        if allInstalled and not updateNeeded:
+            self._showMessage(self.tr('You are up to date with Boundless plugins'))
+        elif allInstalled and updateNeeded:
+            self.btnUpdateAll = QPushButton(self.tr('Update'))
+            self.btnUpdateAll.clicked.connect(utils.installAllPlugins)
+            self.btnUpdateAll.clicked.connect(self.iface.messageBar().popWidget)
+
+            updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
+                                          self.tr('Some of your plugins need '
+                                                  'to be updated. Update them '
+                                                  'automatically now?'),
+                                          self.btnUpdateAll,
+                                          QgsMessageBar.INFO,
+                                          0,
+                                          self.iface.messageBar()
+                                          )
+            self.iface.messageBar().pushItem(updateMsg)
+        elif not allInstalled and updateNeeded:
+            self._showMessage(self.tr('Some of your Boundless plugins need to be updated'))
 
     def _showMessage(self, message, level=QgsMessageBar.INFO):
         self.iface.messageBar().pushMessage(

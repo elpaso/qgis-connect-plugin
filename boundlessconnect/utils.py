@@ -330,16 +330,17 @@ def deprecatedPlugins():
 
 
 def checkPluginsStatus():
+    """Check if all Boundless plugins are installed and up-to-date
     """
-    """
-    installer = QgsPluginInstaller()
-    initPluginManager(installer)
+    plugins.rebuild()
+    plugins.markNews()
 
     availablePlugins = []
     installedPlugins = []
     updateNeeded = False
     for plugin in plugins.all():
         if isBoundlessPlugin(plugins.all()[plugin]):
+            print 'found', plugin
             if plugins.all()[plugin]['installed']:
                 if compareVersions(plugins.all()[plugin]["version_available"],
                                    plugins.all()[plugin]["version_installed"]) == 1:
@@ -355,6 +356,7 @@ def checkPluginsStatus():
 
 
 def connectVersion():
+    """Returns Connect plugin version"""
     cfg = ConfigParser.SafeConfigParser()
     cfg.read(os.path.join(pluginPath, 'metadata.txt'))
     version = cfg.get('general', 'version').split('.')
@@ -363,6 +365,7 @@ def connectVersion():
 
 
 def setRepositoryUrl():
+    """Adds Boundless repository URL to Connect settings"""
     fName = os.path.join(QgsApplication.qgisSettingsDirPath(), repoUrlFile)
     if os.path.exists(fName):
         cfg = ConfigParser.SafeConfigParser()
