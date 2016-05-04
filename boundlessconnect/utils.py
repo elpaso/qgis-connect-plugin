@@ -276,11 +276,7 @@ def installFromZipFile(pluginPath):
         loadPlugin(pluginName)
         plugins.getAllInstalled(testLoad=True)
         plugins.rebuild()
-
         plugin = plugins.all()[pluginName]
-        print 'PLUGIN', plugin
-        #~ previousStatus = plugin['status']
-        #~ print 'STATUS', previousStatus
 
         settings = QSettings()
         if settings.contains('/PythonPlugins/' + pluginName):
