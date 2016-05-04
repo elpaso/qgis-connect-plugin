@@ -39,6 +39,7 @@ from qgis.utils import (iface,
                         loadPlugin,
                         startPlugin,
                         reloadPlugin,
+                        unloadPlugin,
                         updateAvailablePlugins,
                         home_plugin_path)
 
@@ -277,29 +278,21 @@ def installFromZipFile(pluginPath):
         plugins.rebuild()
 
         plugin = plugins.all()[pluginName]
-        previousStatus = plugin['status']
+        print 'PLUGIN', plugin
+        #~ previousStatus = plugin['status']
+        #~ print 'STATUS', previousStatus
 
         settings = QSettings()
-
-        if previousStatus in ["not installed", "new"]:
-            if startPlugin(pluginName):
-                settings.setValue('/PythonPlugins/' + pluginName, True)
-        else:
-            # Reload plugin if it was already activated, start otherwise
+        if settings.contains('/PythonPlugins/' + pluginName):
             if settings.value('/PythonPlugins/' + pluginName, False, bool):
+                startPlugin(pluginName)
                 reloadPlugin(pluginName)
             else:
                 unloadPlugin(pluginName)
                 loadPlugin(pluginName)
-
-
-        #~ settings = QSettings()
-        #~ # Reload plugin if it was already activated, start otherwise
-        #~ if settings.value('/PythonPlugins/' + pluginName, False, bool):
-            #~ reloadPlugin(pluginName)
-        #~ else:
-            #~ if startPlugin(pluginName):
-                #~ settings.setValue('/PythonPlugins/' + pluginName, True)
+        else:
+            if startPlugin(pluginName):
+                settings.setValue('/PythonPlugins/' + pluginName, True)
 
     return result
 
