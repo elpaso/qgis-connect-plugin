@@ -33,9 +33,9 @@ from PyQt4.QtCore import QSettings
 
 from qgis.core import QgsApplication
 
-from qgis.utils import active_plugins
+from qgis.utils import active_plugins, home_plugin_path, unloadPlugin
 from pyplugin_installer.installer import QgsPluginInstaller
-from pyplugin_installer.installer_data import reposGroup, plugins
+from pyplugin_installer.installer_data import reposGroup, plugins, removeDir
 
 from boundlessconnect.plugins import boundlessRepoName, repoUrlFile
 from boundlessconnect import utils
@@ -104,6 +104,13 @@ class BoundlessConnectTests(unittest.TestCase):
         result = utils.installFromZipFile(pluginPath)
         self.assertIsNone(result), 'Error installing plugin: {}'.format(result)
         self.assertTrue('connecttest' in active_plugins), 'Plugin not activated'
+
+        unloadPlugin('connecttest')
+        result = removeDir(os.path.join(home_plugin_path, 'connecttest'))
+        self.assertFalse(result), 'Plugin directory not removed'
+        result = utils.installFromZipFile(pluginPath)
+        self.assertIsNone(result), 'Error installing plugin: {}'.format(result)
+        self.assertTrue('connecttest' in active_plugins), 'Plugin not activated after reinstallation'
 
     def testIsBoundlessCheck(self):
         """Test that Connect detects Boundless plugins"""
