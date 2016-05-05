@@ -24,8 +24,7 @@ The ``$HOME/.qgis2/repoUrl.txt`` file is an INI-like text file with single ``gen
 The value of the ``repoUrl`` key with repository location can be:
 
 * A **Repository URL**. The plugin will add this URL to the list of available plugins repositories and QGIS *Plugin Manager* can be used to access it. This is the default.
-* An **absolute path to the plugins directory**. In this case, the directory should contain plugins packages as well as repository description file ``plugins.xml``. With this option, nothing is added to the QGIS settings, as QGIS
-  *Plugin Manager* can not handle directories yet.
+* An **absolute path to the plugins directory**. In this case, the directory should contain plugins packages as well as repository description file ``plugins.xml``. With this option, nothing is added to the QGIS settings, as QGIS *Plugin Manager* can not handle directories yet.
 
 .. TODO:: Make an example of an XML
 
@@ -34,6 +33,6 @@ The value of the ``repoUrl`` key with repository location can be:
 Installing additional plugins by default
 ----------------------------------------
 
-If the system administrator wants to automatically install a bundle of additional plugins during the post-installation step, he can create a directory `.qgis2/first-run-plugins` under the user folder and put all the desired plugins ZIP packages in it.
+If the system administrator wants to automatically install a bundle of additional plugins during the post-installation step, he can create a directory ``$HOME/.qgis2/first-run-plugins`` under the user folder and put all the desired plugins ZIP packages in it.
 
-The *First Run wizard* tool from |connect_plugin| will check if the directory exists and will install all the ZIP packages from it. Notice that the packages will be removed after hte installation.
+The *First Run wizard* tool from |connect_plugin| will check if the directory exists and will install all the ZIP packages from it. Notice that the packages will be removed after the installation.
