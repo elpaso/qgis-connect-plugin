@@ -340,7 +340,6 @@ def checkPluginsStatus():
     updateNeeded = False
     for plugin in plugins.all():
         if isBoundlessPlugin(plugins.all()[plugin]):
-            print 'found', plugin
             if plugins.all()[plugin]['installed']:
                 if compareVersions(plugins.all()[plugin]["version_available"],
                                    plugins.all()[plugin]["version_installed"]) == 1:
