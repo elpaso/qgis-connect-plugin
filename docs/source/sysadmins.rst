@@ -36,3 +36,67 @@ Installing additional plugins by default
 If the system administrator wants to automatically install a bundle of additional plugins during the post-installation step, he can create a directory ``$HOME/.qgis2/first-run-plugins`` under the user folder and put all the desired plugins ZIP packages in it.
 
 The *First Run wizard* tool from |connect_plugin| will check if the directory exists and will install all the ZIP packages from it. Notice that the packages will be removed after the installation.
+
+Setting up repository in Docker container
+-----------------------------------------
+
+It is possible to create Docker-based plugin repository using our orchestrated
+setup from `qgis-plugin-repos <https://github.com/boundlessgeo/qgis-plugin-repos>`_
+repository.
+
+To use our scripts you will need docker >= 1.10 and docker-compose >= 1.6.
+
+First you need to clone repository
+
+::
+
+  git clone --recursive git@github.com:boundlessgeo/qgis-plugin-repos.git
+  cd qgis-plugin-repos/docker-plugins-xml
+
+Edit `docker-compose.env` file specifying your own user name and passford for
+SSH service and plugin repository domain. Then source this file using command
+
+::
+
+  source docker-compose.env
+
+and finally build Docker images
+
+::
+
+  docker-compose build
+
+To start containers use following command
+
+::
+
+  docker-compose up  -d
+
+More details available in `README <https://github.com/boundlessgeo/qgis-plugin-repos/blob/master/docker-plugins-xml/README.md>`_
+file inside GitHub repository.
+
+*NOTE*: our scripts are just sample and should not be used in production. Before
+deploying this repository in production it is necessary to perform additional
+configuration, namely improve security.
+
+Uploading plugins to repository
+...............................
+
+To add new plugin to the repository follow these steps:
+
+# copy plugin's package to server
+
+  ::
+
+    scp plugin.zip repository.domain:/opt/repo-updater/uploads/
+
+# run remote updater script on uploaded archive
+
+  ::
+
+    ssh repository.domain "/opt/repo-updater/plugins-xml/plugins-xml.sh update plugin.zip"
+
+Run `plugins-xml.sh --help` to get infomation about script usage and subcommands.
+
+More details in `README <https://github.com/boundlessgeo/qgis-plugins-xml/blob/master/README.md>`_
+file inside GitHub repository.
