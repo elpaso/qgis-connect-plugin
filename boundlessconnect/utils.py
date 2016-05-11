@@ -32,7 +32,8 @@ import ConfigParser
 
 from PyQt4.QtCore import (QSettings,
                           QDir,
-                          QFile)
+                          QFile,
+                          QCoreApplication)
 
 from qgis.core import QgsApplication
 from qgis.utils import (iface,
@@ -376,3 +377,21 @@ def setRepositoryUrl():
 
     settings = QSettings('Boundless', 'BoundlessConnect')
     settings.setValue('repoUrl', url)
+
+
+def upgradeConnect():
+    print 'UPDATE CONNECT?'
+    plugin = plugins.all()['boundlessconnect']
+    print plugin
+    if plugin['status'] == 'upgradeable':
+        dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugin)
+        dlg.exec_()
+        if dlg.result():
+            return QCoreApplication.translate('BoundlessConnect',
+                'Failed to update Connect plugin\n{}'.format(dlg.result()))
+
+        return QCoreApplication.translate('BoundlessConnect',
+            'Boundless Connect was updated. You need to restart QGIS in order to reload it.')
+
+    print 'NO UPDATE NEEDED'
+    return ''

@@ -203,6 +203,12 @@ class BoundlessConnectPlugin:
 
     def checkingDone(self):
         updateNeeded, allInstalled = utils.checkPluginsStatus()
+        print 'STATUS CHECKED'
+
+        res = utils.upgradeConnect()
+        if res != '':
+            self._showMessage(res)
+            return
 
         if allInstalled and not updateNeeded:
             self._showMessage(self.tr('You are up to date with Boundless plugins'))
