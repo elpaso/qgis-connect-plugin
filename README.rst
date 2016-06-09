@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/boundlessgeo/qgis-connect-plugin.svg?branch=master
+    :target: https://travis-ci.org/boundlessgeo/qgis-connect-plugin
+
 Boundless Connect
 =================
 The Boundless Connect Plugin for QGIS allows user to access Boundless services and plugins.
