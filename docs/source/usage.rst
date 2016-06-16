@@ -75,6 +75,10 @@ In the next dialog, the user has three options:
 
    Deprecated Boundless plugins will not be installed automatically. But, if you already have such plugins installed and there are new versions available, they will be updated.
 
+.. note::
+
+   If :guilabel:`Open Plugin Manager (Boundless plugins only)` option is selected |connect_plugin| will open *Plugin Manager* with *Not Installed* tab activated by default. At this tab you will see only Boundless plugins available from the *Boundless QGIS Plugin Repository*. At the same time at the *Installed* tab you will see all core C++ plugins as well as all Python plugins (Boundless and 3rd paty) installed in your QGIS.
+
 After this, if previously configured by the system administrator, |connect_plugin| will install additional plugins (see :ref:`add-additional-plugins` section for more details about it).
 
 .. _updating-plugins:
@@ -105,7 +109,7 @@ Using |connect_plugin|, plugin installation can be performed in several differen
 From a remote plugin repository
 ...............................
 
-This is the most common way to install plugins, whether from QGIS Official Plugins Repository, Boundless QGIS Plugins Repository or any other remote repository that you may have configured, using the *Plugin manager* directly or through the *First Run wizard* tool.
+This is the most common way to install plugins, whether from QGIS Official Plugins Repository, Boundless QGIS Plugins Repository or any other remote repository that you may have configured, using the *Plugin Manager* directly or through the *First Run wizard* tool.
 
 .. note::
 
@@ -116,7 +120,7 @@ This is the most common way to install plugins, whether from QGIS Official Plugi
 From a local repository
 .......................
 
-Using |connect_plugin| it's possible to use a local path or network path as a repository (see :ref:`configure-repository-location` section for details on how to set a local repository). If any repository was set that way, the |connect_plugin| will add an additional menu item in :menuselection:`Plugins --> Boundless Connect` named :guilabel:`Manage plugins (local folder)`. This tool should be used when the user wants to install plugins from a local (directory-based) repository. The usage is similar to the *plugin manager*
+Using |connect_plugin| it's possible to use a local path or network path as a repository (see :ref:`configure-repository-location` section for details on how to set a local repository). If any repository was set that way, the |connect_plugin| will add an additional menu item in :menuselection:`Plugins --> Boundless Connect` named :guilabel:`Manage plugins (local folder)`. This tool should be used when the user wants to install plugins from a local (directory-based) repository. The usage is similar to the *Plugin Manager*
 
 To active, deactivate or uninstall plugins from a local repository, either the *Plugin Manager* or the *Manage plugins (local folder)* tool can be used.
 
