@@ -3,7 +3,7 @@ Usage
 
 When QGIS is started for the first time with the |connect_plugin| (it's activated by default in |BLQGIS|) it checks if there are Boundless plugins installed or not. Then, depending on the result of this check, one of the following scenarios will be activated:
 
-* If no **Boundless plugins are found or only some of them are installed**, |connect_plugin| will start *First Run wizard* to help the user setting up *Boundless QGIS Plugins Repository* and install additional plugins. See :ref:`first-run-wizard` section for more details.
+* If no **Boundless plugins are found or only some of them are installed**, |connect_plugin| will show information message sauing that some plugins should be updated. To update them you can start *First Run wizard* (see :ref:`first-run-wizard` section for more details) or use *Plugin Manager*.
 * If **all Boundless plugins are found, but some of them are outdated**, the |connect_plugin| will propose to update the plugins automatically. See :ref:`updating-plugins` section for more details.
 * If **all Boundless plugins are found and they are the latest version**, the user will be notified that no additional actions are required.
 
