@@ -203,7 +203,6 @@ class BoundlessConnectPlugin:
 
     def checkingDone(self):
         updateNeeded, allInstalled = utils.checkPluginsStatus()
-        print 'STATUS CHECKED'
 
         res = utils.upgradeConnect()
         if res != '':

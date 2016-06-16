@@ -380,9 +380,7 @@ def setRepositoryUrl():
 
 
 def upgradeConnect():
-    print 'UPDATE CONNECT?'
     plugin = plugins.all()['boundlessconnect']
-    print plugin
     if plugin['status'] == 'upgradeable':
         dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugin)
         dlg.exec_()
@@ -393,5 +391,4 @@ def upgradeConnect():
         return QCoreApplication.translate('BoundlessConnect',
             'Boundless Connect was updated. You need to restart QGIS in order to reload it.')
 
-    print 'NO UPDATE NEEDED'
     return ''
