@@ -9,6 +9,8 @@ When QGIS is started for the first time with the |connect_plugin| (it's activate
 
 After any of the scenarios above, the user can always review and manage installed plugins either by using the *Plugin manager* or by re-running the *First Run Wizard* tool. Please see :ref:`managing-plugins` for details.
 
+Also at this stage |connect_plugin| can update itself if it found newer version in the *Boundless QGIS Plugins Repository*. After self-update you will need to restart |BLQGIS| to reload |connect_plugin|.
+
 .. _first-run-wizard:
 
 First Run wizard
@@ -16,7 +18,7 @@ First Run wizard
 
 The aim of the *First Run wizard* is to help the user to setup the `Boundless QGIS Plugin Repository <http://qgis.boundlessgeo.com>`_ and install additional plugins, both Boundless and 3rd party ones (depending on what have been configured by the system administrator).
 
-The wizard will run automatically when QGIS is started for the first time with the |connect_plugin| activated or whenever this plugin is updated. 
+The wizard will run automatically when QGIS is started for the first time with the |connect_plugin| activated or whenever this plugin is updated.
 
 If at the time, you don't want to go through the wizard, you can safely close it. While
 the wizard starts automatically only once, you can open it at any time from the :menuselection:`Plugins --> Boundless Connect --> First Run wizard` menu item.
@@ -25,7 +27,7 @@ The first wizard's dialog contains general information about it and what it will
 
 .. figure:: img/welcome-page.png
    :align: center
-   
+
    First Run Wizard welcome dialog
 
 Please read the information on this dialog and press :guilabel:`Next` button to go to the next step.
@@ -40,10 +42,10 @@ If your organization works with the remote *Boundless QGIS Plugin Repository*, t
 
    Boundless credentials dialog
 
-.. note:: 
+.. note::
 
    If you haven't done this before, QGIS will ask you to set a master password. This password will be used to store all your credentials inside QGIS, e.g., username and password  for connecting spatial databases. Choose the password wiselly and make sure you memorize it, as **the password is not retrivable**. Press :guilabel:`Save` to go to the next dialog.
-   
+
    .. figure:: img/add-master-password.png
       :align: center
 
@@ -66,7 +68,7 @@ In the next dialog, the user has three options:
 
 .. figure:: img/plugins-page.png
    :align: center
-   
+
    Plugin installation dialog
 
 .. note::
@@ -84,7 +86,7 @@ If during the first run of |connect_plugin| (or after its update) is found that 
 
 .. figure:: img/ask-update.png
    :align: center
-   
+
    First Run wizard suggesting to automatically update all plugins.
 
 If you press the :guilabel:`Yes` button, all installed Boundless plugins will be updated automatically. If instead you chose to press the :guilabel:`No` button, pressed nothing else will happen. Notice that you can always update the plugins manually using the *Plugin Manager* (see :ref:'managing-plugins' for more details).
@@ -106,7 +108,7 @@ From a remote plugin repository
 This is the most common way to install plugins, whether from QGIS Official Plugins Repository, Boundless QGIS Plugins Repository or any other remote repository that you may have configured, using the *Plugin manager* directly or through the *First Run wizard* tool.
 
 .. note::
-   
+
    If your organization works with the remote *Boundless QGIS Plugin Repository* it will be necessary to provide credentials to fully access the repository. This can be done using the :ref:`first-run-wizard` as described above or setting them manually using the QGIS *Plugin Manager* settings.
 
 .. _from-local-repository:
@@ -119,7 +121,7 @@ Using |connect_plugin| it's possible to use a local path or network path as a re
 To active, deactivate or uninstall plugins from a local repository, either the *Plugin Manager* or the *Manage plugins (local folder)* tool can be used.
 
 .. Note::
-   
+
    Since the QGIS *Plugin Manager* does not support directory-based repositories yet, when you uninstall a plugin, previously installed from Boundless local directory-based repository, the following warning will be shown.
 
    .. figure:: img/plugin-uninstall.png
