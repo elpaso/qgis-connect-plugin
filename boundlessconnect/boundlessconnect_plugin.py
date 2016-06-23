@@ -57,7 +57,7 @@ class BoundlessConnectPlugin:
             from boundlessconnect.tests import testerplugin
             from qgistester.tests import addTestModule
             addTestModule(testerplugin, 'Boundless Connect')
-        except:
+        except Exception as e:
             pass
 
         self.qgsVersion = unicode(QGis.QGIS_VERSION_INT)
@@ -142,6 +142,13 @@ class BoundlessConnectPlugin:
         if utils.isRepositoryInDirectory():
             self.iface.removePluginMenu(
                 self.tr('Boundless Connect'), self.actionPluginManager)
+
+        try:
+            from boundlessconnect.tests import testerplugin
+            from qgistester.tests import removeTestModule
+            removeTestModule(testerplugin, 'Boundless Connect')
+        except Exception as e:
+            pass
 
     def startFirstRunWizard(self):
         settings = QSettings('Boundless', 'BoundlessConnect')
