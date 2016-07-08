@@ -105,8 +105,15 @@ class BoundlessConnectPlugin:
             self.tr('Install plugin from ZIP file stored on disk'))
         self.actionPluginFromZip.setObjectName('actionPluginFromZip')
 
-        self.iface.addPluginToMenu(
-            self.tr('Boundless Connect'), self.actionRunWizard)
+        actions = self.iface.mainWindow().menuBar().actions()
+        for action in actions:
+            if action.menu().objectName() == 'mPluginMenu':
+                menuPlugin = action.menu()
+                separator = menuPlugin.actions()[1]
+                menuPlugin.insertAction(separator, self.actionRunWizard)
+
+        #self.iface.addPluginToMenu(
+        #    self.tr('Boundless Connect'), self.actionRunWizard)
         self.iface.addPluginToMenu(
             self.tr('Boundless Connect'), self.actionPluginFromZip)
 
@@ -114,7 +121,7 @@ class BoundlessConnectPlugin:
         self.actionPluginFromZip.triggered.connect(self.installPlugin)
 
         # If Boundless repository is a directory, add menu entry
-        # to start modified Plugin Manager which works with local repositorys
+        # to start modified Plugin Manager which works with local repositories
         if utils.isRepositoryInDirectory():
             self.actionPluginManager = QAction(
                 self.tr('Manage plugins (local folder)'), self.iface.mainWindow())
