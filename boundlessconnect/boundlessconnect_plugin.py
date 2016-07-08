@@ -100,7 +100,7 @@ class BoundlessConnectPlugin:
         self.actionPluginFromZip = QAction(
             self.tr('Install plugin from ZIP'), self.iface.mainWindow())
         self.actionPluginFromZip.setIcon(
-            QIcon(os.path.join(pluginPath, 'icons', 'plugin.png')))
+            QIcon(os.path.join(pluginPath, 'icons', 'plugin.svg')))
         self.actionPluginFromZip.setWhatsThis(
             self.tr('Install plugin from ZIP file stored on disk'))
         self.actionPluginFromZip.setObjectName('actionPluginFromZip')
