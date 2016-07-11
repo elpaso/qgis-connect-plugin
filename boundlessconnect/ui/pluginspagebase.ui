@@ -20,39 +20,7 @@
    <string>Choose the way to install Boundless plugins</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QRadioButton" name="rbAutoInstall">
-     <property name="text">
-      <string>Install all available plugins automatically</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(126, 126, 126);</string>
-     </property>
-     <property name="text">
-      <string>Unassisted installation of all Boundless plugins. It will silently update existing Boundless plugins if already installed</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QRadioButton" name="rbManualInstallAll">
      <property name="text">
       <string>Open Plugin Manager (all plugins)</string>
@@ -62,7 +30,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -74,7 +42,7 @@
       <string notr="true">color: rgb(126, 126, 126);</string>
      </property>
      <property name="text">
-      <string>Manual selection of plugins to install, from the official QGIS plugin server and the Boundless plugin server</string>
+      <string>Manual selection of plugins to install, from the official QGIS plugin server and the Boundless plugin server.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -84,17 +52,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QRadioButton" name="rbManualInstallBoundless">
-     <property name="text">
-      <string>Open Plugin Manager (Boundless plugins only)</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -106,7 +64,49 @@
       <string notr="true">color: rgb(126, 126, 126);</string>
      </property>
      <property name="text">
-      <string>Manual selection of plugins to install, from the collection of Boundless plugins</string>
+      <string>Manual selection of plugins to install, from the collection of Boundless plugins.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QRadioButton" name="rbManualInstallBoundless">
+     <property name="text">
+      <string>Open Plugin Manager (Boundless plugins only)</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QRadioButton" name="rbAutoInstall">
+     <property name="text">
+      <string>Install all available Boundless plugins automatically</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(126, 126, 126);</string>
+     </property>
+     <property name="text">
+      <string>Unassisted installation of all Boundless plugins available with current credentials. It will silently update existing Boundless plugins if already installed.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
