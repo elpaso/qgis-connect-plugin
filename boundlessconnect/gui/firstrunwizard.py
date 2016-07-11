@@ -32,7 +32,8 @@ from PyQt4.QtCore import QUrl
 from PyQt4.QtGui import (QWizard,
                          QPixmap,
                          QDialog,
-                         QDesktopServices
+                         QDesktopServices,
+                         QMessageBox
                         )
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
@@ -55,7 +56,8 @@ class FirstRunWizard(BASE, WIDGET):
         self.helpRequested.connect(self.showHelp)
 
     def showHelp(self):
-        QDesktopServices.openUrl(QUrl(HELP_URL))
+        if not QDesktopServices.openUrl(QUrl(HELP_URL)):
+            QMessageBox.warning(self, self.tr('Error'), self.tr('Can not open help URL in browser'))
 
     def accept(self):
         QDialog.accept(self)
