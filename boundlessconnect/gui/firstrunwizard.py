@@ -26,21 +26,20 @@ __revision__ = '$Format:%H$'
 
 import os
 import httplib
-import webbrowser
-from urlparse import urlparse
 
 from PyQt4 import uic
-
+from PyQt4.QtCore import QUrl
 from PyQt4.QtGui import (QWizard,
                          QPixmap,
-                         QDialog
+                         QDialog,
+                         QDesktopServices
                         )
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
     os.path.join(pluginPath, 'ui', 'firstrunwizardbase.ui'))
 
-HELP_URL = "http://github.com/boundlessgeo/qgis-connect-plugin/blob/master/docs/source/usage.rst"
+HELP_URL = "https://connect.boundlessgeo.com/docs/desktop/plugins/connect/usage.html#first-run-wizard"
 
 class FirstRunWizard(BASE, WIDGET):
     def __init__(self, parent=None):
@@ -56,15 +55,7 @@ class FirstRunWizard(BASE, WIDGET):
         self.helpRequested.connect(self.showHelp)
 
     def showHelp(self):
-        p = urlparse(HELP_URL)
-        conn = httplib.HTTPConnection(p.netloc)
-        conn.request('HEAD', p.path)
-        resp = conn.getresponse()
-        if resp.status < 400:
-            url = HELP_URL
-        else:
-            url  = "file:///" + os.path.join(os.path.dirname(__file__), "help", "index.html").replace("\\","/")
-        webbrowser.open_new(url)
-    
+        QDesktopServices.openUrl(QUrl(HELP_URL))
+
     def accept(self):
         QDialog.accept(self)
