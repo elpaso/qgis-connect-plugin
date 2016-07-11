@@ -202,9 +202,19 @@ class BoundlessConnectPlugin:
         wzrd = FirstRunWizard()
         if wzrd.exec_():
             installAll = wzrd.mPagePlugins.rbAutoInstall.isChecked()
+            installZip = wzrd.mPagePlugins.rbInstallFromZip.isChecked()
 
             if installAll:
                 utils.installAllPlugins()
+            elif installZip:
+                fileName = wzrd.mPagePlugins.leFileName.text()
+                if fileName != '':
+                    result = utils.installFromZipFile(fileName)
+                    if result is None:
+                        self._showMessage(self.tr('Plugin installed successfully'),
+                                          QgsMessageBar.SUCCESS)
+                    else:
+                        self._showMessage(result, QgsMessageBar.WARNING)
             else:
                 boundlessOnly = wzrd.mPagePlugins.rbManualInstallBoundless.isChecked()
                 utils.showPluginManager(boundlessOnly)

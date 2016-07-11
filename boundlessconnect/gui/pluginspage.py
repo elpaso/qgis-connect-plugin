@@ -27,6 +27,8 @@ __revision__ = '$Format:%H$'
 import os
 
 from PyQt4 import uic
+from PyQt4.QtCore import QSettings, QFileInfo
+from PyQt4.QtGui import QFileDialog
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -37,3 +39,29 @@ class PluginsPage(BASE, WIDGET):
     def __init__(self, parent=None):
         super(PluginsPage, self).__init__(parent)
         self.setupUi(self)
+
+        self.rbInstallFromZip.toggled.connect(self.toggleSelector)
+        self.btnBrowse.clicked.connect(self.selectFile)
+
+        self.toggleSelector(False)
+
+    def toggleSelector(self, checked):
+        self.leFileName.setEnabled(checked)
+        self.btnBrowse.setEnabled(checked)
+
+    def selectFile(self):
+        settings = QSettings('Boundless', 'BoundlessConnect')
+        lastDirectory = settings.value('lastPluginDirectory', '.')
+
+        fileName = QFileDialog.getOpenFileName(self,
+                                               self.tr('Open file'),
+                                               lastDirectory,
+                                               self.tr('Plugin packages (*.zip *.ZIP)'))
+
+        if fileName == '':
+            return
+
+        self.leFileName.setText(fileName)
+
+        settings.setValue('lastPluginDirectory',
+            QFileInfo(fileName).absoluteDir().absolutePath())

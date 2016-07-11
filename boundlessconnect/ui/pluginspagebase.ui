@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>223</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,39 @@
    <string>Choose the way to install Boundless plugins</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0">
+   <item row="0" column="0">
+    <widget class="QRadioButton" name="rbAutoInstall">
+     <property name="text">
+      <string>Install all available Boundless plugins automatically</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(126, 126, 126);</string>
+     </property>
+     <property name="text">
+      <string>Unassisted installation of all Boundless plugins available with current credentials. It will silently update existing Boundless plugins if already installed.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <widget class="QRadioButton" name="rbManualInstallAll">
      <property name="text">
       <string>Open Plugin Manager (all plugins)</string>
@@ -30,7 +62,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QLabel" name="label_4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -52,7 +84,17 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="4" column="0">
+    <widget class="QRadioButton" name="rbManualInstallBoundless">
+     <property name="text">
+      <string>Open Plugin Manager (Boundless plugins only)</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
     <widget class="QLabel" name="label_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -74,47 +116,26 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QRadioButton" name="rbManualInstallBoundless">
+   <item row="6" column="0">
+    <widget class="QRadioButton" name="rbInstallFromZip">
      <property name="text">
-      <string>Open Plugin Manager (Boundless plugins only)</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
+      <string>Install plugin from ZIP package</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QRadioButton" name="rbAutoInstall">
-     <property name="text">
-      <string>Install all available Boundless plugins automatically</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(126, 126, 126);</string>
-     </property>
-     <property name="text">
-      <string>Unassisted installation of all Boundless plugins available with current credentials. It will silently update existing Boundless plugins if already installed.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-    </widget>
+   <item row="7" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="leFileName"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="btnBrowse">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
