@@ -17,9 +17,19 @@
    <string>This wizard will help you to perform some post-installation setup of your Boundless QGIS</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="1" column="0">
     <widget class="QTextEdit" name="infoBox">
      <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Connect Wizard will help you to setup Boundless Plugin Repository and allow easily install Boundless plugins and their components.</string>
+     </property>
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
