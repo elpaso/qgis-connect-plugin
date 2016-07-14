@@ -392,3 +392,30 @@ def upgradeConnect():
             'Boundless Connect was updated. You need to restart QGIS in order to reload it.')
 
     return ''
+
+
+def upgradeInstalledPlugins():
+    installer = QgsPluginInstaller()
+    initPluginManager(installer)
+
+    errors = []
+    pluginsList = plugins.all().copy()
+    for plugin in pluginsList:
+        if isBoundlessPlugin(pluginsList[plugin]):
+            if (pluginsList[plugin]['installed'] and pluginsList[plugin]['status'] == 'upgradeable':
+                dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
+                dlg.exec_()
+                if dlg.result():
+                    errors.append(dlg.result())
+                else:
+                    updateAvailablePlugins()
+                    loadPlugin(plugins.all()[plugin]['id'])
+                    plugins.getAllInstalled(testLoad=True)
+                    plugins.rebuild()
+                    if not plugins.all()[plugin]["error"]:
+                        if startPlugin(plugins.all()[plugin]['id']):
+                            settings = QSettings()
+                            settings.setValue('/PythonPlugins/' + plugins.all()[plugin]['id'], True)
+
+    installer.exportPluginsToManager()
+    return errors

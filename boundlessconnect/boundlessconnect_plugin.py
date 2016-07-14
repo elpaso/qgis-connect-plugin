@@ -251,7 +251,20 @@ class BoundlessConnectPlugin:
                                           )
             self.iface.messageBar().pushItem(updateMsg)
         elif not allInstalled and updateNeeded:
-            self._showMessage(self.tr('Some of your Boundless plugins need to be updated'))
+            self.btnUpdateInstalled = QPushButton(self.tr('Update'))
+            self.btnUpdateInstalled.clicked.connect(utils.upgradeInstalledPlugins)
+            self.btnUpdateInstalled.clicked.connect(self.iface.messageBar().popWidget)
+
+            updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
+                                          self.tr('Some of your plugins need '
+                                                  'to be updated. Update them '
+                                                  'automatically now?'),
+                                          self.btnUpdateInstalled,
+                                          QgsMessageBar.INFO,
+                                          0,
+                                          self.iface.messageBar()
+                                          )
+            self.iface.messageBar().pushItem(updateMsg)
 
     def _showMessage(self, message, level=QgsMessageBar.INFO):
         self.iface.messageBar().pushMessage(
