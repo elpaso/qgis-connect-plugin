@@ -95,6 +95,10 @@ If during the first run of |connect_plugin| (or after its update) is found that 
 
 If you press the :guilabel:`Yes` button, all installed Boundless plugins will be updated automatically. If instead you chose to press the :guilabel:`No` button, pressed nothing else will happen. Notice that you can always update the plugins manually using the *Plugin Manager* (see :ref:'managing-plugins' for more details).
 
+.. note::
+   
+   During installation (or update) of plugins, a dialog will open showing the plugin's download progress bar. If you choose to install (or update) two or more plugins at once, the plugin manager will show this dialog several times. This is perfectly normal; there is no cause for alarm.
+
 Plugins installation
 --------------------
 
