@@ -105,11 +105,6 @@ class BoundlessConnectPlugin:
             self.tr('Install plugin from ZIP file stored on disk'))
         self.actionPluginFromZip.setObjectName('actionPluginFromZip')
 
-        #self.iface.addPluginToMenu(
-        #    self.tr('Boundless Connect'), self.actionRunWizard)
-        #self.iface.addPluginToMenu(
-        #    self.tr('Boundless Connect'), self.actionPluginFromZip)
-
         self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
         self.actionPluginFromZip.triggered.connect(self.installPlugin)
 
@@ -144,14 +139,24 @@ class BoundlessConnectPlugin:
         utils.addBoundlessRepository()
 
     def unload(self):
-        self.iface.removePluginMenu(
-            self.tr('Boundless Connect'), self.actionRunWizard)
-        self.iface.removePluginMenu(
-            self.tr('Boundless Connect'), self.actionPluginFromZip)
+        #~ self.iface.removePluginMenu(
+            #~ self.tr('Boundless Connect'), self.actionRunWizard)
+        #~ self.iface.removePluginMenu(
+            #~ self.tr('Boundless Connect'), self.actionPluginFromZip)
+#~
+        #~ if utils.isRepositoryInDirectory():
+            #~ self.iface.removePluginMenu(
+                #~ self.tr('Boundless Connect'), self.actionPluginManager)
 
-        if utils.isRepositoryInDirectory():
-            self.iface.removePluginMenu(
-                self.tr('Boundless Connect'), self.actionPluginManager)
+        actions = self.iface.mainWindow().menuBar().actions()
+        for action in actions:
+            if action.menu().objectName() == 'mPluginMenu':
+                menuPlugin = action.menu()
+                menuPlugin.removeAction(self.actionRunWizard)
+                menuPlugin.removeAction(self.actionPluginFromZip)
+                if utils.isRepositoryInDirectory():
+                    menuPlugin.removeAction(self.actionPluginManager)
+
 
         try:
             from boundlessconnect.tests import testerplugin
