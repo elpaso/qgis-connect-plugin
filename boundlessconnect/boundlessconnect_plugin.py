@@ -105,17 +105,10 @@ class BoundlessConnectPlugin:
             self.tr('Install plugin from ZIP file stored on disk'))
         self.actionPluginFromZip.setObjectName('actionPluginFromZip')
 
-        actions = self.iface.mainWindow().menuBar().actions()
-        for action in actions:
-            if action.menu().objectName() == 'mPluginMenu':
-                menuPlugin = action.menu()
-                separator = menuPlugin.actions()[1]
-                menuPlugin.insertAction(separator, self.actionRunWizard)
-
         #self.iface.addPluginToMenu(
         #    self.tr('Boundless Connect'), self.actionRunWizard)
-        self.iface.addPluginToMenu(
-            self.tr('Boundless Connect'), self.actionPluginFromZip)
+        #self.iface.addPluginToMenu(
+        #    self.tr('Boundless Connect'), self.actionPluginFromZip)
 
         self.actionRunWizard.triggered.connect(self.runWizardAndProcessResults)
         self.actionPluginFromZip.triggered.connect(self.installPlugin)
@@ -135,6 +128,16 @@ class BoundlessConnectPlugin:
                 self.tr('Boundless Connect'), self.actionPluginManager)
 
             self.actionPluginManager.triggered.connect(self.pluginManagerLocal)
+
+        actions = self.iface.mainWindow().menuBar().actions()
+        for action in actions:
+            if action.menu().objectName() == 'mPluginMenu':
+                menuPlugin = action.menu()
+                separator = menuPlugin.actions()[1]
+                menuPlugin.insertAction(separator, self.actionRunWizard)
+                menuPlugin.insertAction(separator, self.actionPluginFromZip)
+                if utils.isRepositoryInDirectory():
+                    menuPlugin.insertAction(separator, self.actionPluginManager)
 
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
