@@ -139,15 +139,6 @@ class BoundlessConnectPlugin:
         utils.addBoundlessRepository()
 
     def unload(self):
-        #~ self.iface.removePluginMenu(
-            #~ self.tr('Boundless Connect'), self.actionRunWizard)
-        #~ self.iface.removePluginMenu(
-            #~ self.tr('Boundless Connect'), self.actionPluginFromZip)
-#~
-        #~ if utils.isRepositoryInDirectory():
-            #~ self.iface.removePluginMenu(
-                #~ self.tr('Boundless Connect'), self.actionPluginManager)
-
         actions = self.iface.mainWindow().menuBar().actions()
         for action in actions:
             if action.menu().objectName() == 'mPluginMenu':
