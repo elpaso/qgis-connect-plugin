@@ -402,7 +402,7 @@ def upgradeInstalledPlugins():
     pluginsList = plugins.all().copy()
     for plugin in pluginsList:
         if isBoundlessPlugin(pluginsList[plugin]):
-            if (pluginsList[plugin]['installed'] and pluginsList[plugin]['status'] == 'upgradeable':
+            if pluginsList[plugin]['installed'] and pluginsList[plugin]['status'] == 'upgradeable':
                 dlg = QgsPluginInstallerInstallingDialog(iface.mainWindow(), plugins.all()[plugin])
                 dlg.exec_()
                 if dlg.result():
