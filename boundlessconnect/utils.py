@@ -45,7 +45,6 @@ from qgis.utils import (iface,
                         home_plugin_path)
 
 import pyplugin_installer
-from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
 from pyplugin_installer.installer_data import (reposGroup,
                                                repositories,
@@ -124,7 +123,6 @@ def showPluginManager(boundlessOnly):
     repository (local or remote).
     If boundlessOnly=True, it will only show Boundless plugins
     """
-    #installer = QgsPluginInstaller()
     installer = pyplugin_installer.instance()
 
     initPluginManager(installer, boundlessOnly)
