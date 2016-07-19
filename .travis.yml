@@ -17,16 +17,17 @@ install:
     - docker run -d --name qgis-testing-environment -v ${TRAVIS_BUILD_DIR}:/tests_directory -e DISPLAY=:99 qgis-testing-environment
     - sleep 10
 
-    # Setup QGIS to avoid modals and install test auth db
-    - docker exec -it qgis-testing-environment sh -c "qgis_setup.sh ${PLUGIN_NAME}"
-
-    # Build the plugin
+    # Install the plugin
     - docker exec -it qgis-testing-environment sh -c "pip install paver"
     - docker exec -it qgis-testing-environment sh -c "cd /tests_directory && paver setup"
-    - docker exec -it qgis-testing-environment sh -c "ln -s /tests_directory/${PLUGIN_NAME} /root/.qgis2/python/plugins/${PLUGIN_NAME}"
+    - docker exec -it qgis-testing-environment sh -c "mkdir -p /root/.qgis2/python/plugins/"
+    - docker exec -it qgis-testing-environment sh -c "ln -s /tests_directory/$PLUGIN_NAME /root/.qgis2/python/plugins/$PLUGIN_NAME"
+
+    # Disable first run wizard
+    - PLUGIN_VERSION=`grep version $PLUGIN_NAME/metadata.txt | perl -npe 's/[^\d-]//g'`
+    - docker exec -it qgis-testing-environment sh -c "mkdir -p /root/.config/Boundless; printf \"[General]\n\" >> /root/.config/Boundless/BoundlessConnect.conf"
+    - docker exec -it qgis-testing-environment sh -c "printf  \"firstRun${PLUGIN_VERSION}=false\n\n\" >> /root/.config/Boundless/BoundlessConnect.conf"
 
 script:
     # Run the unit tests
-    # This plugin has not yet any unit tests
-    - docker exec -it qgis-testing-environment sh -c "echo '${PLUGIN_NAME} has no unit tests yet, please create them and add here'"
-
+    - docker exec -it qgis-testing-environment sh -c "qgis_testrunner.sh ${PLUGIN_NAME}.tests.testerplugin.run_tests"
