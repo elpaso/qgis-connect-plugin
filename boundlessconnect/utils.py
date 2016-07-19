@@ -44,6 +44,7 @@ from qgis.utils import (iface,
                         updateAvailablePlugins,
                         home_plugin_path)
 
+import pyplugin_installer
 from pyplugin_installer.installer import QgsPluginInstaller
 from pyplugin_installer.qgsplugininstallerinstallingdialog import QgsPluginInstallerInstallingDialog
 from pyplugin_installer.installer_data import (reposGroup,
@@ -123,7 +124,8 @@ def showPluginManager(boundlessOnly):
     repository (local or remote).
     If boundlessOnly=True, it will only show Boundless plugins
     """
-    installer = QgsPluginInstaller()
+    #installer = QgsPluginInstaller()
+    installer = pyplugin_installer.instance()
 
     initPluginManager(installer, boundlessOnly)
 
@@ -187,7 +189,7 @@ def installAllPlugins():
 def installAllFromRepository():
     """Install Boundless plugins from remote repository
     """
-    installer = QgsPluginInstaller()
+    installer = pyplugin_installer.instance()
     initPluginManager(installer)
 
     errors = []
@@ -220,7 +222,7 @@ def installAllFromDirectory(pluginsPath):
     """
     errors = []
 
-    installer = QgsPluginInstaller()
+    installer = pyplugin_installer.instance()
 
     mask = pluginsPath + '/*.zip'
 
@@ -316,7 +318,7 @@ def isBoundlessPlugin(plugin):
 def deprecatedPlugins():
     """Return list of installed deprecated Boundless plugins
     """
-    installer = QgsPluginInstaller()
+    installer = pyplugin_installer.instance()
     initPluginManager(installer)
 
     deprecated = []
@@ -395,7 +397,7 @@ def upgradeConnect():
 
 
 def upgradeInstalledPlugins():
-    installer = QgsPluginInstaller()
+    installer = pyplugin_installer.instance()
     initPluginManager(installer)
 
     errors = []
