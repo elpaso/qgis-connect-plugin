@@ -25,6 +25,7 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
+import sys
 import json
 import unittest
 import ConfigParser
@@ -208,3 +209,12 @@ def _restoreVersion(pluginName, corePlugin=True):
         cfg.write(f)
 
     originalVersion = None
+
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTests(unittest.makeSuite(BoundlessConnectTests, 'test'))
+    return suite
+
+def run_tests():
+    unittest.TextTestRunner(verbosity=3, stream=sys.stdout).run(suite())
