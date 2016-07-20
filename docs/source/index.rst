@@ -14,6 +14,8 @@ The current version provides:
 * Support for local directory-based plugins repository
 * Automated way of installing additional non-Boundless plugins
 * Ability to install QGIS plugins from local ZIP packages
+* Notifications about updates for Boundless plugins and automated way to install
+  them
 
 |connect_plugin| is the only "core" plugin shipped with |BLQGIS|, and will act
 as a single entry point to Boundless technology and content for QGIS

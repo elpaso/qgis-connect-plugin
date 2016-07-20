@@ -53,9 +53,9 @@ additional plugins during the post-installation step, he can create a directory
 ``$HOME/.qgis2/first-run-plugins`` under the user folder and put all the
 desired plugins ZIP packages in it.
 
-The *First Run wizard* tool from |connect_plugin| will check if the directory
-exists and will install all the ZIP packages from it. Notice that the packages
-will be removed after the installation.
+The *Boundless Connect Wizard* tool from |connect_plugin| will check if the
+directory exists and will install all the ZIP packages from it. Notice that the
+packages will be removed after the installation.
 
 Setting up repository in Docker container
 -----------------------------------------
@@ -73,7 +73,7 @@ First you need to clone repository
   git clone --recursive git@github.com:boundlessgeo/qgis-plugin-repos.git
   cd qgis-plugin-repos/docker-plugins-xml
 
-Edit `docker-compose.env` file specifying your own user name and passford for
+Edit `docker-compose.env` file specifying your own user name and password for
 SSH service and plugin repository domain. Then source this file using command
 
 ::
