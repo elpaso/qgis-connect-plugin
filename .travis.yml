@@ -17,6 +17,9 @@ install:
     - docker run -d --name qgis-testing-environment -v ${TRAVIS_BUILD_DIR}:/tests_directory -e DISPLAY=:99 qgis-testing-environment
     - sleep 10
 
+    # Standard QGIS plugin setup
+    - docker exec -it qgis-testing-environment sh -c "qgis_setup.sh $PLUGIN_NAME"
+
     # Install the plugin
     - docker exec -it qgis-testing-environment sh -c "pip install paver"
     - docker exec -it qgis-testing-environment sh -c "cd /tests_directory && paver setup"
