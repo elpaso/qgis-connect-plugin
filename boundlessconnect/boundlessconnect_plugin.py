@@ -240,9 +240,10 @@ class BoundlessConnectPlugin:
             self.btnUpdateAll.clicked.connect(self.iface.messageBar().popWidget)
 
             updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
-                                          self.tr('Some of your plugins need '
-                                                  'to be updated. Update them '
-                                                  'automatically now?'),
+                                          self.tr('All Boundless plugins installed '
+                                                  'and some of them need to be '
+                                                  'updated. Update all Boundless '
+                                                  'plugins automatically now?'),
                                           self.btnUpdateAll,
                                           QgsMessageBar.INFO,
                                           0,
@@ -255,9 +256,9 @@ class BoundlessConnectPlugin:
             self.btnUpdateInstalled.clicked.connect(self.iface.messageBar().popWidget)
 
             updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
-                                          self.tr('Some of your plugins need '
-                                                  'to be updated. Update them '
-                                                  'automatically now?'),
+                                          self.tr('Some of Boundless plugins installed '
+                                                  'and need to be updated. Update '
+                                                  'installed plugins automatically now?'),
                                           self.btnUpdateInstalled,
                                           QgsMessageBar.INFO,
                                           0,
