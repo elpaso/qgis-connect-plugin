@@ -146,6 +146,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>rbAutoInstall</tabstop>
+  <tabstop>rbManualInstallAll</tabstop>
+  <tabstop>rbManualInstallBoundless</tabstop>
+  <tabstop>rbInstallFromZip</tabstop>
+  <tabstop>leFileName</tabstop>
+  <tabstop>btnBrowse</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
