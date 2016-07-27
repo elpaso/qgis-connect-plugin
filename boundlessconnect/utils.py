@@ -28,6 +28,7 @@ import os
 import glob
 import shutil
 import zipfile
+import socket
 import ConfigParser
 
 from PyQt4.QtCore import (QSettings,
@@ -419,3 +420,13 @@ def upgradeInstalledPlugins():
 
     installer.exportPluginsToManager()
     return errors
+
+
+def internetAvailable():
+    try:
+        host = socket.gethostbyname('google.com')
+        s = socket.create_connection((host, 80), 2)
+        return True
+    except:
+        pass
+    return False

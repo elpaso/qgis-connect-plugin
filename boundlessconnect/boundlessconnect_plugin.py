@@ -163,11 +163,12 @@ class BoundlessConnectPlugin:
         settings.setValue('firstRun' + version, False)
 
         if not firstRun:
-            # check repositories in background
-            repositories.load()
-            repositories.checkingDone.connect(self.checkingDone)
-            for key in repositories.allEnabled():
-                repositories.requestFetching(key)
+            if utils.internetAvailable():
+                # check repositories in background
+                repositories.load()
+                repositories.checkingDone.connect(self.checkingDone)
+                for key in repositories.allEnabled():
+                    repositories.requestFetching(key)
             return
 
         self.runWizardAndProcessResults()
