@@ -28,12 +28,15 @@ import os
 
 from PyQt4 import uic
 
-from PyQt4.QtCore import QSettings
+from PyQt4.QtCore import Qt, QSettings
+from PyQt4.QtGui import QLineEdit, QMessageBox
+
+from qgis.core import QgsAuthManager, QgsAuthMethodConfig
 
 from pyplugin_installer.installer_data import reposGroup
 
 from boundlessconnect import utils
-from boundlessconnect.plugins import boundlessRepoName
+from boundlessconnect.plugins import boundlessRepoName, defaultRepoUrl
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
@@ -47,12 +50,48 @@ class CredentialsPage(BASE, WIDGET):
 
         settings = QSettings()
         settings.beginGroup(reposGroup)
-        authCfg = settings.value(boundlessRepoName + '/authcfg', '', unicode)
+        self.authId = settings.value(boundlessRepoName + '/authcfg', '', unicode)
         settings.endGroup()
 
-        self.mAuthSelector.setConfigId(authCfg)
+        if self.authId != '':
+            authConfig = QgsAuthMethodConfig()
+            QgsAuthManager.instance().loadAuthenticationConfig(self.authId, authConfig, True)
+            username = authConfig.config('username')
+            password = authConfig.config('password')
+            self.leLogin.setText(username)
+            self.lePassword.setText(password)
+            self.btnSave.setText(self.tr('Update'))
 
-        self.mAuthSelector.selectedConfigIdChanged.connect(self.updateAuthCfg)
+        self.chkShowPassword.stateChanged.connect(self.togglePasswordVisibility)
+        self.btnSave.clicked.connect(self.saveCredentials)
 
-    def updateAuthCfg(self, authCfgId):
-        utils.setRepositoryAuth(authCfgId)
+    def togglePasswordVisibility(self, state):
+        if state == Qt.Checked:
+            self.lePassword.setEchoMode(QLineEdit.Normal)
+        else:
+            self.lePassword.setEchoMode(QLineEdit.Password)
+
+    def saveCredentials(self):
+        if self.authId == '':
+            authConfig = QgsAuthMethodConfig('Basic')
+            authId = QgsAuthManager.instance().uniqueConfigId()
+            authConfig.setId(authId)
+            authConfig.setConfig('username', self.leLogin.text())
+            authConfig.setConfig('password', self.lePassword.text())
+            authConfig.setName('Boundless Connect Portal')
+
+            settings = QSettings('Boundless', 'BoundlessConnect')
+            authConfig.setUri(settings.value('repoUrl', '', unicode))
+
+            if QgsAuthManager.instance().storeAuthenticationConfig(authConfig):
+                utils.setRepositoryAuth(authId)
+                self.btnSave.setText(self.tr('Update'))
+                QMessageBox.information(self, self.tr('Saved!', self.tr('Credentials saved')))
+            else:
+                QMessageBox.information(self, self.tr('Error!', self.tr('Unable to save credentials')))
+        else:
+            authConfig = QgsAuthMethodConfig()
+            QgsAuthManager.instance().loadAuthenticationConfig(self.authId, authConfig, True)
+            authConfig.setConfig('username', self.leLogin.text())
+            authConfig.setConfig('password', self.lePassword.text())
+            QgsAuthManager.instance().updateAuthenticationConfig(authConfig)
