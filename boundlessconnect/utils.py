@@ -77,9 +77,6 @@ def addBoundlessRepository():
     if isRepositoryInDirectory():
         return
 
-    settings = QSettings('Boundless', 'BoundlessConnect')
-    repoUrl = settings.value('repoUrl', '', unicode)
-
     needUrlChange = False
     if 'qgis.boundlessgeo.com' in repoUrl and repoUrl.startswith('http:'):
         newRepoUrl = repoUrl.replace('http', 'https')
