@@ -86,9 +86,9 @@ class CredentialsPage(BASE, WIDGET):
             if QgsAuthManager.instance().storeAuthenticationConfig(authConfig):
                 utils.setRepositoryAuth(authId)
                 self.btnSave.setText(self.tr('Update'))
-                QMessageBox.information(self, self.tr('Saved!', self.tr('Credentials saved')))
+                QMessageBox.information(self, self.tr('Saved!'), self.tr('Credentials saved'))
             else:
-                QMessageBox.information(self, self.tr('Error!', self.tr('Unable to save credentials')))
+                QMessageBox.information(self, self.tr('Error!'), self.tr('Unable to save credentials'))
         else:
             authConfig = QgsAuthMethodConfig()
             QgsAuthManager.instance().loadAuthenticationConfig(self.authId, authConfig, True)
