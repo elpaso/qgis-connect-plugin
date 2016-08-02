@@ -10,21 +10,18 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="title">
-   <string>Welcome</string>
-  </property>
-  <property name="subTitle">
-   <string>This wizard will help you to perform some post-installation setup of your Boundless QGIS</string>
-  </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
-    <widget class="QTextEdit" name="infoBox">
-     <property name="readOnly">
-      <bool>true</bool>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QSvgWidget" name="svgLogo" native="true"/>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item>
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Connect Wizard will help you to setup Boundless Plugin Repository and allow easily install Boundless plugins and their components.</string>
@@ -34,8 +31,23 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QTextEdit" name="infoBox">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QSvgWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">PyQt4.QtSvg</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

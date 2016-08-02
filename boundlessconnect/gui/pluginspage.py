@@ -40,6 +40,8 @@ class PluginsPage(BASE, WIDGET):
         super(PluginsPage, self).__init__(parent)
         self.setupUi(self)
 
+        self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
+
         self.rbInstallFromZip.toggled.connect(self.toggleSelector)
         self.btnBrowse.clicked.connect(self.selectFile)
 

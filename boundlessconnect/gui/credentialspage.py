@@ -48,6 +48,9 @@ class CredentialsPage(BASE, WIDGET):
         super(CredentialsPage, self).__init__(parent)
         self.setupUi(self)
 
+        self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
+
+
         self.leLogin.setPlaceholderText(self.tr('Email'))
         self.lePassword.setPlaceholderText(self.tr('Password'))
 

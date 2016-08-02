@@ -40,6 +40,8 @@ class WelcomePage(BASE, WIDGET):
         super(WelcomePage, self).__init__(parent)
         self.setupUi(self)
 
+        self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
+
         # check for deprecated plugins and warn user
         plugins = deprecatedPlugins()
         if len(plugins) > 0:

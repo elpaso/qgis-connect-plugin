@@ -49,10 +49,6 @@ class FirstRunWizard(BASE, WIDGET):
 
         self.setWizardStyle(QWizard.ClassicStyle)
 
-        self.setPixmap(QWizard.LogoPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless.png')))
-        self.setPixmap(QWizard.WatermarkPixmap,
-            QPixmap(os.path.join(pluginPath, 'icons', 'boundless-full.png')))
         self.helpRequested.connect(self.showHelp)
 
     def showHelp(self):
