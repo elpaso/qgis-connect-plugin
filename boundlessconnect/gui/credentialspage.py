@@ -48,6 +48,9 @@ class CredentialsPage(BASE, WIDGET):
         super(CredentialsPage, self).__init__(parent)
         self.setupUi(self)
 
+        self.leLogin.setPlaceholderText(self.tr('Email'))
+        self.lePassword.setPlaceholderText(self.tr('Password'))
+
         settings = QSettings()
         settings.beginGroup(reposGroup)
         self.authId = settings.value(boundlessRepoName + '/authcfg', '', unicode)
@@ -60,18 +63,11 @@ class CredentialsPage(BASE, WIDGET):
             password = authConfig.config('password')
             self.leLogin.setText(username)
             self.lePassword.setText(password)
-            self.btnSave.setText(self.tr('Update'))
 
-        self.chkShowPassword.stateChanged.connect(self.togglePasswordVisibility)
-        self.btnSave.clicked.connect(self.saveCredentials)
+    def validatePage(self):
+        if self.leLogin.text() == '' or self.lePassword.text() == '':
+            return True
 
-    def togglePasswordVisibility(self, state):
-        if state == Qt.Checked:
-            self.lePassword.setEchoMode(QLineEdit.Normal)
-        else:
-            self.lePassword.setEchoMode(QLineEdit.Password)
-
-    def saveCredentials(self):
         if self.authId == '':
             authConfig = QgsAuthMethodConfig('Basic')
             authId = QgsAuthManager.instance().uniqueConfigId()
@@ -85,8 +81,6 @@ class CredentialsPage(BASE, WIDGET):
 
             if QgsAuthManager.instance().storeAuthenticationConfig(authConfig):
                 utils.setRepositoryAuth(authId)
-                self.btnSave.setText(self.tr('Update'))
-                QMessageBox.information(self, self.tr('Saved!'), self.tr('Credentials saved'))
             else:
                 QMessageBox.information(self, self.tr('Error!'), self.tr('Unable to save credentials'))
         else:
@@ -95,3 +89,5 @@ class CredentialsPage(BASE, WIDGET):
             authConfig.setConfig('username', self.leLogin.text())
             authConfig.setConfig('password', self.lePassword.text())
             QgsAuthManager.instance().updateAuthenticationConfig(authConfig)
+
+        return True
