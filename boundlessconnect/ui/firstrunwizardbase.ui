@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Boundless Connect Wizard</string>
+   <string>Boundless Connect</string>
   </property>
   <property name="options">
    <set>QWizard::HaveHelpButton|QWizard::NoBackButtonOnStartPage</set>
