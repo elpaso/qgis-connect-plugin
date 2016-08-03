@@ -16,17 +16,10 @@
   <property name="options">
    <set>QWizard::HaveHelpButton|QWizard::NoBackButtonOnStartPage</set>
   </property>
-  <widget class="WelcomePage" name="mPageWelcome"/>
   <widget class="CredentialsPage" name="mPageCredentials"/>
   <widget class="PluginsPage" name="mPagePlugins"/>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>WelcomePage</class>
-   <extends>QWizardPage</extends>
-   <header location="global">boundlessconnect.gui.welcomepage</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>CredentialsPage</class>
    <extends>QWizardPage</extends>
