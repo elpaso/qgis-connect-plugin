@@ -92,7 +92,7 @@ class BoundlessConnectPlugin:
         self.actionRunWizard = QAction(
             self.tr('Boundless Connect wizard'), self.iface.mainWindow())
         self.actionRunWizard.setIcon(
-            QIcon(os.path.join(pluginPath, 'icons', 'boundless.png')))
+            QIcon(os.path.join(pluginPath, 'icons', 'boundless.svg')))
         self.actionRunWizard.setWhatsThis(
             self.tr('Run wizard to perform post-installation setup'))
         self.actionRunWizard.setObjectName('actionRunWizard')
@@ -114,7 +114,7 @@ class BoundlessConnectPlugin:
             self.actionPluginManager = QAction(
                 self.tr('Manage plugins (local folder)'), self.iface.mainWindow())
             self.actionPluginManager.setIcon(
-                QIcon(os.path.join(pluginPath, 'icons', 'plugin.png')))
+                QIcon(os.path.join(pluginPath, 'icons', 'plugin.svg')))
             self.actionPluginManager.setWhatsThis(
                 self.tr('Manage and install plugins from local repository'))
             self.actionPluginManager.setObjectName('actionPluginManager')
