@@ -77,12 +77,6 @@ def addBoundlessRepository():
     if isRepositoryInDirectory():
         return
 
-    needUrlChange = False
-    if 'qgis.boundlessgeo.com' in repoUrl and repoUrl.startswith('http:'):
-        newRepoUrl = repoUrl.replace('http', 'https')
-        settings.setValue('repoUrl', newRepoUrl)
-        needUrlChange = True
-
     settings = QSettings()
     settings.beginGroup(reposGroup)
     hasBoundlessRepository = False
@@ -93,9 +87,6 @@ def addBoundlessRepository():
     # Boundless repository not found, so we add it to the list
     if not hasBoundlessRepository:
         settings.setValue(boundlessRepoName + '/url', repoUrl)
-        settings.setValue(boundlessRepoName + '/authcfg', '')
-    if needUrlChange:
-        settings.setValue(boundlessRepoName + '/url', newRepoUrl)
         settings.setValue(boundlessRepoName + '/authcfg', '')
     settings.endGroup()
 
