@@ -50,10 +50,6 @@ class CredentialsPage(BASE, WIDGET):
 
         self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
 
-
-        self.leLogin.setPlaceholderText(self.tr('Email'))
-        self.lePassword.setPlaceholderText(self.tr('Password'))
-
         settings = QSettings()
         settings.beginGroup(reposGroup)
         self.authId = settings.value(boundlessRepoName + '/authcfg', '', unicode)

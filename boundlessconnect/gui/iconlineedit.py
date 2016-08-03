@@ -2,7 +2,7 @@
 
 """
 ***************************************************************************
-    passwordlineedit.py
+    iconlineedit.py
     ---------------------
     Date                 : August 2016
     Copyright            : (C) 2016 Boundless, http://boundlessgeo.com
@@ -32,32 +32,22 @@ from PyQt4.QtGui import QLineEdit, QToolButton, QIcon, QStyle
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 
 
-class PasswordLineEdit(QLineEdit):
+class IconLineEdit(QLineEdit):
     def __init__(self, parent=None):
         QLineEdit.__init__(self, parent)
 
-        self.setPlaceholderText(self.tr('Password'))
-        self.setEchoMode(QLineEdit.Password)
+        self.setPlaceholderText(self.tr('Email'))
 
         self.btnIcon = QToolButton(self)
-        self.btnIcon.setIcon(QIcon(os.path.join(pluginPath, 'icons', 'lock.svg')))
+        self.btnIcon.setIcon(QIcon(os.path.join(pluginPath, 'icons', 'envelope.svg')))
         self.btnIcon.setEnabled(False)
         self.btnIcon.setStyleSheet('QToolButton { border: none; padding: 0px; }')
 
-        self.btnToggle = QToolButton(self)
-        self.btnToggle.setIcon(QIcon(os.path.join(pluginPath, 'icons', 'eye-slash.svg')))
-        self.btnToggle.setCheckable(True)
-        self.btnToggle.setToolTip(self.tr('Toggle password visibility'))
-        self.btnToggle.setCursor(Qt.ArrowCursor)
-        self.btnToggle.setStyleSheet('QToolButton { border: none; padding: 0px; }')
-
-        self.btnToggle.toggled.connect(self.togglePassword)
-
         frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
-        self.setStyleSheet('QLineEdit {{ padding-right: {}px; padding-left: {}px }} '.format(self.btnToggle.sizeHint().width() + frameWidth + 1, self.btnIcon.sizeHint().width() + frameWidth + 1))
+        self.setStyleSheet('QLineEdit {{ padding-left: {}px; }} '.format(self.btnIcon.sizeHint().width() + frameWidth + 1))
         msz = self.minimumSizeHint()
-        self.setMinimumSize(max(msz.width(), self.btnToggle.sizeHint().height() + frameWidth * 2 + 2),
-                            max(msz.height(), self.btnToggle.sizeHint().height() + frameWidth * 2 + 2))
+        self.setMinimumSize(max(msz.width(), self.btnIcon.sizeHint().height() + frameWidth * 2 + 2),
+                            max(msz.height(), self.btnIcon.sizeHint().height() + frameWidth * 2 + 2))
 
     def resizeEvent(self, event):
         frameWidth = self.style().pixelMetric(QStyle.PM_DefaultFrameWidth)
@@ -65,16 +55,3 @@ class PasswordLineEdit(QLineEdit):
         sz = self.btnIcon.sizeHint()
         self.btnIcon.move(frameWidth + 1,
                            (self.rect().bottom() + 1 - sz.height()) / 2)
-
-        sz = self.btnToggle.sizeHint()
-        self.btnToggle.move(self.rect().right() - frameWidth - sz.width(),
-                           (self.rect().bottom() + 1 - sz.height()) / 2)
-
-
-    def togglePassword(self, toggled):
-        if toggled:
-            self.setEchoMode(QLineEdit.Normal)
-            self.btnToggle.setIcon(QIcon(os.path.join(pluginPath, 'icons', 'eye.svg')))
-        else:
-            self.setEchoMode(QLineEdit.Password)
-            self.btnToggle.setIcon(QIcon(os.path.join(pluginPath, 'icons', 'eye-slash.svg')))
