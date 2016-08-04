@@ -138,6 +138,9 @@ class BoundlessConnectPlugin:
         # plugin repositories if it is not presented here
         utils.addBoundlessRepository()
 
+        # Enable check for updates if it is not enabled
+        utils.addCheckForUpdates()
+
     def unload(self):
         actions = self.iface.mainWindow().menuBar().actions()
         for action in actions:
@@ -163,12 +166,12 @@ class BoundlessConnectPlugin:
         settings.setValue('firstRun' + version, False)
 
         if not firstRun:
-            if utils.internetAvailable():
-                # check repositories in background
-                repositories.load()
-                repositories.checkingDone.connect(self.checkingDone)
-                for key in repositories.allEnabled():
-                    repositories.requestFetching(key)
+            #~ if utils.internetAvailable():
+                #~ # check repositories in background
+                #~ repositories.load()
+                #~ repositories.checkingDone.connect(self.checkingDone)
+                #~ for key in repositories.allEnabled():
+                    #~ repositories.requestFetching(key)
             return
 
         self.runWizardAndProcessResults()

@@ -76,6 +76,7 @@ class ConnectDialog(BASE, WIDGET):
     def accept(self):
         if self.leLogin.text() == '' or self.lePassword.text() == '':
             QDialog.accept(self)
+            return
 
         if self.authId == '':
             authConfig = QgsAuthMethodConfig('Basic')
@@ -100,3 +101,6 @@ class ConnectDialog(BASE, WIDGET):
             QgsAuthManager.instance().updateAuthenticationConfig(authConfig)
 
         QDialog.accept(self)
+
+    def reject(self):
+        QDialog.reject(self)

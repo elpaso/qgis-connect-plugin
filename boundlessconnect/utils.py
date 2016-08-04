@@ -112,10 +112,10 @@ def showPluginManager(boundlessOnly):
     repository (local or remote).
     If boundlessOnly=True, it will only show Boundless plugins
     """
+
     installer = pyplugin_installer.instance()
 
     initPluginManager(installer, boundlessOnly)
-
     iface.pluginManagerInterface().showPluginManager(2)
     # Restore repositories, as we don't want to keep local repo in cache
     repositories.load()
@@ -418,3 +418,9 @@ def internetAvailable():
     except:
         pass
     return False
+
+def addCheckForUpdates():
+    if not repositories.checkingOnStart():
+        repositories.setCheckingOnStart(True)
+        repositories.setCheckingOnStartInterval(30)
+        repositories.saveCheckingOnStartLastDate()
