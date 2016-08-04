@@ -2,9 +2,10 @@ Usage
 =====
 
 When QGIS is started with the |connect_plugin| (it's activated by default in
-|BLQGIS|) it checks if there are Boundless plugins installed or not. Then,
-depending on the result of this check, one of the following scenarios will be
-activated:
+|BLQGIS|) it will ask you to enter your master password (if you entered you
+Boundless credentials to access additional plugins and content). After this it
+checks if there are Boundless plugins installed or not. Then, depending on the
+result of this check, one of the following scenarios will be activated:
 
 * If **all Boundless plugins are found and they are the latest version**, the
   user will be notified that no additional actions are required.
@@ -12,61 +13,51 @@ activated:
   |connect_plugin| will propose to update all plugins automatically. See
   :ref:`updating-plugins` section for more details.
 * If **only some of Boundless plugins are installed and some of them are outdated**,
-  |connect_plugin| will propose to updated installed plugins automatically. Note
-  that in this case only installed Boundless plugins will be updated, additional
-  plugins won't be installed.
+  |connect_plugin| will propose to update installed plugins automatically. Note
+  that in this case only installed Boundless plugins will be updated, 3rd party
+  plugins won't be updated, even if they require update.
 
 After any of the scenarios above, the user can always review and manage
 installed plugins either by using the *Plugin Manager* or by re-running the
-*Boundless Connect Wizard* tool. Please see :ref:`managing-plugins` for details.
+*Boundless Connect* tool. Please see :ref:`managing-plugins` for details.
 
 Also at this stage |connect_plugin| can update itself if it found newer version
 in the *Boundless QGIS Plugins Repository*. After self-update you will need to
 restart |BLQGIS| to reload |connect_plugin|.
 
-.. _connect-wizard:
+.. _connect-tool:
 
-Boundless Connect Wizard
-------------------------
+Boundless Connect tool
+----------------------
 
-The aim of the *Boundless Connect Wizard* is to help the user to setup the
+The aim of the *Boundless Connect* tool is to help the user to setup the
 `Boundless QGIS Plugin Repository <http://qgis.boundlessgeo.com>`_ and install
 additional plugins, both Boundless and 3rd party ones (depending on what have
 been configured by the system administrator).
 
-The wizard will run automatically when QGIS is started for the first time with
+The tool will run automatically when QGIS is started for the first time with
 the |connect_plugin| activated or whenever this plugin is updated.
 
-If at the time, you don't want to go through the wizard, you can safely close
-it. While the wizard starts automatically only once, you can open it at any
-time from the :menuselection:`Plugins --> Boundless Connect Wizard` menu item.
+If at the time, you don't want to enter your credentials and install plugins,
+you can safely close it. While the tool starts automatically only once, you can
+open it at any time from the :menuselection:`Plugins --> Boundless Connect`
+menu item.
 
-The first wizard's page contains general information about it and what it
-will do. If you have installed any unsupported Boundless plugins (deprecated
-plugins that were replaced by others, e.g., OpenGeo Explorer was replaced by
-GeoServer Explorer) these plugins will be listed at the welcome page suggesting
-you to remove them.
-
-.. figure:: img/welcome-page.png
+.. figure:: img/connect-dialog.png
    :align: center
 
-   Boundless Connect Wizard welcome dialog
-
-Please read the information on this dialog and press :guilabel:`Next` button
-to go to the next step.
-
-At this step, *Boundless Connect Wizard* will behave differently depending on
-the |connect_plugin| configuration.
+   Boundless Connect tool
 
 If your organization works with the remote *Boundless QGIS Plugin Repository*,
-the wizard will ask you to enter the credentials to access the repository.
-Press the :guilabel:`Add` button in the *Boundless credentials* page, as
-shown below.
+you  will need to enter the credentials to access the repository.
 
-.. figure:: img/credentials-page.png
-   :align: center
+If the |connect_plugin| was configured to use a local directory-based
+repository (check this with your sysadmin), you can safely leave
+:guilabel:`Email` and :guilabel:`Password` fields empty. In this case you won't
+be asked for master password.
 
-   Boundless credentials page
+After pressing :guilabel:`OK` button |connect_plugin| will save your credentials
+(if you enetered them).
 
 .. note::
 
@@ -74,70 +65,31 @@ shown below.
    This password will be used to store all your credentials inside QGIS, e.g.,
    username and password  for connecting spatial databases. Choose the password
    wiselly and make sure you memorize it, as **the password is not retrivable**.
-   Press :guilabel:`Save` to go to the next dialog.
+   Press :guilabel:`Save` to complete operation.
 
    .. figure:: img/add-master-password.png
       :align: center
 
    Setting QGIS master authentication password
 
-In the next dialog, enter the provided Boundless credentials as shown below,
-and press :guilabel:`Save` to store the credentials in QGIS authentication
-database.
+   If you already have master password, you will be asked to enter it to unlock
+   QGIS authentication database and save your credentials in it.
 
-.. figure:: img/enter-credentials.png
-   :align: center
+   .. figure:: img/enter-master-password.png
+      :align: center
 
-   Saving Boundless credentials
+   Entering QGIS master authentication password
 
-If the |connect_plugin| was configured to use a local directory-based
-repository, all the authentication steps will be skipped.
-
-In the next wizard's page, the user has four options:
-
-* :guilabel:`Install all available plugins automatically`, will silently
-  install and/or update all Boundless plugins (both from the QGIS Official
-  Plugins Repository or the ones available to him in the Boundless QGIS Plugins
-  Repository).
-* :guilabel:`Open Plugin Manager (all plugins)`, will open the QGIS *Plugin Manager*,
-  where the user can manually choose which plugins to install (includes all
-  plugins available in both repositories).
-* :guilabel:`Open Plugin Manager (Boundless plugins only)` will open the QGIS
-  *Plugin Manager* as well, but showing only Boundless plugins available, making
-  them easier to find.
-* :guilabel:`Install plugin from ZIP package` will show file selector dialog and
-  allow you to select plugin ZIP package to install.
-
-.. figure:: img/plugins-page.png
-   :align: center
-
-   Plugin installation page
+After this it will open QGIS *Plugin Manager* with only Boundless plugins
+available, making them easier to find and install them.
 
 .. note::
 
-   Deprecated Boundless plugins will not be installed automatically. But, if
-   you already have such plugins installed and there are new versions available,
-   they will be updated.
-
-.. note::
-
-   If :guilabel:`Open Plugin Manager (Boundless plugins only)` option is
-   selected |connect_plugin| will open *Plugin Manager* with
-   :guilabel:`Not Installed` tab activated by default. At this tab you will see
-   only Boundless plugins available from the *Boundless QGIS Plugin Repository*.
-   At the same time at the :guilabel:`Installed` tab you will see all core C++
-   plugins as well as all Python plugins (Boundless and 3rd paty) installed in
-   your QGIS.
-
-.. note::
-
-   If :guilabel:`Install plugin from ZIP package` option is selected
-   |connect_plugin| will ask you to select plugin ZIP package. Selected plugin
-   will be installed after closing wizard with :guilabel:`Finish` button.
-
-   This functionality also available from
-   :menuselection:`Plugins --> Install plugin from ZIP` menu, see :ref:`from-zip-package`
-   for more details.
+   *Plugin Manager* in this case opened with :guilabel:`Not Installed` tab
+   activated by default. At this tab you will see only Boundless plugins
+   available from the *Boundless QGIS Plugin Repository*. At the same time at
+   the :guilabel:`Installed` tab you will see all core C++ plugins as well as
+   all Python plugins (Boundless and 3rd paty) installed in your QGIS.
 
 After this, if previously configured by the system administrator,
 |connect_plugin| will install additional plugins (see :ref:`add-additional-plugins`
@@ -148,9 +100,9 @@ section for more details about it).
 Updating plugins
 ----------------
 
-If during the first run of |connect_plugin| (or after its update) is found that
-all Boundless plugins are already installed, but some of them are outdated, it
-will propose you to update those plugins automatically.
+If after QGIS start |connect_plugin| is found that all or some Boundless plugins
+are already installed, but some of them are outdated, it will propose you to
+update those plugins automatically.
 
 .. figure:: img/ask-update.png
    :align: center
@@ -192,7 +144,7 @@ or through the *Boundless Connect Wizard* tool.
 
    If your organization works with the remote *Boundless QGIS Plugin Repository*
    it will be necessary to provide credentials to fully access the repository.
-   This can be done using the :ref:`connect-wizard` as described above or
+   This can be done using the :ref:`connect-tool` as described above or
    setting them manually using the QGIS *Plugin Manager* settings.
 
 .. _from-local-repository:
@@ -247,8 +199,7 @@ Managing plugins
 
 All plugins added by |connect_plugin| can be deactivated, uninstalled or
 updated using QGIS *Plugin Manager*. You can access it via the
-:menuselection:`Plugins --> Manage and Install Plugins...` menu item or, for
-more selective options, re-running the :ref:`connect-wizard` tool.
+:menuselection:`Plugins --> Manage and Install Plugins...` menu item.
 
 .. figure:: img/managing-plugins.png
    :align: center

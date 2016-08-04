@@ -33,7 +33,7 @@ The ``$HOME/.qgis2/repoUrl.txt`` file is an INI-like text file with single
 
 The value of the ``repoUrl`` key with repository location can be:
 
-* A **Repository URL**. The plugin will add this URL to the list of available
+* A **repository URL**. The plugin will add this URL to the list of available
   plugins repositories and QGIS *Plugin Manager* can be used to access it.
   This is the default.
 * An **absolute path to the plugins directory**. In this case, the directory
