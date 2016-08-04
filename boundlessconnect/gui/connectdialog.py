@@ -2,7 +2,7 @@
 
 """
 ***************************************************************************
-    credentialspage.py
+    connectdialog.py
     ---------------------
     Date                 : February 2016
     Copyright            : (C) 2016 Boundless, http://boundlessgeo.com
@@ -25,27 +25,31 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
+import httplib
 
 from PyQt4 import uic
-
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import QLineEdit, QMessageBox
+from PyQt4.QtCore import QUrl, QSettings
+from PyQt4.QtGui import (QDialog,
+                         QDesktopServices,
+                         QMessageBox
+                        )
 
 from qgis.core import QgsAuthManager, QgsAuthMethodConfig
 
 from pyplugin_installer.installer_data import reposGroup
 
 from boundlessconnect import utils
-from boundlessconnect.plugins import boundlessRepoName, defaultRepoUrl
+from boundlessconnect.plugins import boundlessRepoName
 
 pluginPath = os.path.split(os.path.dirname(__file__))[0]
 WIDGET, BASE = uic.loadUiType(
-    os.path.join(pluginPath, 'ui', 'credentialspagebase.ui'))
+    os.path.join(pluginPath, 'ui', 'connectdialogbase.ui'))
 
+HELP_URL = "https://connect.boundlessgeo.com/docs/desktop/plugins/connect/usage.html#first-run-wizard"
 
-class CredentialsPage(BASE, WIDGET):
+class ConnectDialog(BASE, WIDGET):
     def __init__(self, parent=None):
-        super(CredentialsPage, self).__init__(parent)
+        super(ConnectDialog, self).__init__(parent)
         self.setupUi(self)
 
         self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
@@ -63,9 +67,15 @@ class CredentialsPage(BASE, WIDGET):
             self.leLogin.setText(username)
             self.lePassword.setText(password)
 
-    def validatePage(self):
+        self.buttonBox.helpRequested.connect(self.showHelp)
+
+    def showHelp(self):
+        if not QDesktopServices.openUrl(QUrl(HELP_URL)):
+            QMessageBox.warning(self, self.tr('Error'), self.tr('Can not open help URL in browser'))
+
+    def accept(self):
         if self.leLogin.text() == '' or self.lePassword.text() == '':
-            return True
+            QDialog.accept(self)
 
         if self.authId == '':
             authConfig = QgsAuthMethodConfig('Basic')
@@ -89,4 +99,4 @@ class CredentialsPage(BASE, WIDGET):
             authConfig.setConfig('password', self.lePassword.text())
             QgsAuthManager.instance().updateAuthenticationConfig(authConfig)
 
-        return True
+        QDialog.accept(self)

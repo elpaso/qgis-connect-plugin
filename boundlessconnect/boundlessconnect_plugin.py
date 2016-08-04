@@ -43,7 +43,7 @@ from qgis.gui import QgsMessageBar, QgsMessageBarItem
 from pyplugin_installer.installer_data import (repositories,
                                                plugins)
 
-from boundlessconnect.gui.firstrunwizard import FirstRunWizard
+from boundlessconnect.gui.connectdialog import ConnectDialog
 from boundlessconnect import utils
 
 pluginPath = os.path.dirname(__file__)
@@ -199,8 +199,8 @@ class BoundlessConnectPlugin:
         utils.showPluginManager(False)
 
     def runWizardAndProcessResults(self):
-        wzrd = FirstRunWizard()
-        if wzrd.exec_():
+        dlg = ConnectDialog()
+        if dlg.exec_():
             utils.showPluginManager(True)
 
             utils.installFromStandardPath()
