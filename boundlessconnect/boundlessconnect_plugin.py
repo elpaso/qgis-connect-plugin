@@ -60,8 +60,6 @@ class BoundlessConnectPlugin:
         except Exception as e:
             pass
 
-        self.qgsVersion = unicode(QGis.QGIS_VERSION_INT)
-
         overrideLocale = QSettings().value('locale/overrideFlag', False, bool)
         if not overrideLocale:
             locale = QLocale.system().name()[:2]
@@ -78,17 +76,6 @@ class BoundlessConnectPlugin:
         self.iface.initializationCompleted.connect(self.startFirstRunWizard)
 
     def initGui(self):
-        if int(self.qgsVersion) < 20800:
-            qgisVersion = '{}.{}.{}'.format(
-                self.qgsVersion[0], self.qgsVersion[2], self.qgsVersion[3])
-            QMessageBox.warning(
-                self.iface.mainWindow(),
-                self.tr('Boundless Connect'),
-                self.tr('QGIS {} detected.\nThis version of  Boundless '
-                        'Connect plugin requires at least QGIS 2.8.0. '
-                        'Plugin will not be enabled.'.format(qgisVersion)))
-            return None
-
         self.actionRunWizard = QAction(
             self.tr('Boundless Connect'), self.iface.mainWindow())
         self.actionRunWizard.setIcon(
