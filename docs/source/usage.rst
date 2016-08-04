@@ -1,30 +1,6 @@
 Usage
 =====
 
-When QGIS is started with the |connect_plugin| (it's activated by default in
-|BLQGIS|) it will ask you to enter your master password (if you entered you
-Boundless credentials to access additional plugins and content). After this it
-checks if there are Boundless plugins installed or not. Then, depending on the
-result of this check, one of the following scenarios will be activated:
-
-* If **all Boundless plugins are found and they are the latest version**, the
-  user will be notified that no additional actions are required.
-* If **all Boundless plugins are found, but some of them are outdated**, the
-  |connect_plugin| will propose to update all plugins automatically. See
-  :ref:`updating-plugins` section for more details.
-* If **only some of Boundless plugins are installed and some of them are outdated**,
-  |connect_plugin| will propose to update installed plugins automatically. Note
-  that in this case only installed Boundless plugins will be updated, 3rd party
-  plugins won't be updated, even if they require update.
-
-After any of the scenarios above, the user can always review and manage
-installed plugins either by using the *Plugin Manager* or by re-running the
-*Boundless Connect* tool. Please see :ref:`managing-plugins` for details.
-
-Also at this stage |connect_plugin| can update itself if it found newer version
-in the *Boundless QGIS Plugins Repository*. After self-update you will need to
-restart |BLQGIS| to reload |connect_plugin|.
-
 .. _connect-tool:
 
 Boundless Connect tool
@@ -38,15 +14,15 @@ been configured by the system administrator).
 The tool will run automatically when QGIS is started for the first time with
 the |connect_plugin| activated or whenever this plugin is updated.
 
-If at the time, you don't want to enter your credentials and install plugins,
-you can safely close it. While the tool starts automatically only once, you can
-open it at any time from the :menuselection:`Plugins --> Boundless Connect`
-menu item.
-
 .. figure:: img/connect-dialog.png
    :align: center
 
    Boundless Connect tool
+
+If at the time, you don't want to enter your credentials and install plugins,
+you can safely close it. While the tool starts automatically only once, you can
+open it at any time from the :menuselection:`Plugins --> Boundless Connect`
+menu item.
 
 If your organization works with the remote *Boundless QGIS Plugin Repository*,
 you  will need to enter the credentials to access the repository.
@@ -94,6 +70,26 @@ available, making them easier to find and install them.
 After this, if previously configured by the system administrator,
 |connect_plugin| will install additional plugins (see :ref:`add-additional-plugins`
 section for more details about it).
+
+Also |connect_plugin| will configure your |BLQGIS| to check for plugin updates
+every month. When plugin update available, you will see corresponding message
+in QGIS statusbar
+
+.. figure:: img/update-available.png
+   :align: center
+
+   Plugin update available
+
+If you don't want be notified about plugin updates or want check for updates
+more frequently, open *Plugin Manager* from
+:menuselection:`Plugins --> Manage and Install Plugins...` menu, go to the
+:guilabel:`Settings` tab and edit options.
+
+.. figure:: img/check-updates.png
+   :align: center
+
+   Configuring check for updates
+
 
 .. _updating-plugins:
 
