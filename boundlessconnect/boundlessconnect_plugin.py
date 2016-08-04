@@ -219,29 +219,15 @@ class BoundlessConnectPlugin:
 
         if allInstalled and not updateNeeded:
             self._showMessage(self.tr('You are up to date with Boundless plugins'))
-        elif allInstalled and updateNeeded:
-            self.btnUpdateAll = QPushButton(self.tr('Update'))
-            self.btnUpdateAll.clicked.connect(utils.installAllPlugins)
-            self.btnUpdateAll.clicked.connect(self.iface.messageBar().popWidget)
+        elif updateNeeded:
+            self.btnUpdate = QPushButton(self.tr('Update'))
+            self.btnUpdate.clicked.connect(utils.upgradeInstalledPlugins)
+            self.btnUpdate.clicked.connect(self.iface.messageBar().popWidget)
 
             updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
                                           self.tr('Some Boundless plugins need '
                                                   'to be updated. Update them now?'),
-                                          self.btnUpdateAll,
-                                          QgsMessageBar.INFO,
-                                          0,
-                                          self.iface.messageBar()
-                                          )
-            self.iface.messageBar().pushItem(updateMsg)
-        elif not allInstalled and updateNeeded:
-            self.btnUpdateInstalled = QPushButton(self.tr('Update'))
-            self.btnUpdateInstalled.clicked.connect(utils.upgradeInstalledPlugins)
-            self.btnUpdateInstalled.clicked.connect(self.iface.messageBar().popWidget)
-
-            updateMsg = QgsMessageBarItem(self.tr('Update plugins'),
-                                          self.tr('Some Boundless plugins need '
-                                                  'to be updated. Update them now?'),
-                                          self.btnUpdateInstalled,
+                                          self.btnUpdate,
                                           QgsMessageBar.INFO,
                                           0,
                                           self.iface.messageBar()
