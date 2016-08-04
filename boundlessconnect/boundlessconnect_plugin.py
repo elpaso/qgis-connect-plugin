@@ -165,16 +165,8 @@ class BoundlessConnectPlugin:
         firstRun = settings.value('firstRun' + version, True, bool)
         settings.setValue('firstRun' + version, False)
 
-        if not firstRun:
-            #~ if utils.internetAvailable():
-                #~ # check repositories in background
-                #~ repositories.load()
-                #~ repositories.checkingDone.connect(self.checkingDone)
-                #~ for key in repositories.allEnabled():
-                    #~ repositories.requestFetching(key)
-            return
-
-        self.runWizardAndProcessResults()
+        if firstRun:
+            self.runWizardAndProcessResults()
 
     def installPlugin(self):
         settings = QSettings('Boundless', 'BoundlessConnect')
