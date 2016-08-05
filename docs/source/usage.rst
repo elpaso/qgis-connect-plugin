@@ -67,7 +67,7 @@ available, making them easier to find and install them.
    the :guilabel:`Installed` tab you will see all core C++ plugins as well as
    all Python plugins (Boundless and 3rd paty) installed in your QGIS.
 
-After this, if previously configured by the system administrator,
+Finally, if previously configured by the system administrator,
 |connect_plugin| will install additional plugins (see :ref:`add-additional-plugins`
 section for more details about it).
 
@@ -79,6 +79,12 @@ in QGIS statusbar
    :align: center
 
    Plugin update available
+
+.. note::
+
+   If check for updates available you will be asked for your master password
+   immediately after QGIS start. This is necessary to check updates in
+   *Boundless Plugins Repository*.
 
 If you don't want be notified about plugin updates or want check for updates
 more frequently, open *Plugin Manager* from
