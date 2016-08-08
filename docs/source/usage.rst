@@ -14,65 +14,66 @@ been configured by the system administrator).
 The tool will run automatically when QGIS is started for the first time with
 the |connect_plugin| activated or whenever this plugin is updated.
 
-.. figure:: img/connect-dialog.png
+.. figure:: img/connect-tool.png
    :align: center
 
    Boundless Connect tool
 
-If at the time, you don't want to enter your credentials and install plugins,
-you can safely close it. While the tool starts automatically only once, you can
-open it at any time from the :menuselection:`Plugins --> Boundless Connect`
-menu item.
+.. note::
+
+   If at the time, you don't want to enter your credentials and install plugins,
+   you can safely close it. While the tool starts automatically only once, you can
+   open it at any time from the :menuselection:`Plugins --> Boundless Connect`
+   menu item.
 
 If your organization works with the remote *Boundless QGIS Plugin Repository*,
-you  will need to enter the credentials to access the repository.
+you  will need to enter `Boundless Connect <https://connect.boundlessgeo.com/>`_
+credentials in the :guilabel:`email` and :guilabel:`password` fields, and press
+:guilabel:`OK` to have access to the repository.
 
-If the |connect_plugin| was configured to use a local directory-based
-repository (check this with your sysadmin), you can safely leave
-:guilabel:`Email` and :guilabel:`Password` fields empty. In this case you won't
-be asked for master password.
-
-After pressing :guilabel:`OK` button |connect_plugin| will save your credentials
-(if you enetered them).
+After pressing the :guilabel:`OK` button, |connect_plugin| will save your credentials
+in QGIS's authentication database.
 
 .. note::
 
-   If you haven't done this before, QGIS will ask you to set a master password.
-   This password will be used to store all your credentials inside QGIS, e.g.,
-   username and password  for connecting spatial databases. Choose the password
-   wiselly and make sure you memorize it, as **the password is not retrivable**.
-   Press :guilabel:`Save` to complete operation.
+   If you haven't done this before, QGIS will ask you to set a **master password**.
+   The *master password* is used to protect all your credentials inside QGIS,
+   for example, usernames and passwords for connecting to spatial databases. Choose
+   your master password wisely and make sure you memorize it, as **the master
+   password is not retrievable**. Press :guilabel:`OK`to complete the process.
 
    .. figure:: img/add-master-password.png
       :align: center
 
    Setting QGIS master authentication password
 
-   If you already have master password, you will be asked to enter it to unlock
-   QGIS authentication database and save your credentials in it.
+   If you already have a master password, you will be asked to enter it to be able unlock
+   QGIS's authentication database and save your *Boundless Connect* credentials in it.
 
    .. figure:: img/enter-master-password.png
       :align: center
 
    Entering QGIS master authentication password
 
-After this it will open QGIS *Plugin Manager* with only Boundless plugins
-available, making them easier to find and install them.
+If the |connect_plugin| was configured to use a local directory-based
+repository (check this with your system administrator), you can leave
+:guilabel:`Email` and :guilabel:`Password` fields empty. Press :guilabel:`OK`
+to continue. (In this case you won't be asked for a master password.)
+
+After entering the *Boundless Connect* credentials, the QGIS *Plugin Manager* will
+open only with Boundless plugins available. This makes it easier to find and install them.
 
 .. note::
 
-   *Plugin Manager* in this case opened with :guilabel:`Not Installed` tab
-   activated by default. At this tab you will see only Boundless plugins
-   available from the *Boundless QGIS Plugin Repository*. At the same time at
-   the :guilabel:`Installed` tab you will see all core C++ plugins as well as
-   all Python plugins (Boundless and 3rd paty) installed in your QGIS.
+   In this case, *Plugin Manager* is opened in the :guilabel:`Not Installed`
+   tab. At this tab, you will see only Boundless plugins available from the
+   *Boundless QGIS Plugin Repository*. At the same time, in the :guilabel:`Installed`
+   tab, you will see all core C++ plugins as well as all Python plugins
+   (Boundless and 3rd party) already installed.
 
-Finally, if previously configured by the system administrator,
-|connect_plugin| will install additional plugins (see :ref:`add-additional-plugins`
-section for more details about it).
-
-Also |connect_plugin| will configure your |BLQGIS| to check for plugin updates
-every month, see :ref:`updating-plugins` for more details.
+Beside the plugins installed by the user, if previously configured by the system
+administrator, |connect_plugin| will install additional predefined plugins (see
+:ref:`add-additional-plugins` section for more details about it).
 
 .. _updating-plugins:
 
@@ -88,14 +89,14 @@ corresponding message in QGIS statusbar
 
    Plugin update available
 
-.. note::
-
-   If check for updates enabled you will be asked for your master password
-   immediately after QGIS start. This is necessary to check updates in
-   *Boundless Plugins Repository*.
-
 Clicking on this message will open QGIS *Plugin Manager*, where you can select
 which plugins to update.
+
+.. note::
+
+   When the *Check for updates* is activated, you will be requested to enter
+   your master password after QGIS start. This is necessary to check updates in
+   *Boundless Plugins Repository*.
 
 If you don't want be notified about plugin updates or want check for updates
 more frequently, open *Plugin Manager* from
@@ -126,7 +127,7 @@ From a remote plugin repository
 This is the most common way to install plugins, whether from QGIS Official
 Plugins Repository, Boundless QGIS Plugins Repository or any other remote
 repository that you may have configured, using the *Plugin Manager* directly
-or through the *Boundless Connect Wizard* tool.
+or through the *Boundless Connect* tool.
 
 .. note::
 
