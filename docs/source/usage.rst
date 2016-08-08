@@ -72,8 +72,16 @@ Finally, if previously configured by the system administrator,
 section for more details about it).
 
 Also |connect_plugin| will configure your |BLQGIS| to check for plugin updates
-every month. When plugin update available, you will see corresponding message
-in QGIS statusbar
+every month, see :ref:`updating-plugins` for more details.
+
+.. _updating-plugins:
+
+Updating plugins
+----------------
+
+By default |connect_plugin| configure QGIS to check plugin updates every month.
+This check performed on QGIS start, and if updates found, you will see
+corresponding message in QGIS statusbar
 
 .. figure:: img/update-available.png
    :align: center
@@ -82,9 +90,12 @@ in QGIS statusbar
 
 .. note::
 
-   If check for updates available you will be asked for your master password
+   If check for updates enabled you will be asked for your master password
    immediately after QGIS start. This is necessary to check updates in
    *Boundless Plugins Repository*.
+
+Clicking on this message will open QGIS *Plugin Manager*, where you can select
+which plugins to update.
 
 If you don't want be notified about plugin updates or want check for updates
 more frequently, open *Plugin Manager* from
@@ -96,31 +107,6 @@ more frequently, open *Plugin Manager* from
 
    Configuring check for updates
 
-
-.. _updating-plugins:
-
-Updating plugins
-----------------
-
-If after QGIS start |connect_plugin| is found that all or some Boundless plugins
-are already installed, but some of them are outdated, it will propose you to
-update those plugins automatically.
-
-.. figure:: img/ask-update.png
-   :align: center
-
-   Boundless Connect Wizard suggesting to automatically update all plugins.
-
-If you press the :guilabel:`Update` button, all installed Boundless plugins will
-be updated automatically. Note that you can always update the plugins manually
-using the *Plugin Manager* (see :ref:'managing-plugins' for more details).
-
-.. note::
-
-   During installation (or update) of plugins, a dialog will open showing the
-   plugin's download progress bar. If you choose to install (or update) two or
-   more plugins at once, the *Plugin Manager* will show this dialog several
-   times. This is perfectly normal; there is no cause for alarm.
 
 Plugins installation
 --------------------
