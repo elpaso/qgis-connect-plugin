@@ -31,6 +31,7 @@ from PyQt4 import uic
 from PyQt4.QtCore import QUrl, QSettings
 from PyQt4.QtGui import (QDialog,
                          QDesktopServices,
+                         QDialogButtonBox,
                          QMessageBox
                         )
 
@@ -53,6 +54,9 @@ class ConnectDialog(BASE, WIDGET):
         self.setupUi(self)
 
         self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
+
+        btnOk = self.buttonBox.button(QDialogButtonBox.Ok)
+        btnOk.setText(self.tr('Login'))
 
         settings = QSettings()
         settings.beginGroup(reposGroup)
