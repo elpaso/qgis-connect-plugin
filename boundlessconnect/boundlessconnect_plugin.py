@@ -77,11 +77,11 @@ class BoundlessConnectPlugin:
 
     def initGui(self):
         self.actionRunWizard = QAction(
-            self.tr('Boundless Connect'), self.iface.mainWindow())
+            self.tr('Boundless Connect Login'), self.iface.mainWindow())
         self.actionRunWizard.setIcon(
             QIcon(os.path.join(pluginPath, 'icons', 'boundless.svg')))
         self.actionRunWizard.setWhatsThis(
-            self.tr('Run wizard to perform post-installation setup'))
+            self.tr('Login to Boundless Connect'))
         self.actionRunWizard.setObjectName('actionRunWizard')
 
         self.actionPluginFromZip = QAction(
