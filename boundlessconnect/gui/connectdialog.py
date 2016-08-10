@@ -25,7 +25,6 @@ __copyright__ = '(C) 2016 Boundless, http://boundlessgeo.com'
 __revision__ = '$Format:%H$'
 
 import os
-import httplib
 
 from PyQt4 import uic
 from PyQt4.QtCore import QUrl, QSettings
