@@ -53,7 +53,7 @@ class ConnectDialog(BASE, WIDGET):
         super(ConnectDialog, self).__init__(parent)
         self.setupUi(self)
 
-        self.svgLogo.load(os.path.join(pluginPath, 'icons', 'boundless-logo.svg'))
+        self.svgLogo.load(os.path.join(pluginPath, 'icons', 'connect-logo.svg'))
 
         btnOk = self.buttonBox.button(QDialogButtonBox.Ok)
         btnOk.setText(self.tr('Login'))
