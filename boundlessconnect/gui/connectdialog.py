@@ -30,6 +30,7 @@ import httplib
 from PyQt4 import uic
 from PyQt4.QtCore import QUrl, QSettings
 from PyQt4.QtGui import (QDialog,
+                         QIcon,
                          QDesktopServices,
                          QDialogButtonBox,
                          QMessageBox
@@ -53,6 +54,7 @@ class ConnectDialog(BASE, WIDGET):
         super(ConnectDialog, self).__init__(parent)
         self.setupUi(self)
 
+        self.setWindowIcon(QIcon(os.path.join(pluginPath, 'icons', 'connect.svg')))
         self.svgLogo.load(os.path.join(pluginPath, 'icons', 'connect-logo.svg'))
 
         btnOk = self.buttonBox.button(QDialogButtonBox.Ok)
