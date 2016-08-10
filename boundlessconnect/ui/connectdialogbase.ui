@@ -15,21 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QSvgWidget" name="svgLogo" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
+    <widget class="FixedAspectSvgWidget" name="svgLogo" native="true"/>
    </item>
    <item>
     <widget class="IconLineEdit" name="leLogin"/>
@@ -107,15 +93,15 @@
    <header location="global">boundlessconnect.gui.passwordlineedit</header>
   </customwidget>
   <customwidget>
-   <class>QSvgWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">PyQt4.QtSvg</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>IconLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">boundlessconnect.gui.iconlineedit</header>
+  </customwidget>
+  <customwidget>
+   <class>FixedAspectSvgWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">boundlessconnect.gui.fixedaspectsvgwidget</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
