@@ -79,6 +79,7 @@ class ConnectDialog(BASE, WIDGET):
             QMessageBox.warning(self, self.tr('Error'), self.tr('Can not open help URL in browser'))
 
     def accept(self):
+        utils.addBoundlessRepository()
         if self.leLogin.text() == '' or self.lePassword.text() == '':
             QDialog.accept(self)
             return

@@ -123,7 +123,7 @@ class BoundlessConnectPlugin:
 
         # Add Boundless plugin repository to list of the available
         # plugin repositories if it is not presented here
-        utils.addBoundlessRepository()
+        #utils.addBoundlessRepository()
 
         # Enable check for updates if it is not enabled
         utils.addCheckForUpdates()
