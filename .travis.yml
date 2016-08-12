@@ -8,6 +8,7 @@ env:
   global:
     - PLUGIN_NAME=boundlessconnect
   matrix:
+    # Test on master_2
     - QGIS_VERSION_TAG=master_2
     - QGIS_VERSION_TAG=release
 before_install:
